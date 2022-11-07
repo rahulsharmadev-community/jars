@@ -5,7 +5,7 @@ extension DateTimeExtensions on DateTime {
   TimeOfDay get timeOfDay => TimeOfDay.fromDateTime(this);
 
   /// Whether this time of day is before or after noon.
-  DayPeriod get period => hour < hoursPerPeriod ? DayPeriod.am : DayPeriod.pm;
+  DayPeriod get period => hour < _hoursPerPeriod ? DayPeriod.am : DayPeriod.pm;
 
   /// Which hour of the current period (e.g., am or pm) this time is.
   ///
@@ -13,11 +13,13 @@ extension DateTimeExtensions on DateTime {
   int get hourOfPeriod => hour == 0 || hour == 12 ? 12 : hour - periodOffset;
 
   /// The hour at which the current period starts.
-  int get periodOffset => period == DayPeriod.am ? 0 : hoursPerPeriod;
+  int get periodOffset => period == DayPeriod.am ? 0 : _hoursPerPeriod;
 
   /// The number of hours in one day period (see also [DayPeriod]), i.e. 12.
-  int get hoursPerPeriod => 12;
+  int get _hoursPerPeriod => 12;
 
+  /// Equal to: (month / 4).round();
+  /// eg. (6/4).round() = 2
   int get quarter => (month / 4).round();
 
   /// Sample

@@ -2,26 +2,26 @@
 import '../../core/src/extensions/library_extensions.dart';
 
 class DateTimeFormat {
-  final DateTime dt;
+  final DateTime _dt;
   final String? _;
   const DateTimeFormat(DateTime dateTime, {String? seprator})
       : _ = seprator,
-        dt = dateTime;
+        _dt = dateTime;
 
   /// yM() =>  10/2022
-  yM() => '${dt.month}${_ ?? '/'}${dt.year}';
+  yM() => '${_dt.month}${_ ?? '/'}${_dt.year}';
 
   /// ```dart
   ///   yMd() => 10/30/2022
   /// ```
-  yMd() => '${dt.day}${_ ?? '/'}${dt.month}${_ ?? '/'}${dt.year}';
+  yMd() => '${_dt.day}${_ ?? '/'}${_dt.month}${_ ?? '/'}${_dt.year}';
 
   /// ```dart
   ///   yMEd()=> Sun, 10/30/2022
   ///   yMEd(isFull: true) => Sunday, 10/30/2022
   /// ```
   yMEd({bool isFull = false}) {
-    return '${Weeks.values[dt.day].name.substring(0, isFull ? null : 4).onlyfirstUppercase}, '
+    return '${Weeks.values[_dt.day].name.substring(0, isFull ? null : 4).onlyfirstUppercase}, '
         '${yMd()}';
   }
 
@@ -30,24 +30,24 @@ class DateTimeFormat {
   ///   yMMM(isFull: true) => October 2022
   /// ```
   yMMM({bool isFull = false}) =>
-      '${Month.values[dt.month].name.substring(0, isFull ? null : 4).onlyfirstUppercase}${_ ?? ' '}'
-      '${dt.year}';
+      '${Month.values[_dt.month].name.substring(0, isFull ? null : 4).onlyfirstUppercase}${_ ?? ' '}'
+      '${_dt.year}';
 
   /// ```dart
   ///   yMMMd() => Oct 30, 2022
   ///   yMMMd(isFull: true) => October 30, 2022
   /// ```
   yMMMd({bool isFull = false}) =>
-      '${Month.values[dt.month].name.substring(0, isFull ? null : 4).onlyfirstUppercase} '
-      '${dt.day}${_ ?? ', '}'
-      '${dt.year}';
+      '${Month.values[_dt.month].name.substring(0, isFull ? null : 4).onlyfirstUppercase} '
+      '${_dt.day}${_ ?? ', '}'
+      '${_dt.year}';
 
   /// ```dart
   ///   yMMMEd() => Sun, Oct 30, 2022
   ///   yMMMEd(isFull: true) =>Sunday, October 30, 2022
   /// ```
   yMMMEd({bool isFull = false}) {
-    return '${Weeks.values[dt.day].name.substring(0, isFull ? null : 4).onlyfirstUppercase}${_ ?? ', '}'
+    return '${Weeks.values[_dt.day].name.substring(0, isFull ? null : 4).onlyfirstUppercase}${_ ?? ', '}'
         '${yMMMd(isFull: isFull)}';
   }
 
@@ -57,11 +57,11 @@ class DateTimeFormat {
   /// ```
   yQQQ({bool isFull = false}) {
     return isFull
-        ? '${dt.quarter}${_ ?? ' '}'
+        ? '${_dt.quarter}${_ ?? ' '}'
             'quarter${_ ?? ' '}'
-            '${dt.year}'
-        : 'Q${dt.quarter}${_ ?? ' '}'
-            '${dt.year}';
+            '${_dt.year}'
+        : 'Q${_dt.quarter}${_ ?? ' '}'
+            '${_dt.year}';
   }
 
   /// ```dart
@@ -69,9 +69,9 @@ class DateTimeFormat {
   /// hm() => 2:37 AM
   ///  /// ```
   hm({bool showPeriod = false}) {
-    return '${dt.hour}${_ ?? ':'}'
-            '${dt.minute} '
-            '${showPeriod ? '${dt.period}' : ''}'
+    return '${_dt.hour}${_ ?? ':'}'
+            '${_dt.minute} '
+            '${showPeriod ? '${_dt.period}' : ''}'
         .trim();
   }
 
@@ -80,10 +80,10 @@ class DateTimeFormat {
   /// hms() => 2:37:31 AM
   /// ```
   hms({bool showPeriod = false}) {
-    return '${dt.hour}${_ ?? ':'}'
-            '${dt.minute}${_ ?? ':'}'
-            '${dt.second} '
-            '${showPeriod ? '${dt.period}' : ''}'
+    return '${_dt.hour}${_ ?? ':'}'
+            '${_dt.minute}${_ ?? ':'}'
+            '${_dt.second} '
+            '${showPeriod ? '${_dt.period}' : ''}'
         .trim();
   }
 }
