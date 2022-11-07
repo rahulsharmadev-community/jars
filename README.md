@@ -136,11 +136,6 @@ Easy to use
 
 ````dart
  var date= DateTimeFormat(DateTime.now(),seprator: '/');
-
-  // ```dart
-  //   yMMMd() => Oct 30, 2022
-  //   yMMMd(isFull: true) => October 30, 2022
-  // ```
  print(date.yMMMd());
 
  Output ___________________
