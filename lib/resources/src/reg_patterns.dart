@@ -1,4 +1,4 @@
-import '../../core/src/extensions/library_extensions.dart';
+import '/core/src/extensions/library_extensions.dart';
 
 class RegPatterns {
   RegPatterns._();

@@ -11,9 +11,24 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-# JARS
+<div>
+  <h1 align="center">JARS</h1>
+  <p align="center" >
+    <a title="Github License">
+      <img src="https://img.shields.io/github/license/bdlukaa/system_theme" />
+    </a>
+  </p>
+  <p align="center">
+  Leave a 👍 like if you like it
+  </p>
+</div>
 
-## Leave a 👍 like if you like it
+### Supported platforms
+
+| Feature          | Android | iOS | Web | MacOs | Windows | Linux |
+| ---------------- | ------- | --- | --- | ----- | ------- | ----- |
+| Get accent color | ✔️      | ✔️  | ✔️  | ✔️    | ✔️      | ✔️    |
+| Get dark mode    | ✔️      | ✔️  | ✔️  | ✔️    | ✔️      | ✔️    |
 
 ---
 
@@ -24,7 +39,7 @@ Add Get to your pubspec.yaml file:
 ```yaml
 dependencies:
   jars:
-    git: https://github.com/rahulsharmadev-community/jars
+    git: https://github.com/rahulsharmadev-community/jars.git
 ```
 
 Import get in files that it will be used:
@@ -134,7 +149,7 @@ It allows the user to choose from a set of standard date time formats with custo
 
 Easy to use
 
-````dart
+```dart
  var date= DateTimeFormat(DateTime.now(),seprator: '/');
  print(date.yMMMd());
 
@@ -142,7 +157,7 @@ Easy to use
  |                         |
  |  Oct 30, 2022           |
  |_________________________|
-````
+```
 
 For make it more easy to use, now you don't need to create a DateTimeFormat class object before using. look at the example below.
 
@@ -191,3 +206,14 @@ For make it more easy to use, now you don't need to create a DateTimeFormat clas
 | hm()                 | ->  | 2:37 AM                  |
 | hms()                | ->  | 02:37:31                 |
 | hms(isFull: true)    | ->  | 2:37:31 AM               |
+
+# How to contribute
+
+Want to contribute to the project? We will be proud to highlight you as one of our collaborators.
+Here are some points where you can contribute and make Get (and Flutter) even better.
+
+- Adding documentation to the readme (a lot of Jars features haven't been documented yet).
+- Write articles or make videos teaching how to use Jars.
+- Including new functions class.
+
+Any contribution is welcome!
