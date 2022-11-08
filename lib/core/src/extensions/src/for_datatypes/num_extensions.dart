@@ -25,6 +25,35 @@ extension NnmExtensions on num {
         .join('.');
   }
 
+  /// Returns an iterable from [this] inclusive to [end] exclusive.
+  ///
+  /// Example:
+  /// ```dart
+  /// 3.to(6); // (3, 4, 5)
+  /// 2.to(-2); // (2, 1, 0, -1)
+  /// ```
+  ///
+  /// If [by] is provided, it will be used as step size for iteration. [by] is
+  /// always positive, even if the direction of iteration is decreasing.
+  ///
+  /// Example:
+  /// ```dart
+  /// 8.to(3, by: 2); // (8, 6, 4)
+  /// ```
+
+  Iterable<num> to(num end, {num by = 1}) {
+    if (by < 1) {
+      throw ArgumentError(
+          'Invalid step size: $by. Step size must be greater than 0');
+    }
+    final count = ((end - this).abs() / by).ceil();
+    // Explicit type declaration required for function argument.
+    final num Function(num) generator = this >= end
+        ? (index) => this - (by * index)
+        : (index) => this + (by * index);
+    return Iterable<num>.generate(count, generator);
+  }
+
   /// Sample:
   /// ```
   /// void main() async {

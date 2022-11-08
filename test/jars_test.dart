@@ -5,8 +5,10 @@ import 'package:jars/resources/src/timeago.dart';
 void main() async {
   test('DATETIME AGO TEST', () {
     var oldDateTime = DateTime(2012, 6, 10);
+    print(oldDateTime == oldDateTime);
     var t1 = Timeago.since(oldDateTime);
     var t2 = Timeago.since(oldDateTime, lang: 'hi');
+
     print('Timeago: ${t1.format()}');
     print('Timeago: ${t1.format(isFull: true)}');
     print('Timeago: ${t1.format(isFull: true, yearFormat: (p0) => p0.yMMM())}');

@@ -3,6 +3,8 @@ import 'package:jars/jars.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  var set = {'a', 'b', 'c'};
+
 
   runApp(
     MaterialApp(

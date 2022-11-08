@@ -79,3 +79,44 @@ extension WidgetExtensions on Widget {
 
   SliverToBoxAdapter get wSliverBox => SliverToBoxAdapter(child: this);
 }
+
+extension ListExtensions<T> on List<Widget> {
+  Column wColumn({
+    Key? key,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+    MainAxisSize mainAxisSize = MainAxisSize.max,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+    TextDirection? textDirection,
+    VerticalDirection verticalDirection = VerticalDirection.down,
+    TextBaseline? textBaseline,
+  }) =>
+      Column(
+        key: key,
+        mainAxisAlignment: mainAxisAlignment,
+        mainAxisSize: mainAxisSize,
+        crossAxisAlignment: crossAxisAlignment,
+        textDirection: textDirection,
+        textBaseline: textBaseline,
+        verticalDirection: verticalDirection,
+        children: this,
+      );
+  Row wRow({
+    Key? key,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+    MainAxisSize mainAxisSize = MainAxisSize.max,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+    TextDirection? textDirection,
+    VerticalDirection verticalDirection = VerticalDirection.down,
+    TextBaseline? textBaseline,
+  }) =>
+      Row(
+        key: key,
+        mainAxisAlignment: mainAxisAlignment,
+        mainAxisSize: mainAxisSize,
+        crossAxisAlignment: crossAxisAlignment,
+        textDirection: textDirection,
+        textBaseline: textBaseline,
+        verticalDirection: verticalDirection,
+        children: this,
+      );
+}
