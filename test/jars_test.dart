@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jars/apis/src/datetime_api/timeago.dart';
 import 'package:jars/jars.dart';
-import 'package:jars/resources/src/timeago.dart';
 
 void main() async {
-  test('DATETIME AGO TEST', () {
+  test('DATETIME AGO TEST', () async {
     var oldDateTime = DateTime(2012, 6, 10);
-    print(oldDateTime == oldDateTime);
-    var t1 = Timeago.since(oldDateTime);
-    var t2 = Timeago.since(oldDateTime, lang: 'hi');
+    var t1 = Timeago.since(oldDateTime, code: 'zh-CH');
+    var t2 = Timeago.since(oldDateTime, code: 'hi');
 
     print('Timeago: ${t1.format()}');
     print('Timeago: ${t1.format(isFull: true)}');
@@ -28,7 +27,7 @@ void main() async {
 
     print('============================================');
     var f1 = DateTimeFormat(oldDateTime);
-    var f2 = DateTimeFormat(oldDateTime, lang: 'hi');
+    var f2 = DateTimeFormat(oldDateTime, code: 'hi');
 
     print('DateTime Format Test-1: ${f1.yMd()}');
 

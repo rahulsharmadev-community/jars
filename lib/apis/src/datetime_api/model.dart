@@ -1,8 +1,8 @@
-part of 'datatimelang_fun.dart';
+import 'dart:convert';
 
-class DateTimeLang {
-  const DateTimeLang({
-    required this.LANG,
+class DateTimeLangModel {
+  const DateTimeLangModel({
+    required this.CODE,
     required this.JUSTNOW,
     required this.TIMEAGESUFFIX,
     required this.MONTHS,
@@ -21,7 +21,7 @@ class DateTimeLang {
     required this.SHORTSECONDS,
   });
 
-  final String LANG;
+  final String CODE;
   final String JUSTNOW;
   final String TIMEAGESUFFIX;
   final MetaData MONTHS;
@@ -39,13 +39,14 @@ class DateTimeLang {
   final String SHORTMINUTES;
   final String SHORTSECONDS;
 
-  factory DateTimeLang.fromJson(String str) =>
-      DateTimeLang.fromMap(json.decode(str));
+  factory DateTimeLangModel.fromJson(String str) =>
+      DateTimeLangModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory DateTimeLang.fromMap(Map<String, dynamic> map) => DateTimeLang(
-        LANG: map["LANG"],
+  factory DateTimeLangModel.fromMap(Map<String, dynamic> map) =>
+      DateTimeLangModel(
+        CODE: map["CODE"],
         JUSTNOW: map["JUSTNOW"],
         TIMEAGESUFFIX: map["TIMEAGESUFFIX"],
         MONTHS: MetaData.fromMap(map["MONTHS"]),
@@ -65,7 +66,7 @@ class DateTimeLang {
       );
 
   Map<String, dynamic> toMap() => {
-        "LANG": LANG,
+        "CODE": CODE,
         "JUSTNOW": JUSTNOW,
         "TIMEAGESUFFIX": TIMEAGESUFFIX,
         "MONTHS": MONTHS.toMap(),

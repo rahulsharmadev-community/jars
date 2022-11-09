@@ -1,4 +1,4 @@
-import '/resources/library_resourses.dart';
+import '/apis/library_resourses.dart';
 import '/models/reg_pattern.dart';
 import 'package:flutter/material.dart';
 import '../local_extensions.dart';
@@ -40,10 +40,6 @@ extension StringExtensions on String {
   bool get isCpf => LocalExtensions.isCpf(this);
 
   bool get isCnpj => LocalExtensions.isCnpj(this);
-
-  /// Checks if a contains b (Treating or interpreting upper- and lowercase
-  /// letters as being the same).
-  bool isSame(String b) => toLowerCase().contains(b.toLowerCase());
 
   bool hasMatch(String pattern) => LocalExtensions.hasMatch(this, pattern);
 

@@ -1,18 +1,20 @@
 // ignore_for_file: file_names
 
-import 'lang/datatimelang_fun.dart';
 import '/core/src/extensions/library_extensions.dart';
+import 'datetimelang_fun.dart';
+import 'model.dart';
 
 class DateTimeFormat {
   final DateTime _dt;
   final String? _;
-  final String lang;
-  DateTimeFormat(DateTime dateTime, {String? seprator, this.lang = 'en'})
+  final String code;
+  DateTimeFormat(DateTime dateTime, {String? seprator, this.code = 'en'})
       : _ = seprator,
-        _dt = dateTime,
-        dtl = chooseDateTimeLang(lang);
+        _dt = dateTime {
+    DateTimeLang.defaultLang = code;
+  }
 
-  late final DateTimeLang dtl;
+  DateTimeLangModel get dtl => DateTimeLang.dateTimeLang;
 
   /// ```dart
   /// yM() =>  10/2022
@@ -38,6 +40,14 @@ class DateTimeFormat {
   ///   yMMM(isFull: true) => October 2022
   /// ```
   String yMMM({bool isFull = false}) =>
+      '${isFull ? dtl.MONTHS.LIST[_dt.month - 1] : dtl.SHORTMONTHS.LIST[_dt.month - 1]}${_ ?? ' '}'
+      '${_dt.year}';
+
+  /// ```dart
+  ///   yMMd() => 30 Oct 2022
+  ///   yMMd(isFull: true) => 30 October 2022
+  /// ```
+  String yMMd({bool isFull = false}) => '${_dt.day}${_ ?? ' '}'
       '${isFull ? dtl.MONTHS.LIST[_dt.month - 1] : dtl.SHORTMONTHS.LIST[_dt.month - 1]}${_ ?? ' '}'
       '${_dt.year}';
 
