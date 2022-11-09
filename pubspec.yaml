@@ -1,8 +1,20 @@
 name: jars
-description: A new Flutter package project.
+description: JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like timeago, datetime format, multilingual support, textplus, rsnackbars, rtoast, and many others with high-performance.
 version: 0.0.1
 homepage: https://github.com/rahulsharmadev-community
 repository: https://github.com/rahulsharmadev-community/jars
+documentation: https://github.com/rahulsharmadev-community/jars/blob/master/README.md
+issue_tracker: https://github.com/rahulsharmadev-community/jars/issues
+
+# This package supports all platforms listed below.
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
 
 environment:
   sdk: ">=2.18.4 <3.0.0"
