@@ -1,4 +1,4 @@
-import '/apis/library_resourses.dart';
+import '../../../../../apis/export_apis.dart';
 import '/models/reg_pattern.dart';
 import 'package:flutter/material.dart';
 import '../local_extensions.dart';

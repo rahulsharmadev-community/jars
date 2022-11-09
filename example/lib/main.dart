@@ -5,7 +5,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   var set = {'a', 'b', 'c'};
 
-
   runApp(
     MaterialApp(
       title: 'Flutter Demo',

@@ -1,16 +1,3 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
 <div>
   <h1 align="center">JARS</h1>
   <p align="center" >
@@ -22,6 +9,8 @@ and the Flutter guide for
   Leave a 👍 like if you like it
   </p>
 </div>
+
+JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like timeago, datetime format, multilingual support, textplus, rsnackbars, rtoast, and many others with high-performance.
 
 ### Supported platforms
 

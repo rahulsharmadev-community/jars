@@ -1,7 +1,6 @@
 import 'package:jars/core/library_core.dart';
 import 'datetimelang_fun.dart';
 import 'datetime_format.dart';
-import 'model.dart';
 
 class Timeago {
   final Duration duration;
@@ -12,12 +11,12 @@ class Timeago {
       showWeeks,
       showMonths,
       showYears;
-  final String code;
+  final String? code;
 
   Timeago(
     DateTime startAt,
     DateTime endAt, {
-    this.code = 'en',
+    this.code,
     this.showSeconds = true,
     this.showMinutes = true,
     this.showHours = true,
@@ -28,7 +27,7 @@ class Timeago {
   }) : this.duration = endAt.difference(startAt);
 
   Timeago.since(DateTime since,
-      {this.code = 'en',
+      {this.code,
       this.showSeconds = true,
       this.showMinutes = true,
       this.showHours = true,
@@ -38,14 +37,23 @@ class Timeago {
       this.showYears = true})
       : this.duration = DateTime.now().difference(since);
 
+  Timeago.fromDuration(this.duration,
+      {this.code,
+      this.showSeconds = true,
+      this.showMinutes = true,
+      this.showHours = true,
+      this.showDays = true,
+      this.showWeeks = false,
+      this.showMonths = true,
+      this.showYears = true});
+
   format(
       {bool isFull = false,
       String? seprator,
       String Function(DateTimeFormat)? monthFormat,
       String Function(DateTimeFormat)? yearFormat}) {
-    // set language code first
-    DateTimeLang.defaultLang = code;
-    DateTimeLangModel dtl = DateTimeLang.dateTimeLang;
+    var dtl = DateTimeLang.dateTimeLang(code);
+
     if (showYears && duration.inYears > 0)
       return (yearFormat == null)
           ? '${duration.inYears} ${isFull ? dtl.YEARS : dtl.SHORTYEARS} ${dtl.TIMEAGESUFFIX}'
@@ -69,16 +77,4 @@ class Timeago {
     else
       return dtl.JUSTNOW;
   }
-
-// Pending
-  //  just now
-  //  30s ago
-  //  30m ago
-  //  4h ago
-  //  6d ago
-  //  4w ago
-  //  9mo ago
-  //  5yr ago
-  // Convert into local language
-
 }

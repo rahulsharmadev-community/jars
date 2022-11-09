@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:jars/apis/src/datetime_api/library_datetime_api.dart';
+
 /// Duration utilities.
 extension DurationExtensions on Duration {
   /// Utility to delay some callback (or code execution).
@@ -28,4 +30,27 @@ extension DurationExtensions on Duration {
               '${inMinutes > 0 ? '${(inMinutes % 60).round()}:' : ''}'
               '${(inSeconds % 60).round()}'
           .trim();
+
+  /// Sample
+  /// ```dart
+  ///   Comming Soon..
+  /// ```
+  Timeago timeagoSince(
+          {String? code,
+          bool showSeconds = true,
+          bool showMinutes = true,
+          bool showHours = true,
+          bool showDays = true,
+          bool showWeeks = false,
+          bool showMonths = true,
+          bool showYears = true}) =>
+      Timeago.fromDuration(this,
+          code: code,
+          showSeconds: showSeconds,
+          showMinutes: showMinutes,
+          showHours: showHours,
+          showDays: showDays,
+          showWeeks: showWeeks,
+          showMonths: showMonths,
+          showYears: showYears);
 }
