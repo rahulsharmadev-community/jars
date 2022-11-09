@@ -7,14 +7,12 @@ import 'model.dart';
 class DateTimeFormat {
   final DateTime _dt;
   final String? _;
-  final String code;
-  DateTimeFormat(DateTime dateTime, {String? seprator, this.code = 'en'})
+  final String? code;
+  DateTimeFormat(DateTime dateTime, {String? seprator, this.code})
       : _ = seprator,
-        _dt = dateTime {
-    DateTimeLang.defaultLang = code;
-  }
+        _dt = dateTime {}
 
-  DateTimeLangModel get dtl => DateTimeLang.dateTimeLang;
+  DateTimeLangModel get dtl => DateTimeLang.dateTimeLang(code);
 
   /// ```dart
   /// yM() =>  10/2022

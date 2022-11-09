@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' show TimeOfDay, DayPeriod;
-import 'package:jars/apis/library_resourses.dart';
+import 'package:jars/apis/export_apis.dart';
 
 extension DateTimeExtensions on DateTime {
   /// Copies a [DateTime], overriding specified values.
@@ -50,10 +50,33 @@ extension DateTimeExtensions on DateTime {
 
   /// Sample
   /// ```dart
-  ///
+  ///   Comming Soon..
   /// ```
-  DateTimeFormat format([String? seprator]) =>
-      DateTimeFormat(this, seprator: seprator);
+  DateTimeFormat format({String? seprator, String? code}) =>
+      DateTimeFormat(this, seprator: seprator, code: code);
+
+  /// Sample
+  /// ```dart
+  ///   Comming Soon..
+  /// ```
+  Timeago timeagoSince(
+          {String? code,
+          bool showSeconds = true,
+          bool showMinutes = true,
+          bool showHours = true,
+          bool showDays = true,
+          bool showWeeks = false,
+          bool showMonths = true,
+          bool showYears = true}) =>
+      Timeago.since(this,
+          code: code,
+          showSeconds: showSeconds,
+          showMinutes: showMinutes,
+          showHours: showHours,
+          showDays: showDays,
+          showWeeks: showWeeks,
+          showMonths: showMonths,
+          showYears: showYears);
 
   /// Returns true if [this] occurs strictly before [other], accounting for time
   /// zones.

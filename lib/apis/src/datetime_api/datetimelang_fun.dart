@@ -120,8 +120,9 @@ class DateTimeLang {
   static String _defaultLang = 'en';
   static set defaultLang(String CODE) => _defaultLang = CODE;
 
-  static DateTimeLangModel get dateTimeLang => _availableLang.firstWhere(
-        (element) => element.CODE == _defaultLang,
+  static DateTimeLangModel dateTimeLang([String? langCode]) =>
+      _availableLang.firstWhere(
+        (element) => element.CODE == (langCode ?? _defaultLang),
         orElse: () => _availableLang[1],
       );
 
