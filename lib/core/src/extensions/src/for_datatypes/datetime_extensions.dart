@@ -50,14 +50,14 @@ extension DateTimeExtensions on DateTime {
 
   /// Sample
   /// ```dart
-  ///   Comming Soon..
+  ///  DateTime(2015,5,9).format();
   /// ```
   DateTimeFormat format({String? seprator, String? code}) =>
       DateTimeFormat(this, seprator: seprator, code: code);
 
   /// Sample
   /// ```dart
-  ///   Comming Soon..
+  /// DateTime(2015,5,9).timeagoSince();
   /// ```
   Timeago timeagoSince(
           {String? code,
@@ -107,12 +107,10 @@ extension DateTimeExtensions on DateTime {
   /// Alias for [DateTime.add].
   DateTime operator +(Duration duration) => add(duration);
 
-  /// Returns the [Duration] between [this] and [other].
+  /// Returns a new [DateTime] instance with [duration] subtract to [this].
   ///
-  /// The returned [Duration] will be negative if [other] occurs after [this].
-  ///
-  /// Alias for [DateTime.difference].
-  Duration operator -(DateTime other) => difference(other);
+  /// Alias for [DateTime.subtract].
+  DateTime operator -(Duration other) => subtract(other);
 
   /// Returns true if [this] occurs at or before [other], accounting for time
   /// zones.
