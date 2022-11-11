@@ -2,9 +2,9 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '/core/library_core.dart';
-part 'rsnackbar_design.dart';
-part 'rsnackbar_config.dart';
+import 'package:jars/core/library_core.dart';
+import 'configs/rsnackbar_config.dart';
+part 'designs/rsnackbar_design.dart';
 
 _RSnackBar? _snackBar;
 void showRSnackBar(BuildContext context, {required RSnackbarConfig config}) {
@@ -43,16 +43,14 @@ class _RSnackBar {
     _overlayState?.insert(_overlayEntry!);
   }
 
-  /// Both methods will execute removeSnackBar(),
-  /// whether the snackbar is closed automatically or manually (forcefully dismissed).
+  // Both methods will execute removeSnackBar(),
+  // whether the snackbar is closed automatically or manually (forcefully dismissed).
   void removeSnackBar() {
     if (_overlayEntry != null) {
-      if (config.onDismissed != null) config.onDismissed!();
+      config.onDismissed();
       _overlayEntry?.remove();
       _overlayEntry?.dispose();
       _overlayEntry = null;
-
-      // print('removeTost');
     }
   }
 }
@@ -93,7 +91,7 @@ class _TostStateWidget extends State<_SnackBarWidget>
         duration: widget.config.animationDuration,
         reverseDuration: widget.config.animationDuration)
       ..forward();
-    if (widget.config.autoDismissed) {
+    if (widget.config.autoDismissed ?? true) {
       timeController = StreamController<Duration>.broadcast();
       autoCanelTimer = Timer.periodic(const Duration(seconds: 1), (_) {
         if (currentTime != Duration.zero) {

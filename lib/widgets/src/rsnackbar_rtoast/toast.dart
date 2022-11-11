@@ -2,9 +2,8 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../../core/library_core.dart';
-part 'rtoast_design.dart';
-part 'rtoast_config.dart';
+import 'configs/rtoast_config.dart';
+part 'designs/rtoast_design.dart';
 
 _RToast? _toast;
 void showRTost(BuildContext context,
@@ -71,7 +70,7 @@ class _TostStateWidget extends State<_ToastWidget>
       controller.reverse();
       await Future.delayed(widget.config.animationDuration);
     }
-    widget.config.onDismissed!();
+    widget.config.onDismissed();
   }
 
   Timer? timer;

@@ -1,4 +1,4 @@
-part of 'toast.dart';
+part of '../toast.dart';
 
 class _ToastDesign extends StatelessWidget {
   final String msg;
@@ -6,7 +6,6 @@ class _ToastDesign extends StatelessWidget {
   final VoidCallback onDismissed;
   const _ToastDesign(
     this.msg, {
-    super.key,
     required this.config,
     required this.onDismissed,
   });
@@ -31,13 +30,10 @@ class _ToastDesign extends StatelessWidget {
         Dismissible(
           direction: config.dismissDirection,
           key: UniqueKey(),
-          onDismissed: config.onDismissed != null
-              ? (_) {
-                  // print('Manual Close from onDismissed');
-                  onDismissed();
-                  if (config.onDismissed != null) config.onDismissed!();
-                }
-              : null,
+          onDismissed: (_) {
+            onDismissed();
+            config.onDismissed();
+          },
           child: Card(
             shape: RoundedRectangleBorder(borderRadius: config.borderRadius),
             clipBehavior: Clip.hardEdge,

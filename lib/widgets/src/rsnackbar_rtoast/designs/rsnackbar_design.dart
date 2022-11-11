@@ -1,4 +1,4 @@
-part of 'snackbar.dart';
+part of '../snackbar.dart';
 
 class _SnackBarDesign extends StatelessWidget {
   final Duration? inialSync;
@@ -6,7 +6,6 @@ class _SnackBarDesign extends StatelessWidget {
   final RSnackbarConfig config;
   final VoidCallback onDismissed;
   const _SnackBarDesign({
-    super.key,
     required this.config,
     required this.onDismissed,
     this.inialSync,
@@ -25,9 +24,8 @@ class _SnackBarDesign extends StatelessWidget {
   }
 
   void onManualDismissed() {
-    // print('Manual Close from onDismissed');
     onDismissed();
-    if (config.onDismissed != null) config.onDismissed!();
+    config.onDismissed();
   }
 
   Widget loadingDesgin() => Row(mainAxisAlignment: mainAxis(), children: [
@@ -40,13 +38,13 @@ class _SnackBarDesign extends StatelessWidget {
             dimension: 20,
             child: InkWell(
               child: Icon(Icons.close,
-                  color: config.forgroundColor.withOpacity(0.7)),
+                  color: config.forgroundColor?.withOpacity(0.7)),
               onTap: () => onDismissed(),
             )).wPaddingOnly(right: 16),
       ]);
 
   Widget showTimer() {
-    if (durationSync != null && config.durationVisibility) {
+    if (durationSync != null && (config.durationVisibility ?? true)) {
       return StreamBuilder<Duration>(
           initialData: inialSync,
           stream: durationSync,
@@ -67,7 +65,7 @@ class _SnackBarDesign extends StatelessWidget {
         InkWell(
           child: Icon(
             Icons.close,
-            color: config.forgroundColor.withOpacity(0.7),
+            color: config.forgroundColor?.withOpacity(0.7),
           ),
           onTap: () => onDismissed(),
         ).wPaddingOnly(right: 8),
