@@ -118,7 +118,7 @@ class DateTimeLang {
   ];
 
   static String _defaultLang = 'en';
-  static set defaultLang(String CODE) => _defaultLang = CODE;
+  static setDefaultLang(String CODE) => _defaultLang = CODE;
 
   static DateTimeLangModel dateTimeLang([String? langCode]) =>
       _availableLang.firstWhere(

@@ -2,39 +2,215 @@
   <h1 align="center">JARS</h1>
   <p align="center" >
     <a title="Github License">
-      <img src="https://img.shields.io/github/license/bdlukaa/system_theme" />
-    </a>
+    <a href="https://pub.dev/packages/jars"><img src="https://img.shields.io/pub/v/jars?color=blue&label=pub.dev" alt="Pub Version"></a>
+    <a href="https://pub.dev/packages/jars/license"><img src="https://img.shields.io/github/license/rahulsharmadev-community/jars?label=%20LICENSE%20%F0%9F%AA%B6" alt="GitHub"></a>
   </p>
   <p align="center">
   Leave a 👍 like if you like it
   </p>
 </div>
 
-JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like timeago, datetime format, multilingual support, textplus, rsnackbars, rtoast, and many others with high-performance.
+JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like [platform query](#platformquery-apis), [timeago](#timeago), [datetime format](#datetimeformat), [multilingual support](#datetimelang) , [textplus](#textplus), [rsnackbars](), [rtoast](), and many others with high-performance.
 
-### Supported platforms
+- ### [How to install](https://pub.dev/packages/jars/install)
+- ### [See how to use](https://github.com/rahulsharmadev-community/jars/tree/master/example)
 
-| Feature          | Android | iOS | Web | MacOs | Windows | Linux |
-| ---------------- | ------- | --- | --- | ----- | ------- | ----- |
-| Get accent color | ✔️      | ✔️  | ✔️  | ✔️    | ✔️      | ✔️    |
-| Get dark mode    | ✔️      | ✔️  | ✔️  | ✔️    | ✔️      | ✔️    |
+- ### Supported platforms: Android | iOS | Web | MacOs | Windows | Linux
 
 ---
 
-# Installing
+# DateTime APIs
 
-Add Get to your pubspec.yaml file:
+Most popular datetime apis are:
 
-```yaml
-dependencies:
-  jars:
-    git: https://github.com/rahulsharmadev-community/jars.git
-```
+- **[DateTimeFormat](#datetimeformat)**
+- **[DateTimeLang](#datetimelang)**
+- **[Timeago](#timeago)**
 
-Import get in files that it will be used:
+## DateTimeFormat
+
+The user can choose from a variety of standard date and time formats as well as a particular customised pattern. Additionally, by using Datetimelang, the user can specify a local language, such as Hindi, Punjabi, Chines, etc.
+
+Example
 
 ```dart
-import 'package:jars/jars.dart';
+
+ var now = DateTime.now();
+
+ // default code = 'en'(English)
+ var datedef = DateTimeFormat(now);
+
+ // code = 'hi'(Hindi)
+ var datehi = DateTimeFormat(now, code: 'hi');
+
+// 1st
+ print(datedef.yMMMEd());
+ print(datedef.yMMMEd(isFull: true));
+
+// 2st
+ print(datehi.yMMMd());
+ print(datehi.yMMMd(isFull: true));
+
+
+ Output _________________________
+ |
+ |  Oct 30, 2022
+ |  Saturday, June 10, 2012
+ |
+ |  शनि, जून 10, 2012
+ |  शनिवार, जून 10, 2012
+ |_______________________________
+```
+
+| Pattern              |     | Result                   |
+| -------------------- | --- | ------------------------ |
+| yM()                 | ->  | 10/2022                  |
+| yMd()                | ->  | 10/30/2022               |
+| yMEd()               | ->  | Sun, 10/30/2022          |
+| yMEd(isFull: true)   | ->  | Sunday, 10/30/2022       |
+| yMMM()               | ->  | Oct 2022                 |
+| yMMM(isFull: true)   | ->  | October 2022             |
+| yMMd()               | ->  | 30 Oct 2022              |
+| yMMd(isFull: true)   | ->  | 30 October 2022          |
+| yMMMd()              | ->  | Oct 30, 2022             |
+| yMMMd(isFull: true)  | ->  | October 30, 2022         |
+| yMMMEd()             | ->  | Sun, Oct 30, 2022        |
+| yMMMEd(isFull: true) | ->  | Sunday, October 30, 2022 |
+| yQQQ()               | ->  | Q4 2022                  |
+| yQQQ(isFull: true)   | ->  | 4th quarter 2022         |
+| hm()                 | ->  | 02:37                    |
+| hm()                 | ->  | 2:37 AM                  |
+| hms()                | ->  | 02:37:31                 |
+| hms(isFull: true)    | ->  | 2:37:31 AM               |
+
+## DateTimeLang
+
+For more control over datetime language you may can create your own JSON file, load it into the datetimelang api, and then set it as a default language.
+
+```dart
+
+   /// **Load file locally **
+   await DateTimeLang.loadFromFile(CODE: 'fr', path: 'lib/assets/fr.json');
+
+   /// **Load file form Url**
+   //
+   /// Under the hood, **English & Hindi** are already available.
+   ///
+   /// Chinese (zh-CN): https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/zh-CH.json
+   ///
+   /// French (fr): https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/fr.json
+   ///
+   /// Afrikaans (af): https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/af.json
+
+   await DateTimeLang.loadFromUrl(
+        CODE: 'zh-CH',
+        url:'https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/zh-CH.json');
+
+
+   // Now that you have both languages, choose a default language.
+   DateTimeLang.setDefaultLang('zh-CH');
+
+   var now = DateTimeFormat(DateTime.now());
+   print(now.yMMMd(isFull: true));
+
+   // To make it straightforward and appealing, you can,
+   // however, directly access the format() function.
+   print(DateTime.now().format().yMMM());
+
+
+ Output _________________________
+ |
+ |  十一月 10, 2022
+ |  十一月 2022
+ |_______________________________
+
+```
+
+## Timeago
+
+Timeago is a dart library that converts a date into a humanized text. Instead of showing a date 2020-12-12 18:30 with timeago you can display something like "now", "an hour ago", "~1y", etc. By default Timeago ONLY support 'en' and 'hi' code(language code).To add more of the supported languages use [DateTimeLang class](#datetimelang)
+
+```dart
+
+ var oldDateTime = DateTime(2012, 6, 10);
+    var t1 = Timeago.since(oldDateTime);
+    var t2 = Timeago.since(oldDateTime, code: 'hi');
+
+    // en
+    print(t1.format());
+    print(t1.format(isFull: true));
+    print(t1.format(isFull: true, yearFormat: (p0) => p0.yMMMEd()));
+    print(t1.format(isFull: true, yearFormat: (p0) => p0.yMMMEd(isFull: true)));
+
+    // hi
+    print(t2.format());
+    print(t2.format(isFull: true, yearFormat: (p0) => p0.yMMMEd()));
+    print(t2.format(isFull: true, yearFormat: (p0) => p0.yMMMEd(isFull: true)));
+
+
+ Output _________________________
+ |
+ |  10 Yr ago
+ |  10 Years ago
+ |  Sat, Jun 10, 2012
+ |  Saturday, June 10, 2012
+ |
+ |  10 वर्षों पूर्व
+ |  शनि, जून 10, 2012
+ |  शनिवार, जून 10, 2012
+ |_______________________________
+```
+
+## DateTime APIs Extension
+
+```dart
+
+  var today = DateTime.now(); // Create an Object
+
+  // now you can use operator like -, *, +, /, >=, <, >
+  var yesterday = DateTime.now() - Duration(days: 2);
+  var duration=Duration(hours: 2, minutes: 3, seconds: 2) // Create an Object
+
+  // Whether this time of day is before or after noon.
+  // return DayPeriod.am | DayPeriod.pm;
+  today.period;
+
+  /// Which hour of the current period (e.g., am or pm) this time is.
+  ///
+  /// For 12AM (midnight) and 12PM (noon) this returns 12.
+  today.hourOfPeriod ;
+
+  /// The hour at which the current period starts.
+  today.periodOffset;
+
+
+  /// Equal to: (month / 4).round();
+  /// eg. (6/4).round() = 2
+  today.quarter;
+
+  /// Example:
+  //   yMEd()=> Sun, 10/30/2022
+  //   yMEd(isFull: true) => Sunday, 10/30/2022
+  today.format('/').yMEd();
+
+  // 2 Days ago
+  yesterday.timeagoSince();
+
+ // 2 Hours ago
+  duration.timeagoSince();
+ // 02:03:02
+  duration.hms();
+
+  // Equal to: (duration.inMonths / 12).round();
+  duration.inYears;
+  // Equal to:(duration.inDays / 30.4167).round();
+  duration.inMonths;
+  // Equal to: (duration.inDays / 7).round();
+  duration.inWeeks;
+
+  // Equal to: Future.delayed(duration);
+  duration.delay();
+
 ```
 
 # PlatformQuery APIs
@@ -131,70 +307,6 @@ Window size classes categorize the display area available to your app as compact
         });
 
 ```
-
-# DateTimeFormat APIs
-
-It allows the user to choose from a set of standard date time formats with customized syntex.
-
-Easy to use
-
-```dart
- var date= DateTimeFormat(DateTime.now(),seprator: '/');
- print(date.yMMMd());
-
- Output ___________________
- |                         |
- |  Oct 30, 2022           |
- |_________________________|
-```
-
-For make it more easy to use, now you don't need to create a DateTimeFormat class object before using. look at the example below.
-
-```dart
-
-  var today = DateTime.now(); // Create an Object
-
-  // Whether this time of day is before or after noon.
-  // return DayPeriod.am | DayPeriod.pm;
-  today.period;
-
-  /// Which hour of the current period (e.g., am or pm) this time is.
-  ///
-  /// For 12AM (midnight) and 12PM (noon) this returns 12.
-  today.hourOfPeriod ;
-
-  /// The hour at which the current period starts.
-  today.periodOffset;
-
-
-  /// Equal to: (month / 4).round();
-  /// eg. (6/4).round() = 2
-  today.quarter;
-
-  /// Example:
-  //   yMEd()=> Sun, 10/30/2022
-  //   yMEd(isFull: true) => Sunday, 10/30/2022
-  today.format('/').yMEd();
-```
-
-| Pattern              |     | Result                   |
-| -------------------- | --- | ------------------------ |
-| yM()                 | ->  | 10/2022                  |
-| yMd()                | ->  | 10/30/2022               |
-| yMEd()               | ->  | Sun, 10/30/2022          |
-| yMEd(isFull: true)   | ->  | Sunday, 10/30/2022       |
-| yMMM()               | ->  | Oct 2022                 |
-| yMMM(isFull: true)   | ->  | October 2022             |
-| yMMMd()              | ->  | Oct 30, 2022             |
-| yMMMd(isFull: true)  | ->  | October 30, 2022         |
-| yMMMEd()             | ->  | Sun, Oct 30, 2022        |
-| yMMMEd(isFull: true) | ->  | Sunday, October 30, 2022 |
-| yQQQ()               | ->  | Q4 2022                  |
-| yQQQ(isFull: true)   | ->  | 4th quarter 2022         |
-| hm()                 | ->  | 02:37                    |
-| hm()                 | ->  | 2:37 AM                  |
-| hms()                | ->  | 02:37:31                 |
-| hms(isFull: true)    | ->  | 2:37:31 AM               |
 
 # How to contribute
 
