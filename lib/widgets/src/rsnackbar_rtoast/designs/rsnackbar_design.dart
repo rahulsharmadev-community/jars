@@ -1,4 +1,4 @@
-part of '../snackbar.dart';
+part of '../rsnackbar.dart';
 
 class _SnackBarDesign extends StatelessWidget {
   final Duration? inialSync;

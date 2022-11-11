@@ -40,12 +40,10 @@ class TextPlus extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return RichText(
-        text: TextSpan(
-            style: style ?? DefaultTextStyle.of(context).style,
-            children: _convertToAtt(text)
-                .map((e) => TextSpan(text: e['text'], style: e['textStyle']))
-                .toList()));
-  }
+  Widget build(BuildContext context) => RichText(
+      text: TextSpan(
+          style: style ?? DefaultTextStyle.of(context).style,
+          children: _convertToAtt(text)
+              .map((e) => TextSpan(text: e['text'], style: e['textStyle']))
+              .toList()));
 }

@@ -46,50 +46,50 @@ extension TextStyleExtension on TextStyle {
 }
 
 extension MapExtension on Map<String, dynamic> {
+  List<Shadow>? _createShadows() {
+    if (this['shadows'] == null) return null;
+    return List<Map<String, dynamic>>.from(this['shadows'])
+        .map((e) => Shadow(
+            blurRadius: e['blurRadius'],
+            color: '${e['color']}'.toColor,
+            offset: Offset(
+              e['offset']["dx"],
+              e['offset']["dy"],
+            )))
+        .toList();
+  }
+
+  List<FontVariation>? _createfontVariations() {
+    if (this['fontVariations'] == null) return null;
+    return List<Map<String, dynamic>>.from(this['fontVariations'])
+        .map((e) => FontVariation(e['axis'], e['value']))
+        .toList();
+  }
+
+  List<FontFeature>? _createfontFeatures() {
+    if (this['fontFeatures'] == null) return null;
+    return List<Map<String, dynamic>>.from(this['fontFeatures'])
+        .map((e) => FontFeature(e['feature'], e['value']))
+        .toList();
+  }
+
+  TextDecoration? _createTextDecoration() {
+    if (this['decoration'] == null) return null;
+
+    List<TextDecoration> temp = [];
+    if (this['decoration'].contains('underline')) {
+      temp.add(TextDecoration.underline);
+    }
+    if (this['decoration'].contains('overline')) {
+      temp.add(TextDecoration.overline);
+    }
+    if (this['decoration'].contains('lineThrough')) {
+      temp.add(TextDecoration.lineThrough);
+    }
+    return TextDecoration.combine(temp);
+  }
+
   TextStyle get fromTextPlusStyle {
-    List<Shadow>? createShadows() {
-      if (this['shadows'] == null) return null;
-      return List<Map<String, dynamic>>.from(this['shadows'])
-          .map((e) => Shadow(
-              blurRadius: e['blurRadius'],
-              color: '${e['color']}'.toColor,
-              offset: Offset(
-                e['offset']["dx"],
-                e['offset']["dy"],
-              )))
-          .toList();
-    }
-
-    createfontVariations() {
-      if (this['fontVariations'] == null) return null;
-      return List<Map<String, dynamic>>.from(this['fontVariations'])
-          .map((e) => FontVariation(e['axis'], e['value']))
-          .toList();
-    }
-
-    createfontFeatures() {
-      if (this['fontFeatures'] == null) return null;
-      return List<Map<String, dynamic>>.from(this['fontFeatures'])
-          .map((e) => FontFeature(e['feature'], e['value']))
-          .toList();
-    }
-
-    TextDecoration? createTextDecoration() {
-      if (this['decoration'] == null) return null;
-
-      List<TextDecoration> temp = [];
-      if (this['decoration'].contains('underline')) {
-        temp.add(TextDecoration.underline);
-      }
-      if (this['decoration'].contains('overline')) {
-        temp.add(TextDecoration.overline);
-      }
-      if (this['decoration'].contains('lineThrough')) {
-        temp.add(TextDecoration.lineThrough);
-      }
-      return TextDecoration.combine(temp);
-    }
-
     return TextStyle(
       inherit: this['inherit'],
       color: this['color']?.toString().toColor,
@@ -110,10 +110,10 @@ extension MapExtension on Map<String, dynamic> {
       leadingDistribution: this['leadingDistribution'] != null
           ? TextLeadingDistribution.values[this['leadingDistribution']]
           : null,
-      shadows: createShadows(),
-      fontFeatures: createfontFeatures(),
-      fontVariations: createfontVariations(),
-      decoration: createTextDecoration(),
+      shadows: _createShadows(),
+      fontFeatures: _createfontFeatures(),
+      fontVariations: _createfontVariations(),
+      decoration: _createTextDecoration(),
       decorationColor: this['decorationColor']?.toString().toColor,
       decorationStyle: this['decorationStyle'] != null
           ? TextDecorationStyle.values[this['decorationStyle']]

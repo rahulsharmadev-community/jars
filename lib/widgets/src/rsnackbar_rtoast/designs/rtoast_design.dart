@@ -1,4 +1,4 @@
-part of '../toast.dart';
+part of '../rtoast.dart';
 
 class _ToastDesign extends StatelessWidget {
   final String msg;
