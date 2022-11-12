@@ -40,9 +40,8 @@ extension IterableExtensions<T> on Iterable<T> {
   ///
   /// If [seed] is provided, will be used as the random seed for determining
   /// which element to select. (See [math.Random].)
-  T? getRandom({int? seed}) => this.isEmpty
-      ? null
-      : this.elementAt(math.Random(seed).nextInt(this.length));
+  T? getRandom({int? seed}) =>
+      isEmpty ? null : elementAt(math.Random(seed).nextInt(length));
 
   Map<E, int> _elementCountsIn<E>(Iterable<E> iterable) {
     final counts = <E, int>{};
@@ -63,9 +62,9 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   ///     [-47, 10, 2].max((a, b) =>
   ///     a.toString().length.compareTo(b.toString().length)).value; // -47
   /// ```
-  E? max([Comparator<E>? compare]) => this.isEmpty
+  E? max([Comparator<E>? compare]) => isEmpty
       ? null
-      : this.reduce(
+      : reduce(
           compare == null ? math.max : _generateCustomMaxFunction<E>(compare));
 
   /// Returns the least number in [this], or [null] if [this] is empty.
@@ -75,9 +74,9 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   /// [-100, -200, 5].min((a, b) =>
   ///     a.toString().length.compareTo(b.toString().length)).value; // 5
   /// ```
-  E? min([Comparator<E>? compare]) => this.isEmpty
+  E? min([Comparator<E>? compare]) => isEmpty
       ? null
-      : this.reduce(
+      : reduce(
           compare == null ? math.min : _generateCustomMinFunction<E>(compare));
 
   /// Returns the sum of all the values in this iterable.
@@ -89,10 +88,10 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   /// [].sum() // 0.
   /// ```
   num sum([num Function(E)? addend]) {
-    if (this.isEmpty) return 0;
+    if (isEmpty) return 0;
     return addend == null
-        ? this.reduce((a, b) => (a + b) as E)
-        : this.fold(0, (prev, element) => prev + addend(element));
+        ? reduce((a, b) => (a + b) as E)
+        : fold(0, (prev, element) => prev + addend(element));
   }
 
   /// Returns the average of all the values in this iterable.
@@ -104,9 +103,9 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   /// [].average() // null.
   /// ```
   num? average([num Function(E)? value]) {
-    if (this.isEmpty) return null;
+    if (isEmpty) return null;
 
-    return this.sum(value) / this.length;
+    return sum(value) / length;
   }
 }
 

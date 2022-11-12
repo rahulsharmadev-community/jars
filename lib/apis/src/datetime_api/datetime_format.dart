@@ -10,7 +10,7 @@ class DateTimeFormat {
   final String? code;
   DateTimeFormat(DateTime dateTime, {String? seprator, this.code})
       : _ = seprator,
-        _dt = dateTime {}
+        _dt = dateTime;
 
   DateTimeLangModel get dtl => DateTimeLang.dateTimeLang(code);
 

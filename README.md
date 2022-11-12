@@ -17,6 +17,8 @@ JARS is a super-effective and lightweight solution for Flutter. It combines fron
 
 - ### Supported platforms: Android | iOS | Web | MacOs | Windows | Linux
 
+  <marquee>DateTimeFormat, DateTimeLang, Timeago, PlatformQuery, showRTost, removeRTost, showRSnackBar, removeRSnackBar, printInfo, printError, JMarquee, JTextPlus </marquee>
+
 ---
 
 # DateTime APIs

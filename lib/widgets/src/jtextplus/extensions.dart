@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import '../../../core/src/extensions/library_extensions.dart';
 
 extension TextStyleExtension on TextStyle {
-  String get toTextPlusStyle {
+  String get toJTextPlusStyle {
     return jsonEncode({
       'inherit': inherit,
       'color': color?.toHex,
@@ -89,7 +89,7 @@ extension MapExtension on Map<String, dynamic> {
     return TextDecoration.combine(temp);
   }
 
-  TextStyle get fromTextPlusStyle {
+  TextStyle get fromJTextPlusStyle {
     return TextStyle(
       inherit: this['inherit'],
       color: this['color']?.toString().toColor,

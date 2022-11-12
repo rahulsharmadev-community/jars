@@ -54,27 +54,28 @@ class Timeago {
       String Function(DateTimeFormat)? yearFormat}) {
     var dtl = DateTimeLang.dateTimeLang(code);
 
-    if (showYears && duration.inYears > 0)
+    if (showYears && duration.inYears > 0) {
       return (yearFormat == null)
           ? '${duration.inYears} ${isFull ? dtl.YEARS : dtl.SHORTYEARS} ${dtl.TIMEAGESUFFIX}'
           : yearFormat(DateTimeFormat(DateTime.now().subtract(duration),
               seprator: seprator, code: code));
-    else if (showMonths && duration.inMonths > 0)
+    } else if (showMonths && duration.inMonths > 0) {
       return (monthFormat == null)
           ? '${duration.inMonths} ${isFull ? dtl.MONTHS.NAME : dtl.SHORTMONTHS.NAME} ${dtl.TIMEAGESUFFIX}'
           : monthFormat(DateTimeFormat(DateTime.now().subtract(duration),
               seprator: seprator, code: code));
-    else if (showWeeks && duration.inWeeks > 0)
+    } else if (showWeeks && duration.inWeeks > 0) {
       return '${duration.inWeeks} ${isFull ? dtl.WEEKDAYS.NAME : dtl.SHORTWEEKDAYS.NAME} ${dtl.TIMEAGESUFFIX}';
-    else if (showDays && duration.inDays > 0)
+    } else if (showDays && duration.inDays > 0) {
       return '${duration.inDays} ${isFull ? dtl.DAYS : dtl.SHORTDAYS} ${dtl.TIMEAGESUFFIX}';
-    else if (showHours && duration.inHours > 0)
+    } else if (showHours && duration.inHours > 0) {
       return '${duration.inHours} ${isFull ? dtl.HOURS : dtl.SHORTHOURS} ${dtl.TIMEAGESUFFIX}';
-    else if (showMinutes && duration.inMinutes > 0)
+    } else if (showMinutes && duration.inMinutes > 0) {
       return '${duration.inMinutes} ${isFull ? dtl.MINUTES : dtl.SHORTMINUTES} ${dtl.TIMEAGESUFFIX}';
-    else if (showSeconds && duration.inSeconds > 10)
+    } else if (showSeconds && duration.inSeconds > 10) {
       return '${duration.inSeconds} ${isFull ? dtl.SECONDS : dtl.SHORTSECONDS} ${dtl.TIMEAGESUFFIX}';
-    else
+    } else {
       return dtl.JUSTNOW;
+    }
   }
 }

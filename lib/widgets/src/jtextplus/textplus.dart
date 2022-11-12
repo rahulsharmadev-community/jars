@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'extensions.dart';
 import 'package:flutter/material.dart';
 
-class TextPlus extends StatelessWidget {
+class JTextPlus extends StatelessWidget {
   final String text;
   final TextStyle? style;
-  const TextPlus(this.text, {super.key, this.style});
+  const JTextPlus(this.text, {super.key, this.style});
 
   List<Map<String, dynamic>> _convertToAtt(String str) {
     var map = str.split(RegExp(r'[<|>]'));
@@ -24,7 +24,7 @@ class TextPlus extends StatelessWidget {
               tamp.addAll({'text': code.substring(1, code.length - 1)});
             } else {
               var textStyle = Map<String, dynamic>.from(jsonDecode(st[j]))
-                  .fromTextPlusStyle;
+                  .fromJTextPlusStyle;
               tamp.addAll({'textStyle': textStyle});
             }
             rmap.add(tamp);

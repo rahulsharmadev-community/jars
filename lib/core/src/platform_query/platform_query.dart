@@ -1,4 +1,3 @@
-
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -50,9 +49,6 @@ class PlatformQuery with WidgetsBindingObserver {
 
   /// Platform's Height
   static double get height => mediaQueryData.size.height;
-
-  /// Platform's Height
-  static double heights() => mediaQueryData.size.height;
 
   /// Platform's Width
   static double get width => mediaQueryData.size.width;

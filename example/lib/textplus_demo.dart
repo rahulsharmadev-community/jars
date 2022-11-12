@@ -7,11 +7,11 @@ class TextPlusDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String string =
-        'Hello < ${TextStyle(color: Colors.red, fontSize: 20.sp, backgroundColor: Colors.orange).toTextPlusStyle} = "World 😂" > I am hear.';
+        'Hello < ${TextStyle(color: Colors.red, fontSize: 20.sp, backgroundColor: Colors.orange).toJTextPlusStyle} = "World 😂" > I am hear.';
 
     return LayoutBuilder(
       builder: ((p0, p1) {
-        return Scaffold(body: TextPlus(string));
+        return Scaffold(body: JTextPlus(string));
       }),
     );
   }

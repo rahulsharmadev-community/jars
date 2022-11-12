@@ -17,10 +17,10 @@ extension DurationExtensions on Duration {
   ///   await 0.7.seconds.delay(() {
   /// }
   ///```
-  int get inYears => (this.inMonths / 12).round();
+  int get inYears => (inMonths / 12).round();
 
-  int get inMonths => (this.inDays / 30.4167).round();
-  int get inWeeks => (this.inDays / 7).round();
+  int get inMonths => (inDays / 30.4167).round();
+  int get inWeeks => (inDays / 7).round();
 
   Future delay([FutureOr Function()? callback]) async =>
       Future.delayed(this, callback);

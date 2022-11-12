@@ -57,7 +57,7 @@ class _SnackBarDesign extends StatelessWidget {
     return const Offstage();
   }
 
-  Widget IconDesgin() => Row(mainAxisAlignment: mainAxis(), children: [
+  Widget iconDesgin() => Row(mainAxisAlignment: mainAxis(), children: [
         config.leading!.wPaddingOnly(right: 16),
         config.title,
         const Spacer(),
@@ -77,7 +77,7 @@ class _SnackBarDesign extends StatelessWidget {
     if (config is RSnackbarLoadingConfig) {
       returnChild = loadingDesgin();
     } else if (config is RSnackbarIconConfig) {
-      returnChild = IconDesgin();
+      returnChild = iconDesgin();
     } else {
       returnChild = Row(mainAxisAlignment: mainAxis(), children: [
         if (config.leading != null) config.leading!.wPaddingAll(8),
