@@ -4,16 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class JTextStyle extends TextStyle {
-  // final RegExp regExp;
-
   final bool caseSensitive;
-  final bool inherit;
   final String tag;
-
-  ///
-  ///  ```dart
-  ///  recognizer: (string) => TapGestureRecognizer()..onTap = () => print(string),
-  /// ```
   final GestureRecognizer Function(String string)? recognizer;
   get regExp => between(
         start: '<$tag>',
@@ -43,8 +35,8 @@ class JTextStyle extends TextStyle {
   JTextStyle(
     String tag, {
     this.caseSensitive = false,
-    this.inherit = true,
     this.recognizer,
+    bool inherit = true,
     Color? color,
     Color? backgroundColor,
     double? fontSize,

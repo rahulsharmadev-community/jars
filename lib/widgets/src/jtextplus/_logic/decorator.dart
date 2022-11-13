@@ -1,5 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart' hide Decoration;
+import 'package:jars/core/library_core.dart';
 import '../models/jtextstyle.dart';
 part '../models/_decoration.dart';
 
@@ -40,10 +40,7 @@ class Decorator {
 
       result.add(
         _Decoration(
-          range: TextRange(
-            start: tag.start,
-            end: tag.end,
-          ),
+          range: TextRange(start: tag.start, end: tag.end),
           rule: rules.firstWhereOrNull(
             (element) =>
                 tag.pattern.toString().contains(element.regExp.pattern),

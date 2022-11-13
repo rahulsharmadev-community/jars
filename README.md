@@ -40,11 +40,11 @@ As we all know, text is a key component of any mobile app's user interface. and 
 
 A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
 
-<p align="center">
-<video height="700" controls autoplay loop>
-  <source src="_readme_assets\jmarquee.mp4" type="video/mp4">
+[<p align="center">
+
+  <img src="_readme_assets\jmarquee.mp4">
 </video>
-</p>
+</p>]
 
 ```dart
 JMarquee(

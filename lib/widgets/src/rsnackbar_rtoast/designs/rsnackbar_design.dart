@@ -92,7 +92,7 @@ class _SnackBarDesign extends StatelessWidget {
       direction: config.dismissDirection,
       key: UniqueKey(),
       onDismissed:
-          config.onDismissed != null ? (_) => onManualDismissed() : null,
+           (_) => onManualDismissed() ,
       child: Card(
         elevation: config.elevation,
         clipBehavior: Clip.hardEdge,

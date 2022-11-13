@@ -7,20 +7,20 @@ class DateTimeLang {
 
   static final _availableLang = <DateTimeLangModel>[
     DateTimeLangModel(
-      CODE: "hi",
-      JUSTNOW: "हाल ही में",
-      TIMEAGESUFFIX: "पूर्व",
-      YEARS: "वर्षों",
-      DAYS: "दिन",
-      HOURS: "घंटे",
-      MINUTES: "मिनट",
-      SECONDS: "सेकंड",
-      SHORTYEARS: "वर्षों",
-      SHORTDAYS: "दिन",
-      SHORTHOURS: "घंटे",
-      SHORTMINUTES: "मिनट",
-      SHORTSECONDS: "सेकंड",
-      MONTHS: MetaData(NAME: "महीने", LIST: [
+      code: "hi",
+      justnow: "हाल ही में",
+      timeagosuffix: "पूर्व",
+      years: "वर्षों",
+      days: "दिन",
+      hours: "घंटे",
+      minutes: "मिनट",
+      seconds: "सेकंड",
+      shortyears: "वर्षों",
+      shortdays: "दिन",
+      shorthours: "घंटे",
+      shortminutes: "मिनट",
+      shortseconds: "सेकंड",
+      months: MetaData(NAME: "महीने", LIST: [
         "जनवरी",
         "फ़रवरी",
         "मार्च",
@@ -34,7 +34,7 @@ class DateTimeLang {
         "नवंबर",
         "दिसंबर"
       ]),
-      SHORTMONTHS: MetaData(NAME: "महीने", LIST: [
+      shortmonths: MetaData(NAME: "महीने", LIST: [
         "जन॰",
         "फ़र॰",
         "मार्च",
@@ -48,7 +48,7 @@ class DateTimeLang {
         "नव॰",
         "दिस॰"
       ]),
-      WEEKDAYS: MetaData(NAME: "सप्ताह", LIST: [
+      weekdays: MetaData(NAME: "सप्ताह", LIST: [
         "रविवार",
         "सोमवार",
         "मंगलवार",
@@ -57,25 +57,25 @@ class DateTimeLang {
         "शुक्रवार",
         "शनिवार"
       ]),
-      SHORTWEEKDAYS: MetaData(
+      shortweekdays: MetaData(
           NAME: "सप्ताह",
           LIST: ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"]),
     ),
     DateTimeLangModel(
-      CODE: "en",
-      JUSTNOW: "Just now",
-      TIMEAGESUFFIX: "ago",
-      YEARS: "Years",
-      DAYS: "Days",
-      HOURS: "Hours",
-      MINUTES: "Minutes",
-      SECONDS: "Seconds",
-      SHORTYEARS: "Yr",
-      SHORTDAYS: "D",
-      SHORTHOURS: "Hr",
-      SHORTMINUTES: "Min",
-      SHORTSECONDS: "Sec",
-      MONTHS: MetaData(NAME: "Months", LIST: [
+      code: "en",
+      justnow: "Just now",
+      timeagosuffix: "ago",
+      years: "Years",
+      days: "Days",
+      hours: "Hours",
+      minutes: "Minutes",
+      seconds: "Seconds",
+      shortyears: "Yr",
+      shortdays: "D",
+      shorthours: "Hr",
+      shortminutes: "Min",
+      shortseconds: "Sec",
+      months: MetaData(NAME: "Months", LIST: [
         "January",
         "February",
         "March",
@@ -89,7 +89,7 @@ class DateTimeLang {
         "November",
         "December"
       ]),
-      SHORTMONTHS: MetaData(NAME: "Mo", LIST: [
+      shortmonths: MetaData(NAME: "Mo", LIST: [
         "Jan",
         "Feb",
         "Mar",
@@ -103,7 +103,7 @@ class DateTimeLang {
         "Nov",
         "Dec"
       ]),
-      WEEKDAYS: MetaData(NAME: "Weeks", LIST: [
+      weekdays: MetaData(NAME: "Weeks", LIST: [
         "Sunday",
         "Monday",
         "Tuesday",
@@ -112,22 +112,24 @@ class DateTimeLang {
         "Friday",
         "Saturday"
       ]),
-      SHORTWEEKDAYS: MetaData(
+      shortweekdays: MetaData(
           NAME: "w", LIST: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]),
     )
   ];
 
   static String _defaultLang = 'en';
-  static setDefaultLang(String CODE) => _defaultLang = CODE;
+  static setDefaultLang(String code) => _defaultLang = code;
 
   static DateTimeLangModel dateTimeLang([String? langCode]) =>
       _availableLang.firstWhere(
-        (element) => element.CODE == (langCode ?? _defaultLang),
+        (element) => element.code == (langCode ?? _defaultLang),
         orElse: () => _availableLang[1],
       );
 
   static FutureOr<void> loadFromFile(
-      {required String CODE, required String path}) async {
+      // ignore: non_constant_identifier_names
+      {required String CODE,
+      required String path}) async {
     try {
       var response = await FileRequestDataReader(path).read();
       _availableLang.add(DateTimeLangModel.fromJson(response));
@@ -144,7 +146,7 @@ class DateTimeLang {
   ///
   /// Afrikaans (af): https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/af.json
   static FutureOr<void> loadFromUrl(
-      {required String CODE, required String url}) async {
+      {required String code, required String url}) async {
     try {
       var response = await HttpRequestDataReader(url).read();
       _availableLang.add(DateTimeLangModel.fromJson(response));
