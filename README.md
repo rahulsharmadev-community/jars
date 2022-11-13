@@ -109,27 +109,6 @@ The user can choose from a variety of standard date and time formats as well as 
 
 Example
 
-<div>
-<marquee>**yM()** : 10/2022 |
-**yMd()** : 10/30/2022 |
-**yMEd()** : Sun, 10/30/2022 |
-**yMEd(isFull: true)** : Sunday, 10/30/2022 |
-**yMMM()** : Oct 2022 |
-**yMMM(isFull: true)** : October 2022 |
-**yMMd()** : 30 Oct 2022 |
-**yMMd(isFull: true)** : 30 October 2022 |
-**yMMMd()** : Oct 30, 2022 |
-**yMMMd(isFull: true)** : October 30, 2022 |
-**yMMMEd()** : Sun, Oct 30, 2022 |
-**yMMMEd(isFull: true)** : Sunday, October 30, 2022 |
-**yQQQ()** : Q4 2022 |
-**yQQQ(isFull: true)** : 4th quarter 2022 |
-**hm()** : 02:37 |
-**hm()** : 2:37 AM |
-**hms()** : 02:37:31 |
-**hms(isFull: true)** : 2:37:31 AM |</marquee>
-</div>
-
 ```dart
 
  var now = DateTime.now();
