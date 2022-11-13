@@ -1,3 +1,16 @@
+## 0.0.5
+
+🎉 Upgrade to `jars ^0.0.5`
+
+- ✅ Fix documentation
+
+## 0.0.4
+
+🎉 Upgrade to `jars ^0.0.4`
+
+- ✅ Extensions Upgrade
+- ✅ Upgrade documentation
+
 ## 0.0.3
 
 🎉 Upgrade to `jars ^0.0.3`
