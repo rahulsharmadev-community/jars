@@ -10,8 +10,7 @@
   </p>
 </div>
 
-JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like.👇
-<marquee> **[DateTimeApis](#datetime-apis), [DateTimeFormat](#datetimeformat), [DateTimeLang](#datetimelang), [Timeago](#timeago), [PlatformQuery](#platformquery-apis), [showRTost](#rtoast--rsnackbar), [removeRTost](#rtoast--rsnackbar), [showRSnackBar](#rtoast--rsnackbar), [removeRSnackBar](#rtoast--rsnackbar), [printInfo](), [printError](), [JMarquee](#jmarquee), [JTextPlus](#jtextplus)** </marquee>
+JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like. **[DateTimeApis](#datetime-apis), [DateTimeFormat](#datetimeformat), [DateTimeLang](#datetimelang), [Timeago](#timeago), [PlatformQuery](#platformquery-apis), [showRTost](#rtoast--rsnackbar), [removeRTost](#rtoast--rsnackbar), [showRSnackBar](#rtoast--rsnackbar), [removeRSnackBar](#rtoast--rsnackbar), [printInfo](), [printError](), [JMarquee](#jmarquee), [JTextPlus](#jtextplus)**
 
 and many others with high-performance.
 
