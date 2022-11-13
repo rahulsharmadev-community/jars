@@ -120,6 +120,23 @@ class PlatformQuery with WidgetsBindingObserver {
       MediaQueryData.fromWindow(WidgetsBinding.instance.window);
 
   static set setMediaQueryData(MediaQueryData calback) => calback;
+
+  static dynamic returnSmartly(
+      {required mobile, required tablet, required desktop}) {
+    assert(
+        mobile.runtimeType == tablet.runtimeType &&
+            tablet.runtimeType == desktop.runtimeType &&
+            desktop.runtimeType == mobile.runtimeType,
+        'mobile, tablet & desktop should be same data type');
+    switch (PlatformQuery.activeWindowSize) {
+      case WindowSize.compact:
+        return mobile;
+      case WindowSize.medium:
+        return tablet;
+      default:
+        return desktop;
+    }
+  }
 }
 
 class PlatformQueryBuilder extends StatelessWidget {

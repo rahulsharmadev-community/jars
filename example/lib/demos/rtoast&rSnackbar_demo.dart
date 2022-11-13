@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
 
-class ToastandSnakBar extends StatelessWidget {
-  const ToastandSnakBar({super.key});
+class RToastandRSnakBarDemo extends StatelessWidget {
+  const RToastandRSnakBarDemo({super.key});
 
   simpleTile(String text,
           {VoidCallback? onPressed, VoidCallback? onDismissed}) =>
@@ -26,8 +26,6 @@ class ToastandSnakBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String string =
-        'TextPlus Demo < ${TextStyle(color: Colors.red, fontSize: 20.sp, backgroundColor: Colors.orange).toJTextPlusStyle} = "World 😂" > I am hear.';
     List<Widget> children = [
       [
         Text('RSnackBar Sample',

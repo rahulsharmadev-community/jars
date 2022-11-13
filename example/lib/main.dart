@@ -1,52 +1,73 @@
+import 'package:example/demos/export.dart';
 import 'package:jars/jars.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(
-    MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Scaffold(
-        backgroundColor: Colors.black45,
-        body: Center(
-          child: SizedBox(
-            width: 400,
-            child: HomeScreen(),
-          ),
-        ),
-      ),
-    ),
-  );
+  runApp(const AppRun());
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+class AppRun extends StatelessWidget {
+  const AppRun({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      navigatorKey: navigatorKey,
+      initialRoute: '/HomePage',
+      routes: {
+        '/HomePage': (context) => const HomePage(),
+        '/JMarqueeDemo': (context) => const JMarqueeDemo(),
+        '/RToastandRSnakBarDemo': (context) => const RToastandRSnakBarDemo(),
+        '/JTextPlusDemo': (context) => const JTextPlusDemo(),
+      },
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
-          child: Column(
-        children: [
-          JMarquee(
-            maxHeight: 50,
-            scrollAxis: Axis.horizontal,
-            accelerationCurve: Curves.linear,
-            onDone: () => printInfo('Finish'),
-            blankSpace: 10,
-            maxWidth: 400,
-            velocity: 100,
-            child: Container(width: 200, color: Colors.red),
-          ),
-        ],
-      )),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            JTextPlus(
+                'Welcome in <r>JARS ❤️</r> Demo\n<s>developed by @rahulsharmadev</s>',
+                jTextStyles: [
+                  JTextStyle('r',
+                      color: Colors.red.shade400, fontWeight: FontWeight.bold),
+                  JTextStyle('s', fontSize: 12.dp)
+                ],
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 24.dp, color: Colors.white)),
+            const SizedBox(height: 64),
+            ...{
+              '/JMarqueeDemo': 'JMarquee Demo',
+              '/RToastandRSnakBarDemo': 'RToast & RSnakBar Demo',
+              '/JTextPlusDemo': 'JTextPlus Demo',
+            }
+                .entries
+                .map((e) => TextButton(
+                      onPressed: () =>
+                          navigatorKey.currentState?.pushNamed(e.key),
+                      child: e.value.wText(),
+                    ))
+                .toList()
+          ],
+        ),
+      ),
     );
   }
 }
