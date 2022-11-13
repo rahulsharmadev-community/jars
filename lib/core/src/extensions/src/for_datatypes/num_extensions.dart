@@ -17,11 +17,11 @@ extension NnmExtensions on num {
   /// 451,251,365
   /// ----------
   String readableString(double number) {
-    RegExp _readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-    String Function(Match) _mathFunc = (Match match) => '${match[1]},';
+    RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    mathFunc(Match match) => '${match[1]},';
     return '$number'
         .split('.')
-        .map((e) => e.replaceAllMapped(_readable, _mathFunc))
+        .map((e) => e.replaceAllMapped(readable, mathFunc))
         .join('.');
   }
 

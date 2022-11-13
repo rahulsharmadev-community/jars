@@ -10,7 +10,7 @@ class DateTimeFormat {
   final String? code;
   DateTimeFormat(DateTime dateTime, {String? seprator, this.code})
       : _ = seprator,
-        _dt = dateTime {}
+        _dt = dateTime;
 
   DateTimeLangModel get dtl => DateTimeLang.dateTimeLang(code);
 
@@ -29,7 +29,7 @@ class DateTimeFormat {
   ///   yMEd(isFull: true) => Sunday, 10/30/2022
   /// ```
   String yMEd({bool isFull = false}) {
-    return '${isFull ? dtl.WEEKDAYS.LIST[_dt.weekday - 1] : dtl.SHORTWEEKDAYS.LIST[_dt.weekday - 1]}, '
+    return '${isFull ? dtl.weekdays.LIST[_dt.weekday - 1] : dtl.shortweekdays.LIST[_dt.weekday - 1]}, '
         '${yMd()}';
   }
 
@@ -38,7 +38,7 @@ class DateTimeFormat {
   ///   yMMM(isFull: true) => October 2022
   /// ```
   String yMMM({bool isFull = false}) =>
-      '${isFull ? dtl.MONTHS.LIST[_dt.month - 1] : dtl.SHORTMONTHS.LIST[_dt.month - 1]}${_ ?? ' '}'
+      '${isFull ? dtl.months.LIST[_dt.month - 1] : dtl.shortmonths.LIST[_dt.month - 1]}${_ ?? ' '}'
       '${_dt.year}';
 
   /// ```dart
@@ -46,7 +46,7 @@ class DateTimeFormat {
   ///   yMMd(isFull: true) => 30 October 2022
   /// ```
   String yMMd({bool isFull = false}) => '${_dt.day}${_ ?? ' '}'
-      '${isFull ? dtl.MONTHS.LIST[_dt.month - 1] : dtl.SHORTMONTHS.LIST[_dt.month - 1]}${_ ?? ' '}'
+      '${isFull ? dtl.months.LIST[_dt.month - 1] : dtl.shortmonths.LIST[_dt.month - 1]}${_ ?? ' '}'
       '${_dt.year}';
 
   /// ```dart
@@ -54,7 +54,7 @@ class DateTimeFormat {
   ///   yMMMd(isFull: true) => October 30, 2022
   /// ```
   String yMMMd({bool isFull = false}) =>
-      '${isFull ? dtl.MONTHS.LIST[_dt.month - 1] : dtl.SHORTMONTHS.LIST[_dt.month - 1]} '
+      '${isFull ? dtl.months.LIST[_dt.month - 1] : dtl.shortmonths.LIST[_dt.month - 1]} '
       '${_dt.day}${_ ?? ', '}'
       '${_dt.year}';
 
@@ -63,7 +63,7 @@ class DateTimeFormat {
   ///   yMMMEd(isFull: true) =>Sunday, October 30, 2022
   /// ```
   String yMMMEd({bool isFull = false}) =>
-      '${isFull ? dtl.WEEKDAYS.LIST[_dt.weekday - 1] : dtl.SHORTWEEKDAYS.LIST[_dt.weekday - 1]}${_ ?? ', '}'
+      '${isFull ? dtl.weekdays.LIST[_dt.weekday - 1] : dtl.shortweekdays.LIST[_dt.weekday - 1]}${_ ?? ', '}'
       '${yMMMd(isFull: isFull)}';
 
   /// ```dart

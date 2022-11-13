@@ -1,12 +1,14 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jars/jars.dart';
 
 void main() {
   test('DATETIME AGO TEST', () async {
     var oldDateTime = DateTime(2012, 6, 10);
-    var yesterday = DateTime.now() - Duration(days: 1);
+    var yesterday = DateTime.now() - const Duration(days: 1);
     yesterday.timeagoSince();
-    Duration(days: 1).timeagoSince();
+    const Duration(days: 1).timeagoSince();
     var t1 = Timeago.since(oldDateTime, code: 'zh-CH');
     var t2 = Timeago.since(oldDateTime, code: 'hi');
 

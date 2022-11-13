@@ -1,4 +1,3 @@
-
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -50,9 +49,6 @@ class PlatformQuery with WidgetsBindingObserver {
 
   /// Platform's Height
   static double get height => mediaQueryData.size.height;
-
-  /// Platform's Height
-  static double heights() => mediaQueryData.size.height;
 
   /// Platform's Width
   static double get width => mediaQueryData.size.width;
@@ -124,6 +120,23 @@ class PlatformQuery with WidgetsBindingObserver {
       MediaQueryData.fromWindow(WidgetsBinding.instance.window);
 
   static set setMediaQueryData(MediaQueryData calback) => calback;
+
+  static dynamic returnSmartly(
+      {required mobile, required tablet, required desktop}) {
+    assert(
+        mobile.runtimeType == tablet.runtimeType &&
+            tablet.runtimeType == desktop.runtimeType &&
+            desktop.runtimeType == mobile.runtimeType,
+        'mobile, tablet & desktop should be same data type');
+    switch (PlatformQuery.activeWindowSize) {
+      case WindowSize.compact:
+        return mobile;
+      case WindowSize.medium:
+        return tablet;
+      default:
+        return desktop;
+    }
+  }
 }
 
 class PlatformQueryBuilder extends StatelessWidget {

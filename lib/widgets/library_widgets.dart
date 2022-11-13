@@ -1,7 +1,5 @@
 library jars_widgets;
 
-export 'src/textplus/extensions.dart';
-export 'src/textplus/textplus.dart';
-
-export 'src/rtoast/toast.dart';
-export 'src/rsnackbar/snackbar.dart';
+export 'src/jmarquee/jmarquee.dart';
+export 'src/jtextplus/export_jtextpluse.dart';
+export 'src/rsnackbar_rtoast/export_rsnackbar_rtoaas.dart';

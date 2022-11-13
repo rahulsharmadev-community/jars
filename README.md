@@ -10,14 +10,88 @@
   </p>
 </div>
 
-JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like [platform query](#platformquery-apis), [timeago](#timeago), [datetime format](#datetimeformat), [multilingual support](#datetimelang) , [textplus](#textplus), [rsnackbars](), [rtoast](), and many others with high-performance.
+JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like. **[DateTimeApis](#datetime-apis), [DateTimeFormat](#datetimeformat), [DateTimeLang](#datetimelang), [Timeago](#timeago), [PlatformQuery](#platformquery-apis), [showRTost](#rtoast--rsnackbar), [removeRTost](#rtoast--rsnackbar), [showRSnackBar](#rtoast--rsnackbar), [removeRSnackBar](#rtoast--rsnackbar), [printInfo](), [printError](), [JMarquee](#jmarquee), [JTextPlus](#jtextplus)**
 
 - ### [How to install](https://pub.dev/packages/jars/install)
 - ### [See how to use](https://github.com/rahulsharmadev-community/jars/tree/master/example)
 
 - ### Supported platforms: Android | iOS | Web | MacOs | Windows | Linux
 
----
+# JTextPlus
+
+As we all know, text is a key component of any mobile app's user interface. and it is fustrating to use Text or RichText Widget to create attractive text. Now you no longer need to define multiple TextStyle for attractive text thanks to JTextPlus' simple solution for text decoration. You'll save time and get fantastic results with JTextPlus.
+
+![](https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/jtextplus.png)
+
+**How to Use**
+
+```dart
+ JTextPlus(
+            text,
+            style: const TextStyle(
+                fontSize: 25, color: Colors.white, letterSpacing: 1.5),
+            jTextStyles: rules2,
+          );
+```
+
+# JMarquee
+
+A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/jmarquee.gif" height=700>
+</p>
+
+```dart
+JMarquee(
+            maxHeight: 50,
+            scrollAxis: Axis.horizontal,
+            accelerationCurve: Curves.fastLinearToSlowEaseIn,
+            pauseAfterRound: 3.seconds,
+            blankSpace: 10,
+            velocity: 100,
+            child: const FlutterLogo(
+                size: 100, style: FlutterLogoStyle.horizontal),
+          ),
+          JMarquee(
+            maxHeight: 50,
+            blankSpace: 50,
+            child: JTextPlus(
+                '<r>JMarquee</r> is a flutter widget that scrolls widget infinitely.',
+                jTextStyles: [JTextStyle('r', color: Colors.red)]),
+          )
+```
+
+# RToast & RSnackBar
+
+With RSnackBar and RToast it is now easier than ever to show a little notification to the user. It may appear on the screen in any direction, including the top, bottom, center, and so on.
+
+- In the true sense of RToast & RSnackBar, you can call it whenever you need it, without any restrictions!
+- Feature-rich, support for displaying notifications, text, loading, attachments, etc. RToast & RSnackBar
+- Support for popping up various custom RToasts & RSnackBars, or you can pop up any Widget as long as it meets the requirements of the flutter code.
+- API is simple and easy to use
+- Pure flutter implementation
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/rsnakbar.gif" height=700>
+</p>
+
+```dart
+ // RTost Demo
+ OutlinedButton(
+          onPressed: () => showRTost(context,
+              msg: '👋 Hi i am form top center.',
+              config: RToastConfig(alignment: Alignment.topCenter)),
+          child: const Text('TOP CENTER'),
+        );
+
+// RSnackBar Demo
+  simpleTile('Simple Loading Snackbar',
+    onPressed: () =>
+        showRSnackBar(context, config: RSnackbarLoadingConfig('Loading')),
+    onDismissed: () => removeRSnackBar()),
+
+```
 
 # DateTime APIs
 

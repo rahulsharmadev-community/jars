@@ -160,6 +160,6 @@ extension StringExtensions on String {
 
   // ___________________________________________WIDGET________________
 
-  Text wText(String data, {Key? key, TextStyle? style}) =>
+  Text wText({Key? key, TextStyle? style}) =>
       Text(this, key: key, style: style);
 }

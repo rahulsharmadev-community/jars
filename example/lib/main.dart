@@ -1,213 +1,73 @@
-import 'package:flutter/material.dart';
+import 'package:example/demos/export.dart';
 import 'package:jars/jars.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  var set = {'a', 'b', 'c'};
 
-  runApp(
-    MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const ToastandSnakBar(),
-    ),
-  );
+  runApp(const AppRun());
 }
 
-class ToastandSnakBar extends StatelessWidget {
-  const ToastandSnakBar({super.key});
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  simpleTile(String text,
-          {VoidCallback? onPressed, VoidCallback? onDismissed}) =>
-      Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          child: [
-            Expanded(
-              child: OutlinedButton(
-                onPressed: onPressed,
-                child: Text(text),
-              ),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              onPressed: onDismissed,
-              icon: const Icon(Icons.delete_forever),
-            )
-          ].wRow());
-
-  @override
-  Widget build(BuildContext context) {
-    String string =
-        'TextPlus Demo < ${TextStyle(color: Colors.red, fontSize: 20.sp, backgroundColor: Colors.orange).toTextPlusStyle} = "World 😂" > I am hear.';
-    List<Widget> children = [
-      [
-        Text('RSnackBar Sample',
-            style: TextStyle(
-                fontSize: 18.dp,
-                fontWeight: FontWeight.w600,
-                color: context.theme.primaryColor)),
-        const Spacer()
-      ].wRow().wPaddingSymmetric(vertical: 8),
-      simpleTile('Simple Loading Snackbar',
-          onPressed: () =>
-              showRSnackBar(context, config: RSnackbarLoadingConfig('Loading')),
-          onDismissed: () => removeRSnackBar()),
-      simpleTile('Design Loading Snackbar',
-          onPressed: () => showRSnackBar(context,
-              config: RSnackbarLoadingConfig('Loading',
-                  progressIndicatorColor: Colors.amber,
-                  borderRadius: BorderRadius.circular(8))),
-          onDismissed: () => removeRSnackBar()),
-      simpleTile('Simple Icon Snackbar',
-          onPressed: () => showRSnackBar(context,
-              config: RSnackbarIconConfig(
-                  'Complete Successfully', Icons.check_circle)),
-          onDismissed: () => removeRSnackBar()),
-      simpleTile('Customize Snackbar',
-          onDismissed: () => removeRSnackBar(),
-          onPressed: () => showRSnackBar(context,
-              config: RSnackbarConfig(
-                const Text('Please wait while i processing..'),
-                onDismissed: () {
-                  printInfo('onDismissed');
-                  showRTost(context, msg: 'Dismissed Successfully');
-                },
-                trailing: InkWell(
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white70,
-                    ),
-                    onTap: () => removeRSnackBar()),
-              ))),
-      [
-        Text('RToast Sample',
-            style: TextStyle(
-                fontSize: 18.dp,
-                fontWeight: FontWeight.w600,
-                color: context.theme.primaryColor)),
-        const Spacer()
-      ].wRow().wPaddingSymmetric(vertical: 8),
-      const TostView(),
-    ];
-    return Scaffold(
-        appBar: AppBar(title: const Text('RSnackBar & RToast Demo')),
-        body: SafeArea(
-            child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                itemCount: children.length,
-                itemBuilder: (context, index) => children[index])));
-  }
-}
-
-class TostData {
-  final String title;
-  final bool isExpanded;
-  final List<Widget> widgets;
-
-  TostData(this.title, this.isExpanded, this.widgets);
-  copyWith({String? title, bool? isExpanded, List<Widget>? widgets}) =>
-      TostData(title ?? this.title, isExpanded ?? this.isExpanded,
-          widgets ?? this.widgets);
-}
-
-class TostView extends StatefulWidget {
-  const TostView({
+class AppRun extends StatelessWidget {
+  const AppRun({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<TostView> createState() => _TostViewState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      navigatorKey: navigatorKey,
+      initialRoute: '/HomePage',
+      routes: {
+        '/HomePage': (context) => const HomePage(),
+        '/JMarqueeDemo': (context) => const JMarqueeDemo(),
+        '/RToastandRSnakBarDemo': (context) => const RToastandRSnakBarDemo(),
+        '/JTextPlusDemo': (context) => const JTextPlusDemo(),
+      },
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(),
+    );
+  }
 }
 
-class _TostViewState extends State<TostView> {
-  late List<TostData> list;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    list = [
-      TostData('Toast form top', false, [
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form top center.',
-              config: RToastConfig(alignment: Alignment.topCenter)),
-          child: const Text('TOP CENTER'),
-        ),
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form top left.',
-              config: RToastConfig(alignment: Alignment.topLeft)),
-          child: const Text('TOP LEFT'),
-        ),
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form top right.',
-              config: RToastConfig(alignment: Alignment.topRight)),
-          child: const Text('TOP RIGHT'),
-        ),
-      ]),
-      TostData('Toast form bottom', false, [
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form bottom center.',
-              config: RToastConfig(alignment: Alignment.bottomCenter)),
-          child: const Text('BOTTOM CENTER'),
-        ),
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form bottom left.',
-              config: RToastConfig(alignment: Alignment.bottomLeft)),
-          child: const Text('BOTTOM LEFT'),
-        ),
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form bottom right.',
-              config: RToastConfig(alignment: Alignment.bottomRight)),
-          child: const Text('BOTTOM RIGHT'),
-        )
-      ]),
-      TostData('Toast form center', false, [
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form center.',
-              config: RToastConfig(alignment: Alignment.center)),
-          child: const Text('CENTER'),
-        ),
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form center left.',
-              config: RToastConfig(alignment: Alignment.centerLeft)),
-          child: const Text('CENTER LEFT'),
-        ),
-        OutlinedButton(
-          onPressed: () => showRTost(context,
-              msg: '👋 Hi i am form center right.',
-              config: RToastConfig(alignment: Alignment.centerRight)),
-          child: const Text('CENTER RIGHT'),
-        )
-      ])
-    ];
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionPanelList(
-      expansionCallback: (panelIndex, isExpanded) {
-        printInfo(isExpanded);
-        setState(() => list[panelIndex] =
-            list[panelIndex].copyWith(isExpanded: !isExpanded));
-      },
-      children: list
-          .map((e) => ExpansionPanel(
-              isExpanded: e.isExpanded,
-              body: List.generate(e.widgets.length,
-                  (index) => ListTile(title: e.widgets[index])).wColumn(),
-              headerBuilder: (BuildContext context, bool isExpanded) =>
-                  ListTile(title: Text(e.title))))
-          .toList(),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            JTextPlus(
+                'Welcome in <r>JARS ❤️</r> Demo\n<s>developed by @rahulsharmadev</s>',
+                jTextStyles: [
+                  JTextStyle('r',
+                      color: Colors.red.shade400, fontWeight: FontWeight.bold),
+                  JTextStyle('s', fontSize: 12.dp)
+                ],
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 24.dp, color: Colors.white)),
+            const SizedBox(height: 64),
+            ...{
+              '/JMarqueeDemo': 'JMarquee Demo',
+              '/RToastandRSnakBarDemo': 'RToast & RSnakBar Demo',
+              '/JTextPlusDemo': 'JTextPlus Demo',
+            }
+                .entries
+                .map((e) => TextButton(
+                      onPressed: () =>
+                          navigatorKey.currentState?.pushNamed(e.key),
+                      child: e.value.wText(),
+                    ))
+                .toList()
+          ],
+        ),
+      ),
     );
   }
 }
