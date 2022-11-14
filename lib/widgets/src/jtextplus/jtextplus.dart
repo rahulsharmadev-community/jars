@@ -3,8 +3,9 @@
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '_logic/functions.dart';
+import 'package:jars/core/library_core.dart';
 import 'models/jtextstyle.dart';
+part '_logic/functions.dart';
 
 class JTextPlus extends StatelessWidget {
   final String text;
@@ -35,7 +36,7 @@ class JTextPlus extends StatelessWidget {
       bool? softWrap,
       TextOverflow? overflow})
       : widget = Text.rich(
-          getChildTextSpan(
+          _JTextPlusFunction.getChildTextSpan(
             defaultStyle: style,
             source: text,
             jStyles: jTextStyles,
@@ -86,11 +87,8 @@ class JTextPlus extends StatelessWidget {
     ScrollPhysics? scrollPhysics,
     void Function(TextSelection, SelectionChangedCause?)? onSelectionChanged,
   }) : widget = SelectableText.rich(
-          getChildTextSpan(
-            defaultStyle: style,
-            source: text,
-            jStyles: jTextStyles,
-          ),
+          _JTextPlusFunction.getChildTextSpan(
+              defaultStyle: style, source: text, jStyles: jTextStyles),
           focusNode: focusNode,
           style: style,
           strutStyle: strutStyle,

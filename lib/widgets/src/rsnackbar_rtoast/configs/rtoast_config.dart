@@ -2,34 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:jars/core/library_core.dart';
 import 'default_config.dart';
 
-class RToastConfig extends DefaultConfig {
-  RToastConfig({
-    Curve? curve,
-    Duration? duration,
-    Duration? animationDuration,
-    Color? backgroundColor,
-    TextStyle? textStyle,
-    BorderRadius? borderRadius,
-    Alignment? alignment,
-    DismissDirection? dismissDirection,
-    double? farFromEdge,
-    EdgeInsets? padding,
-    VoidCallback? onDismissed,
-  }) : super(
-            curve: curve ?? Curves.decelerate,
-            duration: duration ?? const Duration(seconds: 2),
-            animationDuration:
-                animationDuration ?? const Duration(milliseconds: 250),
-            backgroundColor: backgroundColor ?? Colors.black54,
-            textStyle:
-                textStyle ?? TextStyle(fontSize: 12.dp, color: Colors.white),
-            borderRadius: borderRadius ?? BorderRadius.circular(100),
-            alignment: alignment ?? Alignment.bottomCenter,
-            dismissDirection: dismissDirection ?? DismissDirection.none,
-            farFromEdge: farFromEdge ?? kToolbarHeight,
-            padding: padding ??
-                EdgeInsets.symmetric(horizontal: 12.0.dp, vertical: 8.0.dp),
-            onDismissed: onDismissed ?? () {});
+class RToastConfig implements DefaultConfig {
+  @override
+  Alignment alignment;
+
+  @override
+  Duration animationDuration;
+
+  @override
+  Color backgroundColor;
+
+  @override
+  BorderRadius borderRadius;
+
+  @override
+  Curve curve;
+
+  @override
+  DismissDirection dismissDirection;
+
+  @override
+  Duration duration;
+
+  @override
+  double farFromEdge;
+
+  @override
+  VoidCallback onDismissed;
+
+  @override
+  EdgeInsets padding;
+
+  @override
+  TextStyle textStyle;
+
+  RToastConfig(
+      {VoidCallback? onDismissed,
+      BorderRadius? borderRadius,
+      TextStyle? textStyle,
+      this.padding = const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      this.backgroundColor = Colors.black,
+      this.curve = Curves.decelerate,
+      this.farFromEdge = kToolbarHeight,
+      this.duration = const Duration(seconds: 2),
+      this.alignment = Alignment.bottomCenter,
+      this.dismissDirection = DismissDirection.none,
+      this.animationDuration = const Duration(milliseconds: 250)})
+      : onDismissed = onDismissed ?? (() {}),
+        borderRadius = borderRadius ?? BorderRadius.circular(100),
+        textStyle =
+            textStyle ?? TextStyle(fontSize: 15.sp, color: Colors.white);
 
   RToastConfig copyWith(
           {Curve? curve,
