@@ -1,5 +1,10 @@
 library jars_widgets;
 
-export 'src/jmarquee/jmarquee.dart';
-export 'src/jtextplus/export_jtextpluse.dart';
-export 'src/rsnackbar_rtoast/export_rsnackbar_rtoaas.dart';
+export 'marquee/marquee.dart';
+export 'jtextplus/export_jtextpluse.dart';
+export 'jsnackbar_jtoast/jsnackbar.dart';
+export 'jsnackbar_jtoast/jtoast.dart';
+export 'jsnackbar_jtoast/configs/configs.dart';
+
+export 'floating_textfield.dart';
+export 'gap.dart';

@@ -1,31 +1,23 @@
-import '../../../../../apis/export_apis.dart';
-import '/models/reg_pattern.dart';
-import 'package:flutter/material.dart';
-import '../local_extensions.dart';
+import 'package:jars/jars.dart';
 
 extension StringExtensions on String {
-  bool get isNum => LocalExtensions.isNum(this);
-
   RegPattern get regPattern => RegPattern(this);
+
+  ReCase get reCase => ReCase(this);
 
   bool get isBlank => trim().isEmpty;
 
-  /// Checks if string is boolean.
-  bool get isBool {
-    if (isNum) {
-      return false;
-    }
-    return (this == 'true' || this == 'false');
-  }
-
   /// Sample
-  /// ```dart
+  /// ```
   /// void main(){
-  ///   var file = 'roo/folder/sample.pdf';
-  ///   print(file.isPDF)
+  ///   var path = 'roo/folder/sample.pdf';
+  ///   print(path.format.isPDF)
   /// }
   /// ```
-  FilesFormat get isff => FilesFormat(this);
+  FilesFormat get format => FilesFormat(this);
+
+  /// Checks if string is boolean.
+  bool get isBool => (this == 'true' || this == 'false');
 
   /// Sample
   /// ```dart
@@ -36,19 +28,6 @@ extension StringExtensions on String {
   /// ```
   /// ### Use RegPatterns library for RegPattern
   bool regMatch(RegPattern regPattern) => RegPattern.regMatch(this, regPattern);
-
-  bool get isCpf => LocalExtensions.isCpf(this);
-
-  bool get isCnpj => LocalExtensions.isCnpj(this);
-
-  bool hasMatch(String pattern) => LocalExtensions.hasMatch(this, pattern);
-
-  /// Capitalize each word inside string
-  /// Example: your name => Your Name, your name => Your name
-  String get capitalize => split(' ').map((e) {
-        if (e.isBlank) return e;
-        return e[0].toUpperCase() + substring(1).toLowerCase();
-      }).join(' ');
 
   /// Uppercase first letter inside string and let the others lowercase
   /// Example: your name => Your name
@@ -68,28 +47,6 @@ extension StringExtensions on String {
   /// ```
   /// Remove all whitespace & newline inside string
   String get trimAll => replaceAll(RegExp(r'[ |\\n]+'), '');
-
-  /// Camelcase string
-  /// Example: your name => yourName
-  String get camelCase {
-    final separatedWords = split(RegExp(r'[!@#<>?":`~;[\]\\|=+)(*&^%-\s_]+'));
-
-    var newString = '';
-
-    for (final word in separatedWords) {
-      newString += word[0].toUpperCase() + word.substring(1).toLowerCase();
-    }
-
-    return newString[0].toLowerCase() + newString.substring(1);
-  }
-
-  /// snake_case
-  String? snakeCase([String separator = '_']) {
-    if (LocalExtensions.isNullOrBlank(this)) {
-      return null;
-    }
-    return groupIntoWords.map((word) => word.toLowerCase()).join(separator);
-  }
 
   /// Extract numeric value of string
   /// Example: OTP 12312 27/04/2020 => 1231227042020ß
@@ -131,35 +88,4 @@ extension StringExtensions on String {
     }
     return true;
   }
-
-  /// credits to "ReCase" package.
-  static final RegExp _upperAlphaRegex = RegExp(r'[A-Z]');
-  static final _symbolSet = {' ', '.', '/', '_', '\\', '-'};
-  List<String> get groupIntoWords {
-    var sb = StringBuffer();
-    var words = <String>[];
-    var isAllCaps = toUpperCase() == this;
-
-    for (var i = 0; i < length; i++) {
-      var char = this[i];
-      var nextChar = i + 1 == length ? null : this[i + 1];
-      if (_symbolSet.contains(char)) {
-        continue;
-      }
-      sb.write(char);
-      var isEndOfWord = nextChar == null ||
-          (_upperAlphaRegex.hasMatch(nextChar) && !isAllCaps) ||
-          _symbolSet.contains(nextChar);
-      if (isEndOfWord) {
-        words.add('$sb');
-        sb.clear();
-      }
-    }
-    return words;
-  }
-
-  // ___________________________________________WIDGET________________
-
-  Text wText({Key? key, TextStyle? style}) =>
-      Text(this, key: key, style: style);
 }

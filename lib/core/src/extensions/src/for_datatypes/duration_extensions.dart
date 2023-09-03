@@ -1,6 +1,6 @@
 import 'dart:async';
-
-import 'package:jars/apis/src/datetime_api/library_datetime_api.dart';
+import 'package:jars/utility/datetimelang/library_datetime_api.dart';
+import 'package:jars/utility/timeago.dart';
 
 /// Duration utilities.
 extension DurationExtensions on Duration {
@@ -36,7 +36,7 @@ extension DurationExtensions on Duration {
   ///   Comming Soon..
   /// ```
   Timeago timeagoSince(
-          {String? code,
+          {DateTimeLang? lang,
           bool showSeconds = true,
           bool showMinutes = true,
           bool showHours = true,
@@ -45,7 +45,7 @@ extension DurationExtensions on Duration {
           bool showMonths = true,
           bool showYears = true}) =>
       Timeago.fromDuration(this,
-          code: code,
+          lang: lang,
           showSeconds: showSeconds,
           showMinutes: showMinutes,
           showHours: showHours,

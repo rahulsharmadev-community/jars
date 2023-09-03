@@ -1,6 +1,6 @@
 name: jars
 description: JARS is a super-effective and lightweight solution for Flutter.
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/rahulsharmadev-community
 repository: https://github.com/rahulsharmadev-community/jars
 documentation: https://github.com/rahulsharmadev-community/jars/blob/master/README.md
@@ -17,23 +17,14 @@ platforms:
 
 
 environment:
-  sdk: ">=2.18.4 <3.0.0"
+  sdk: '>=3.1.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-    
   flutter_lints: ^2.0.0
-
-# The following section is specific to Flutter packages.
-flutter: null
-# To add assets to your package, add an assets section, like this:
-# assets:
-#   - images/a_dot_burr.jpeg
-#   - images/a_dot_ham.jpeg

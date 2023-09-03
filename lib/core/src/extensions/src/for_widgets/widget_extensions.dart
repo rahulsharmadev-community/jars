@@ -1,25 +1,24 @@
 import 'package:flutter/widgets.dart';
 
 extension WidgetExtensions on Widget {
-  SizedBox wSized([double? width, double? height]) =>
-      SizedBox(key: key, width: width, height: height, child: this);
+  SizedBox squareBox([double? dimension]) =>
+      SizedBox.square(key: key, dimension: dimension, child: this);
 
-  ClipRRect cAvatar(double radius) => ClipRRect(
-      borderRadius: BorderRadius.circular(radius * 10),
+  ClipRRect curvedBox([double radius = 8]) => ClipRRect(
+      borderRadius: BorderRadius.circular(radius),
       clipBehavior: Clip.hardEdge,
-      child: SizedBox.square(dimension: radius, child: this));
+      child: this);
 
-  wExpanded({
-    Key? key,
-    int flex = 1,
-  }) =>
-      Expanded(key: key, flex: flex, child: this);
+  ClipRRect get circleBox => ClipRRect(
+      borderRadius: BorderRadius.circular(1000),
+      clipBehavior: Clip.hardEdge,
+      child: this);
 
   /// Creates a widget that makes its child partially transparent.
   ///
   /// The [opacity] argument must not be null and must be between 0.0 and 1.0
   /// (inclusive).
-  Opacity wOpacity(
+  Opacity opacity(
     double opacity, {
     Key? key,
     bool alwaysIncludeSemantics = false,
@@ -31,19 +30,16 @@ extension WidgetExtensions on Widget {
           alwaysIncludeSemantics: alwaysIncludeSemantics,
           child: this);
 
-  /// add Padding Property to widget
-  Padding wPaddingAll(double padding) =>
+  Padding paddingAll(double padding) =>
       Padding(padding: EdgeInsets.all(padding), child: this);
 
-  ///  add Padding Property to widget
-  Padding wPaddingSymmetric({double horizontal = 0.0, double vertical = 0.0}) =>
-      Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
-          child: this);
+  Padding paddingHorizontal([double value = 0.0]) =>
+      Padding(padding: EdgeInsets.symmetric(horizontal: value), child: this);
 
-  ///  add Padding Property to widget
-  Padding wPaddingOnly({
+  Padding paddingVertical([double value = 0.0]) =>
+      Padding(padding: EdgeInsets.symmetric(vertical: value), child: this);
+
+  Padding paddingOnly({
     double left = 0.0,
     double top = 0.0,
     double right = 0.0,
@@ -55,47 +51,5 @@ extension WidgetExtensions on Widget {
           child: this);
 
   /// Allows you to insert widgets inside a CustomScrollView
-
   SliverToBoxAdapter get wSliverBox => SliverToBoxAdapter(child: this);
-}
-
-extension ListExtensions<T> on List<Widget> {
-  Column wColumn({
-    Key? key,
-    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    MainAxisSize mainAxisSize = MainAxisSize.max,
-    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
-    TextDirection? textDirection,
-    VerticalDirection verticalDirection = VerticalDirection.down,
-    TextBaseline? textBaseline,
-  }) =>
-      Column(
-        key: key,
-        mainAxisAlignment: mainAxisAlignment,
-        mainAxisSize: mainAxisSize,
-        crossAxisAlignment: crossAxisAlignment,
-        textDirection: textDirection,
-        textBaseline: textBaseline,
-        verticalDirection: verticalDirection,
-        children: this,
-      );
-  Row wRow({
-    Key? key,
-    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    MainAxisSize mainAxisSize = MainAxisSize.max,
-    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
-    TextDirection? textDirection,
-    VerticalDirection verticalDirection = VerticalDirection.down,
-    TextBaseline? textBaseline,
-  }) =>
-      Row(
-        key: key,
-        mainAxisAlignment: mainAxisAlignment,
-        mainAxisSize: mainAxisSize,
-        crossAxisAlignment: crossAxisAlignment,
-        textDirection: textDirection,
-        textBaseline: textBaseline,
-        verticalDirection: verticalDirection,
-        children: this,
-      );
 }

@@ -44,14 +44,16 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             JTextPlus(
-                'Welcome in <r>JARS ❤️</r> Demo\n<s>developed by @rahulsharmadev</s>',
-                jTextStyles: [
-                  JTextStyle('r',
-                      color: Colors.red.shade400, fontWeight: FontWeight.bold),
-                  JTextStyle('s', fontSize: 12.dp)
-                ],
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24.dp, color: Colors.white)),
+                    'Welcome in <r>JARS ❤️</r> Demo\n<s>developed by @rahulsharmadev</s>',
+                    jTextStyles: [
+                      JTextStyle('r',
+                          color: Colors.red.shade400,
+                          fontWeight: FontWeight.bold),
+                      JTextStyle('s', fontSize: 12.dp)
+                    ],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 24.dp, color: Colors.white))
+                .opacity(10),
             const SizedBox(height: 64),
             ...{
               '/JMarqueeDemo': 'JMarquee Demo',
@@ -62,7 +64,7 @@ class HomePage extends StatelessWidget {
                 .map((e) => TextButton(
                       onPressed: () =>
                           navigatorKey.currentState?.pushNamed(e.key),
-                      child: e.value.wText(),
+                      child: Text(e.value),
                     ))
                 .toList()
           ],
