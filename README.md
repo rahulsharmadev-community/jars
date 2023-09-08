@@ -115,7 +115,7 @@ Example
  var datedef = DateTimeFormat(now);
 
  // code = 'hi'(Hindi)
- var datehi = DateTimeFormat(now, code: 'hi');
+ var datehi = DateTimeFormat(now, lang: DateTimeLang.hi);
 
 // 1st
  print(datedef.yMMMEd());

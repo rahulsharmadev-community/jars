@@ -44,21 +44,6 @@ enum WindowSize { compact, medium, expanded }
 class PlatformQuery with WidgetsBindingObserver {
   PlatformQuery._();
 
-  /// Device's Orientation
-  static Orientation get orientation => mediaQueryData.orientation;
-
-  /// Platform's Height
-  static double get height => mediaQueryData.size.height;
-
-  /// Platform's Width
-  static double get width => mediaQueryData.size.width;
-
-  /// The aspect ratio of this size.
-  static double get aspectRatio => mediaQueryData.size.aspectRatio;
-
-  /// Platform's Pixel Ratio
-  static double get pixelRatio => mediaQueryData.devicePixelRatio;
-
   static bool get isWeb => activePlatform == Platform.web;
   static bool get isMacOS => activePlatform == Platform.macOS;
   static bool get isWindows => activePlatform == Platform.windows;
@@ -101,6 +86,20 @@ class PlatformQuery with WidgetsBindingObserver {
     }
   }
 
+  /// Device's Orientation
+  static Orientation get orientation => mediaQueryData.orientation;
+
+  /// Platform's Height
+  static double get height => mediaQueryData.size.height;
+
+  /// Platform's Width
+  static double get width => mediaQueryData.size.width;
+
+  /// The aspect ratio of this size.
+  static double get aspectRatio => mediaQueryData.size.aspectRatio;
+
+  /// Platform's Pixel Ratio
+  static double get pixelRatio => mediaQueryData.devicePixelRatio;
   static WindowSize get activeWindowSize {
     double maxMobileWidth = 599;
     double maxTabletWidth = 839;
@@ -117,11 +116,9 @@ class PlatformQuery with WidgetsBindingObserver {
   }
 
   static MediaQueryData get mediaQueryData =>
-      MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+      MediaQueryData.fromView(WidgetsBinding.instance.renderView.flutterView);
 
-  static set setMediaQueryData(MediaQueryData calback) => calback;
-
-  static dynamic returnSmartly(
+  static T returnSmartly<T>(
       {required mobile, required tablet, required desktop}) {
     assert(
         mobile.runtimeType == tablet.runtimeType &&

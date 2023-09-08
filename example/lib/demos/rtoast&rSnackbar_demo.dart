@@ -9,32 +9,33 @@ class RToastandRSnakBarDemo extends StatelessWidget {
   simpleTile(String text,
           {VoidCallback? onPressed, VoidCallback? onDismissed}) =>
       Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          child: [
-            Expanded(
-              child: OutlinedButton(
-                onPressed: onPressed,
-                child: Text(text),
-              ),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Row(children: [
+          Expanded(
+            child: OutlinedButton(
+              onPressed: onPressed,
+              child: Text(text),
             ),
-            const SizedBox(width: 8),
-            IconButton(
-              onPressed: onDismissed,
-              icon: const Icon(Icons.delete_forever),
-            )
-          ].wRow());
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            onPressed: onDismissed,
+            icon: const Icon(Icons.delete_forever),
+          )
+        ]),
+      );
 
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [
-      [
+      Row(children: [
         Text('RSnackBar Sample',
             style: TextStyle(
                 fontSize: 18.dp,
                 fontWeight: FontWeight.w600,
                 color: context.theme.primaryColor)),
         const Spacer()
-      ].wRow().wPaddingSymmetric(vertical: 8),
+      ]).paddingVertical(8),
       simpleTile('Simple Loading Snackbar',
           onPressed: () =>
               showRSnackBar(context, config: RSnackbarLoadingConfig('Loading')),
@@ -53,10 +54,9 @@ class RToastandRSnakBarDemo extends StatelessWidget {
       simpleTile('Customize Snackbar',
           onDismissed: () => removeRSnackBar(),
           onPressed: () => showRSnackBar(context,
-              config: RSnackbarConfig(
+              config: JSnackbarConfig(
                 const Text('Please wait while i processing..'),
                 onDismissed: () {
-                  printInfo('onDismissed');
                   showRTost(context, msg: 'Dismissed Successfully');
                 },
                 trailing: InkWell(
@@ -66,14 +66,14 @@ class RToastandRSnakBarDemo extends StatelessWidget {
                     ),
                     onTap: () => removeRSnackBar()),
               ))),
-      [
+      Row(children: [
         Text('RToast Sample',
             style: TextStyle(
                 fontSize: 18.dp,
                 fontWeight: FontWeight.w600,
                 color: context.theme.primaryColor)),
         const Spacer()
-      ].wRow().wPaddingSymmetric(vertical: 8),
+      ]).paddingVertical(8),
       const TostView(),
     ];
     return Scaffold(
@@ -118,19 +118,19 @@ class _TostViewState extends State<TostView> {
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form top center.',
-              config: RToastConfig(alignment: Alignment.topCenter)),
+              config: JToastConfig(alignment: Alignment.topCenter)),
           child: const Text('TOP CENTER'),
         ),
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form top left.',
-              config: RToastConfig(alignment: Alignment.topLeft)),
+              config: JToastConfig(alignment: Alignment.topLeft)),
           child: const Text('TOP LEFT'),
         ),
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form top right.',
-              config: RToastConfig(alignment: Alignment.topRight)),
+              config: JToastConfig(alignment: Alignment.topRight)),
           child: const Text('TOP RIGHT'),
         ),
       ]),
@@ -138,19 +138,19 @@ class _TostViewState extends State<TostView> {
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form bottom center.',
-              config: RToastConfig(alignment: Alignment.bottomCenter)),
+              config: JToastConfig(alignment: Alignment.bottomCenter)),
           child: const Text('BOTTOM CENTER'),
         ),
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form bottom left.',
-              config: RToastConfig(alignment: Alignment.bottomLeft)),
+              config: JToastConfig(alignment: Alignment.bottomLeft)),
           child: const Text('BOTTOM LEFT'),
         ),
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form bottom right.',
-              config: RToastConfig(alignment: Alignment.bottomRight)),
+              config: JToastConfig(alignment: Alignment.bottomRight)),
           child: const Text('BOTTOM RIGHT'),
         )
       ]),
@@ -158,19 +158,19 @@ class _TostViewState extends State<TostView> {
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form center.',
-              config: RToastConfig(alignment: Alignment.center)),
+              config: JToastConfig(alignment: Alignment.center)),
           child: const Text('CENTER'),
         ),
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form center left.',
-              config: RToastConfig(alignment: Alignment.centerLeft)),
+              config: JToastConfig(alignment: Alignment.centerLeft)),
           child: const Text('CENTER LEFT'),
         ),
         OutlinedButton(
           onPressed: () => showRTost(context,
               msg: '👋 Hi i am form center right.',
-              config: RToastConfig(alignment: Alignment.centerRight)),
+              config: JToastConfig(alignment: Alignment.centerRight)),
           child: const Text('CENTER RIGHT'),
         )
       ])
@@ -181,15 +181,15 @@ class _TostViewState extends State<TostView> {
   Widget build(BuildContext context) {
     return ExpansionPanelList(
       expansionCallback: (panelIndex, isExpanded) {
-        printInfo(isExpanded);
         setState(() => list[panelIndex] =
             list[panelIndex].copyWith(isExpanded: !isExpanded));
       },
       children: list
           .map((e) => ExpansionPanel(
               isExpanded: e.isExpanded,
-              body: List.generate(e.widgets.length,
-                  (index) => ListTile(title: e.widgets[index])).wColumn(),
+              body: ListView(
+                  children: List.generate(e.widgets.length,
+                      (index) => ListTile(title: e.widgets[index]))),
               headerBuilder: (BuildContext context, bool isExpanded) =>
                   ListTile(title: Text(e.title))))
           .toList(),

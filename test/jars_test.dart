@@ -9,8 +9,7 @@ void main() {
     var yesterday = DateTime.now() - const Duration(days: 1);
     yesterday.timeagoSince();
     const Duration(days: 1).timeagoSince();
-    var t1 = Timeago.since(oldDateTime, code: 'zh-CH');
-    var t2 = Timeago.since(oldDateTime, code: 'hi');
+    var t1 = Timeago.since(oldDateTime);
 
     print('Timeago: ${t1.format()}');
     print('Timeago: ${t1.format(isFull: true)}');
@@ -22,16 +21,9 @@ void main() {
     print(
         'Timeago: ${t1.format(isFull: true, yearFormat: (p0) => p0.yMMMEd(isFull: true))}\n');
 
-    print('Timeago: ${t2.format()}');
-    print('Timeago: ${t2.format(isFull: true, yearFormat: (p0) => p0.yMMM())}');
-    print(
-        'Timeago: ${t2.format(isFull: true, yearFormat: (p0) => p0.yMMMEd())}');
-    print(
-        'Timeago: ${t2.format(isFull: true, yearFormat: (p0) => p0.yMMMEd(isFull: true))}');
-
     print('============================================');
     var f1 = DateTimeFormat(oldDateTime);
-    var f2 = DateTimeFormat(oldDateTime, code: 'hi');
+    var f2 = DateTimeFormat(oldDateTime, lang: DateTimeLang.hi);
 
     print('DateTime Format Test-1: ${f1.yMd()}');
 

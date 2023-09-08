@@ -13,7 +13,7 @@ class JMarqueeDemo extends StatelessWidget {
           child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          JMarquee(
+          Marquee(
             maxHeight: 50,
             scrollAxis: Axis.horizontal,
             accelerationCurve: Curves.fastLinearToSlowEaseIn,
@@ -23,7 +23,7 @@ class JMarqueeDemo extends StatelessWidget {
             child: const FlutterLogo(
                 size: 100, style: FlutterLogoStyle.horizontal),
           ),
-          JMarquee(
+          Marquee(
             maxHeight: 50,
             blankSpace: 50,
             child: JTextPlus(

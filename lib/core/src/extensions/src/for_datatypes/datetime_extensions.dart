@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' show TimeOfDay, DayPeriod;
-import 'package:jars/apis/export_apis.dart';
+import 'package:jars/utility/datetimelang/library_datetime_api.dart';
+import 'package:jars/utility/timeago.dart';
 
 extension DateTimeExtensions on DateTime {
   /// Copies a [DateTime], overriding specified values.
@@ -52,15 +53,15 @@ extension DateTimeExtensions on DateTime {
   /// ```dart
   ///  DateTime(2015,5,9).format();
   /// ```
-  DateTimeFormat format({String? seprator, String? code}) =>
-      DateTimeFormat(this, seprator: seprator, code: code);
+  DateTimeFormat format({String? seprator, DateTimeLang? lang}) =>
+      DateTimeFormat(this, seprator: seprator, lang: lang);
 
   /// Sample
   /// ```dart
   /// DateTime(2015,5,9).timeagoSince();
   /// ```
   Timeago timeagoSince(
-          {String? code,
+          {DateTimeLang? lang,
           bool showSeconds = true,
           bool showMinutes = true,
           bool showHours = true,
@@ -69,7 +70,7 @@ extension DateTimeExtensions on DateTime {
           bool showMonths = true,
           bool showYears = true}) =>
       Timeago.since(this,
-          code: code,
+          lang: lang,
           showSeconds: showSeconds,
           showMinutes: showMinutes,
           showHours: showHours,

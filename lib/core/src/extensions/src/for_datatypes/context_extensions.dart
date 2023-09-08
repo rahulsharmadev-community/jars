@@ -58,7 +58,10 @@ extension ContextExtensions on BuildContext {
         widthTransformer(dividedBy: dividedBy, reducedBy: reducedByW);
   }
 
-  /// similar to [MediaQuery.of(context).padding]
+  /// similar to [Theme.of(context).padding]
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
+
+  /// similar to [Theme.of(context).padding]
   ThemeData get theme => Theme.of(this);
 
   /// Check if dark mode theme is enable
@@ -67,7 +70,7 @@ extension ContextExtensions on BuildContext {
   /// give access to Theme.of(context).iconTheme.color
   Color? get iconColor => theme.iconTheme.color;
 
-  /// similar to [MediaQuery.of(context).padding]
+  /// similar to [Theme.of(context).padding]
   TextTheme get textTheme => Theme.of(this).textTheme;
 
   /// similar to [MediaQuery.of(context).padding]
