@@ -124,4 +124,7 @@ enum DateTimeLang {
 
   static DateTimeLangModel dateTimeLang([DateTimeLang? lang]) =>
       lang?.model ?? defaultLang.model;
+
+  @override
+  String toString() => name;
 }

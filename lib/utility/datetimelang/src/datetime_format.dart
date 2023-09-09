@@ -86,7 +86,7 @@ class DateTimeFormat {
   String hm({bool showPeriod = false}) {
     return '${_dt.hour}${_ ?? ':'}'
             '${_dt.minute} '
-            '${showPeriod ? '${_dt.period}' : ''}'
+            '${showPeriod ? _dt.period.name : ''}'
         .trim();
   }
 
@@ -98,7 +98,7 @@ class DateTimeFormat {
     return '${_dt.hour}${_ ?? ':'}'
             '${_dt.minute}${_ ?? ':'}'
             '${_dt.second} '
-            '${showPeriod ? '${_dt.period}' : ''}'
+            '${showPeriod ? _dt.period.name : ''}'
         .trim();
   }
 }
