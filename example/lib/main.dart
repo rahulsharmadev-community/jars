@@ -1,4 +1,5 @@
 import 'package:example/demos/export.dart';
+import 'package:example/demos/jdialogs.dart';
 import 'package:jars/jars.dart';
 import 'package:flutter/material.dart';
 
@@ -20,15 +21,16 @@ class AppRun extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       navigatorKey: navigatorKey,
-      initialRoute: '/HomePage',
+      initialRoute: '/JDialogsDemo',
       routes: {
         '/HomePage': (context) => const HomePage(),
         '/JMarqueeDemo': (context) => const JMarqueeDemo(),
         '/RToastandRSnakBarDemo': (context) => const RToastandRSnakBarDemo(),
         '/JTextPlusDemo': (context) => const JTextPlusDemo(),
+        '/JDialogsDemo': (context) => const JDialogsDemo(),
       },
       themeMode: ThemeMode.dark,
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData.dark(useMaterial3: true),
     );
   }
 }
