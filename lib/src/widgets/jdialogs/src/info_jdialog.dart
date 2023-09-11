@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
-import 'configs/jdialog_config.dart';
 
 class InfoJDialog extends StatelessWidget {
   final String title, content;

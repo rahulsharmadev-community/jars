@@ -4,20 +4,28 @@
 
 - **BREAKING-CHANGE**
 
-  - ✅ `SlideMenuButton` Widgets Added
-      - 
-  - ✅ `SlideMenuButton` Widgets Added
-  - ✅ `FloatingTextField` Widgets Added
-  - ✅ `Merquee` Widgets Added
-  - ✅ Add `Gap` Widgets, Render a fixed empty Space
-      - `Gap` is another option. It's like SizedBox but you don't have to know if it's inside a Row or a Column. So that it's less verbose than using a SizedBox.
+  - ✅ This release includes following stable new widgets
+  
+    - `Gap`: A widget designed to render a fixed empty space, useful for layout spacing.
+    - `InfoJDialog`: A dialog widget designed to present informative messages and content.
+    - `AlertJDialog`: This dialog includes interactive buttons, allowing for increased user engagement.
+    - `SelectJDialog`: A dialog widget that facilitates the selection of options or items.
+    - `SlideMenuButton`: A new widget featuring a popup menu button, enhancing menu navigation.
+    - `FloatingTextField`: An innovative floating text field widget, ideal for efficient search functionality.
+  
+  - 🔄️ In this release, we've introduced a set of experimental widgets that are not considered stable yet. These widgets are intended for experimentation and testing purposes:
+
+    - `JTextPlus` (not-stable): This widget offers unique text-related features and functionalities that are still under development and  refinement. Feel free to explore and experiment with it, but please be aware that it may not be suitable for production use at this time.
+
+    - `Marquee` (not-stable): The Marquee widget is designed for creating scrolling text or widget animations. While it offers intriguing     possibilities, it is labeled as not stable, indicating that it is still in the experimental phase and may undergo changes or improvements in    future releases. Use it cautiously in your projects.
+  
   - ✅ Add `ReCase` extensions on `String`
-      - `"jars new update".reCase.camelCase` ⇨ *jarsNewUpdate*
-      - `"jars new update".reCase.constantCase` ⇨ *JARS_NEW_UPDATE*
-      - `"jars new update".reCase.sentenceCase` ⇨ *Jars new update*
-      - `"jars new update".reCase.snakeCase` ⇨ *jars_new_update*
-      - `"jars new update".reCase.titleCase` ⇨ *Jars New Update*
-      - *.......more*
+    - `"jars new update".reCase.camelCase` ⇨ *jarsNewUpdate*
+    - `"jars new update".reCase.constantCase` ⇨ *JARS_NEW_UPDATE*
+    - `"jars new update".reCase.sentenceCase` ⇨ *Jars new update*
+    - `"jars new update".reCase.snakeCase` ⇨ *jars_new_update*
+    - `"jars new update".reCase.titleCase` ⇨ *Jars New Update*
+    - *.......more*
 
   - ✅ New `isToday` method on `DateTime` class, which returns a boolean value.
   - ✅ Added New methods in WidgetExtensions on Widget:
