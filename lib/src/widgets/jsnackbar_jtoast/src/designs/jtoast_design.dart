@@ -32,16 +32,21 @@ class _ToastDesign extends StatelessWidget {
           key: UniqueKey(),
           onDismissed: (_) {
             onDismissed();
-            config.onDismissed();
+            if (config.onDismissed != null) config.onDismissed!();
           },
-          child: Card(
-            shape: RoundedRectangleBorder(borderRadius: config.borderRadius),
+          child: Material(
+            type: MaterialType.card,
+            elevation: 0,
             clipBehavior: Clip.hardEdge,
-            color: config.backgroundColor,
+            textStyle: (config.textStyle ??
+                    context.textTheme.bodySmall ??
+                    const TextStyle())
+                .copyWith(color: context.colorScheme.onSecondary),
+            color: config.backgroundColor ?? context.colorScheme.secondary,
+            borderRadius: config.borderRadius,
             child: Padding(
               padding: config.padding,
-              child:
-                  DefaultTextStyle(style: config.textStyle, child: Text(msg)),
+              child: Text(msg),
             ),
           ),
         ),

@@ -4,7 +4,6 @@ export 'double_extensions.dart';
 export 'duration_extensions.dart';
 export 'iterable_extensions.dart';
 export 'map_extensions.dart';
-export 'nullablity_extensions.dart';
 export 'num_extensions.dart';
 export 'other_extensions.dart';
 export 'string_extensions.dart';

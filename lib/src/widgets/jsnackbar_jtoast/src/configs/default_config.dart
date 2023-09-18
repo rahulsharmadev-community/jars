@@ -2,15 +2,35 @@ import 'package:flutter/material.dart';
 
 /// Required properties for rtoast and rsnackbar
 abstract class DefaultConfig {
-  late final Curve curve;
-  late final Duration duration;
-  late final Duration animationDuration;
-  late final Color backgroundColor;
-  late final TextStyle textStyle;
-  late final BorderRadius borderRadius;
-  late final Alignment alignment;
-  late final DismissDirection dismissDirection;
-  late final double farFromEdge;
-  late final EdgeInsets padding;
-  late final VoidCallback onDismissed;
+  final String? titleText;
+  final double elevation;
+  final Color? forgroundColor;
+  final Curve curve;
+  final Duration duration;
+  final Duration animationDuration;
+  final Color? backgroundColor;
+  final TextStyle? textStyle;
+  final BorderRadius borderRadius;
+  final Alignment alignment;
+  final DismissDirection dismissDirection;
+  final double farFromEdge;
+  final EdgeInsets padding;
+  final VoidCallback? onDismissed;
+
+  const DefaultConfig({
+    this.forgroundColor,
+    this.titleText,
+    this.elevation = 0,
+    this.padding = const EdgeInsets.fromLTRB(12, 8, 12, 8),
+    this.curve = Curves.decelerate,
+    this.farFromEdge = kToolbarHeight,
+    this.duration = const Duration(seconds: 2),
+    this.alignment = Alignment.bottomCenter,
+    this.dismissDirection = DismissDirection.none,
+    this.animationDuration = const Duration(milliseconds: 250),
+    this.backgroundColor,
+    this.textStyle,
+    this.onDismissed,
+    this.borderRadius = BorderRadius.zero,
+  });
 }

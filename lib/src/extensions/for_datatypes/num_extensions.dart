@@ -16,10 +16,10 @@ extension NnmExtensions on num {
   /// ----------
   /// 451,251,365
   /// ----------
-  String readableString(double number) {
+  String readableFormat([String separator = ',']) {
     RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-    mathFunc(Match match) => '${match[1]},';
-    return '$number'
+    mathFunc(Match match) => '${match[1]}$separator';
+    return '$this'
         .split('.')
         .map((e) => e.replaceAllMapped(readable, mathFunc))
         .join('.');

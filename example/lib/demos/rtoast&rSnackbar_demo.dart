@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
 
-class RToastandRSnakBarDemo extends StatelessWidget {
-  const RToastandRSnakBarDemo({super.key});
+class JToastandJSnakBarDemo extends StatelessWidget {
+  const JToastandJSnakBarDemo({super.key});
 
   simpleTile(String text,
           {VoidCallback? onPressed, VoidCallback? onDismissed}) =>
@@ -38,31 +38,33 @@ class RToastandRSnakBarDemo extends StatelessWidget {
       ]).paddingVertical(8),
       simpleTile('Simple Loading Snackbar',
           onPressed: () =>
-              showJSnackBar(context, config: RSnackbarLoadingConfig('Loading')),
+              showJSnackBar(context, config: JSnackbarConfig.loading()),
           onDismissed: () => removeJSnackBar()),
       simpleTile('Design Loading Snackbar',
           onPressed: () => showJSnackBar(context,
-              config: RSnackbarLoadingConfig('Loading',
+              config: JSnackbarConfig.loading(
+                  text: 'Loading.....',
                   progressIndicatorColor: Colors.amber,
                   borderRadius: BorderRadius.circular(8))),
           onDismissed: () => removeJSnackBar()),
       simpleTile('Simple Icon Snackbar',
           onPressed: () => showJSnackBar(context,
-              config: RSnackbarIconConfig(
-                  'Complete Successfully', Icons.check_circle)),
+              config: JSnackbarConfig.icon(
+                'Complete Successfully',
+                icon: Icons.check_circle,
+              )),
           onDismissed: () => removeJSnackBar()),
       simpleTile('Customize Snackbar',
           onDismissed: () => removeJSnackBar(),
           onPressed: () => showJSnackBar(context,
               config: JSnackbarConfig(
-                const Text('Please wait while i processing..'),
+                title: const Text('Please wait while i processing..'),
                 onDismissed: () {
-                  showRTost(context, msg: 'Dismissed Successfully');
+                  showJTost(context, msg: 'Dismissed Successfully');
                 },
                 trailing: InkWell(
                     child: const Icon(
                       Icons.close,
-                      color: Colors.white70,
                     ),
                     onTap: () => removeJSnackBar()),
               ))),
@@ -116,19 +118,19 @@ class _TostViewState extends State<TostView> {
     list = [
       TostData('Toast form top', false, [
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form top center.',
               config: JToastConfig(alignment: Alignment.topCenter)),
           child: const Text('TOP CENTER'),
         ),
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form top left.',
               config: JToastConfig(alignment: Alignment.topLeft)),
           child: const Text('TOP LEFT'),
         ),
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form top right.',
               config: JToastConfig(alignment: Alignment.topRight)),
           child: const Text('TOP RIGHT'),
@@ -136,19 +138,19 @@ class _TostViewState extends State<TostView> {
       ]),
       TostData('Toast form bottom', false, [
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form bottom center.',
               config: JToastConfig(alignment: Alignment.bottomCenter)),
           child: const Text('BOTTOM CENTER'),
         ),
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form bottom left.',
               config: JToastConfig(alignment: Alignment.bottomLeft)),
           child: const Text('BOTTOM LEFT'),
         ),
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form bottom right.',
               config: JToastConfig(alignment: Alignment.bottomRight)),
           child: const Text('BOTTOM RIGHT'),
@@ -156,19 +158,19 @@ class _TostViewState extends State<TostView> {
       ]),
       TostData('Toast form center', false, [
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form center.',
               config: JToastConfig(alignment: Alignment.center)),
           child: const Text('CENTER'),
         ),
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form center left.',
               config: JToastConfig(alignment: Alignment.centerLeft)),
           child: const Text('CENTER LEFT'),
         ),
         OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form center right.',
               config: JToastConfig(alignment: Alignment.centerRight)),
           child: const Text('CENTER RIGHT'),
@@ -180,14 +182,10 @@ class _TostViewState extends State<TostView> {
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
-      expansionCallback: (panelIndex, isExpanded) {
-        setState(() => list[panelIndex] =
-            list[panelIndex].copyWith(isExpanded: !isExpanded));
-      },
       children: list
           .map((e) => ExpansionPanel(
-              isExpanded: e.isExpanded,
-              body: ListView(
+              isExpanded: true,
+              body: Column(
                   children: List.generate(e.widgets.length,
                       (index) => ListTile(title: e.widgets[index]))),
               headerBuilder: (BuildContext context, bool isExpanded) =>

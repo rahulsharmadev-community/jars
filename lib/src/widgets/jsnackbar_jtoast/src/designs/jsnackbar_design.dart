@@ -25,83 +25,76 @@ class _SnackBarDesign extends StatelessWidget {
 
   void _onManualDismissed() {
     onDismissed();
-    config.onDismissed();
+    if (config.onDismissed != null) config.onDismissed!();
   }
 
-  Widget _loadingDesgin() => Row(mainAxisAlignment: _mainAxis(), children: [
-        SizedBox.square(dimension: 20, child: config.leading)
-            .paddingOnly(right: 16),
-        config.title,
-        const Spacer(),
-        _showTimer(),
-        SizedBox.square(
-            dimension: 20,
-            child: InkWell(
-              child: Icon(Icons.close,
-                  color: config.forgroundColor?.withOpacity(0.7)),
-              onTap: () => onDismissed(),
-            )).paddingOnly(right: 16),
-      ]);
-
-  Widget _showTimer() {
+  List<Widget> _showTimer() {
     if (durationSync != null && (config.durationVisibility ?? true)) {
-      return StreamBuilder<Duration>(
-          initialData: inialSync,
-          stream: durationSync,
-          builder: (context, s) {
-            // printInfo(
-            //     'connectionState: ${s.connectionState}, data: ${s.data}, hasData: ${s.hasData}');
-            return Text('${s.data?.hms()}s').paddingOnly(right: 8);
-          });
+      return [
+        StreamBuilder<Duration>(
+            initialData: inialSync,
+            stream: durationSync,
+            builder: (context, s) {
+              return Text('${s.data?.hms()}s',
+                      style: TextStyle(fontWeight: FontWeight.w600, color: context.colorScheme.primaryContainer))
+                  .paddingOnly(right: 8);
+            })
+      ];
     }
-    return const Offstage();
+    return [];
   }
 
-  Widget _iconDesgin() => Row(mainAxisAlignment: _mainAxis(), children: [
-        config.leading!.paddingOnly(right: 16),
-        config.title,
-        const Spacer(),
-        _showTimer(),
-        InkWell(
-          child: Icon(
-            Icons.close,
-            color: config.forgroundColor?.withOpacity(0.7),
-          ),
-          onTap: () => onDismissed(),
-        ).paddingOnly(right: 8),
-      ]);
   @override
   Widget build(BuildContext context) {
+    TextStyle textStyle = (config.textStyle ?? context.textTheme.bodyMedium ?? const TextStyle()).copyWith(
+      color: config.forgroundColor ?? context.colorScheme.onSecondary,
+    );
     late Widget returnChild;
 
-    if (config is RSnackbarLoadingConfig) {
-      returnChild = _loadingDesgin();
-    } else if (config is RSnackbarIconConfig) {
-      returnChild = _iconDesgin();
-    } else {
-      returnChild = Row(mainAxisAlignment: _mainAxis(), children: [
-        if (config.leading != null) config.leading!.paddingAll(8),
-        config.title,
-        const Spacer(),
-        _showTimer(),
-        if (config.trailing != null) config.trailing!.paddingAll(8),
-      ]);
-    }
+    Widget? title, subtitle;
+    title = config.titleText != null ? Text(config.titleText!) : config.title;
 
-    return Dismissible(
-      direction: config.dismissDirection,
-      key: UniqueKey(),
-      onDismissed: (_) => _onManualDismissed(),
-      child: Card(
-        elevation: config.elevation,
-        clipBehavior: Clip.hardEdge,
-        color: config.backgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: config.borderRadius),
-        child: Padding(
-            padding: config.padding,
-            child: DefaultTextStyle(
-                style: config.textStyle.copyWith(color: config.forgroundColor),
-                child: returnChild)),
+    if (config.subTitleText != null) subtitle = Text(config.subTitleText!);
+    if (config.subTitle != null) subtitle = config.title;
+
+    returnChild = Theme(
+      data: context.theme.copyWith(iconTheme: IconThemeData(color: context.colorScheme.primaryContainer)),
+      child: ListTile(
+        dense: true,
+        title: title,
+        iconColor: context.colorScheme.primaryContainer,
+        subtitle: subtitle?.opacity(0.7),
+        titleTextStyle: textStyle,
+        subtitleTextStyle: textStyle,
+        minLeadingWidth: 0,
+        minVerticalPadding: 0,
+        horizontalTitleGap: 8,
+        leading: config.leading?.paddingAll(8).squareBox(42),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ..._showTimer(),
+            if (config.trailing != null) config.trailing!.paddingAll(8),
+          ],
+        ),
+        contentPadding: EdgeInsets.zero,
+      ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Dismissible(
+        direction: config.dismissDirection,
+        key: UniqueKey(),
+        onDismissed: (_) => _onManualDismissed(),
+        child: Material(
+          type: MaterialType.card,
+          elevation: config.elevation,
+          clipBehavior: Clip.hardEdge,
+          color: config.backgroundColor ?? context.colorScheme.secondary,
+          borderRadius: config.borderRadius,
+          child: Padding(padding: config.padding, child: returnChild),
+        ),
       ),
     );
   }

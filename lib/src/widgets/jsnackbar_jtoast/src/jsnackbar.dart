@@ -46,7 +46,7 @@ class _JSnackBar {
   // whether the snackbar is closed automatically or manually (forcefully dismissed).
   void removeSnackBar() {
     if (_overlayEntry != null) {
-      config.onDismissed();
+      if (config.onDismissed != null) config.onDismissed!();
       _overlayEntry?.remove();
       _overlayEntry?.dispose();
       _overlayEntry = null;
@@ -106,7 +106,6 @@ class _TostStateWidget extends State<_SnackBarWidget>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     if (autoCanelTimer?.isActive ?? false) autoCanelTimer?.cancel();
     timeController?.close();
     controller.dispose();
@@ -120,6 +119,7 @@ class _TostStateWidget extends State<_SnackBarWidget>
         durationSync: timeController?.stream,
         config: widget.config,
         onDismissed: () => close(false));
+    double bottom = context.mediaQuery.viewInsets.bottom;
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) => Positioned(
@@ -129,9 +129,9 @@ class _TostStateWidget extends State<_SnackBarWidget>
                   ? 0
                   : null,
           bottom: widget.config.alignment.y > 0
-              ? widget.config.farFromEdge * controller.value
+              ? widget.config.farFromEdge * controller.value + bottom
               : widget.config.alignment.y == 0
-                  ? 0
+                  ? 0 + bottom
                   : null,
           left: 0,
           right: 0,

@@ -23,14 +23,12 @@ class JDialogsDemo extends StatelessWidget {
             children: [
               InfoJDialog(
                 title: 'Info Dialog',
-                caption: 'caption text',
+                subtitle: 'caption text',
                 content: content,
               ),
               AlertJDialog(
                 title: 'Alert Dialog',
                 content: content,
-                button1: JDialogButtonConfig<String>('Okey'),
-                button2: JDialogButtonConfig<String>('Cancel'),
               ),
               SelectJDialog(
                 maxSelect: 2,
@@ -50,8 +48,6 @@ class JDialogsDemo extends StatelessWidget {
                       .toList(),
                 ),
                 onSelected: (result) {},
-                button1: JDialogButtonConfig<String>('Okey'),
-                button2: JDialogButtonConfig<String>('Cancel'),
               ),
               SelectJDialog(
                 maxSelect: 2,
@@ -74,8 +70,6 @@ class JDialogsDemo extends StatelessWidget {
                 onSelected: (result) {
                   print(result);
                 },
-                button1: JDialogButtonConfig<String>('Okey'),
-                button2: JDialogButtonConfig<String>('Cancel'),
               ),
             ],
           ),

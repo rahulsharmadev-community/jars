@@ -6,21 +6,19 @@ extension WidgetExtensions on Widget {
 
   SizedBox expandBox() => SizedBox.expand(child: this);
 
-  SizedBox squareBox([double? dimension]) =>
-      SizedBox.square( dimension: dimension, child: this);
+  SizedBox squareBox([double? dimension]) => SizedBox.square(dimension: dimension, child: this);
 
-  ClipRRect curvedBox([double radius = 8]) => ClipRRect(
-      borderRadius: BorderRadius.circular(radius),
-      clipBehavior: Clip.hardEdge,
-      child: this);
+  ClipRRect curvedBox([double radius = 8]) =>
+      ClipRRect(borderRadius: BorderRadius.circular(radius), clipBehavior: Clip.hardEdge, child: this);
 
-  ClipRRect circleBox() => ClipRRect(
-      borderRadius: BorderRadius.circular(1000),
-      clipBehavior: Clip.hardEdge,
-      child: this);
+  ClipRRect circleBox() =>
+      ClipRRect(borderRadius: BorderRadius.circular(1000), clipBehavior: Clip.hardEdge, child: this);
 
-  SizedBox fittedBox([double? dimension]) =>
-      SizedBox.square(dimension: dimension, child: FittedBox(child: this));
+  SizedBox fittedBox([double? dimension]) => SizedBox.square(dimension: dimension, child: FittedBox(child: this));
+
+  void tightFit([int flex = 1]) => Flexible(fit: FlexFit.tight, flex: flex, child: this);
+
+  void looseFit([int flex = 1]) => Flexible(fit: FlexFit.loose, flex: flex, child: this);
 
   /// Creates a widget that makes its child partially transparent.
   ///
@@ -32,20 +30,14 @@ extension WidgetExtensions on Widget {
     bool alwaysIncludeSemantics = false,
     Widget? child,
   }) =>
-      Opacity(
-          key: key,
-          opacity: opacity,
-          alwaysIncludeSemantics: alwaysIncludeSemantics,
-          child: this);
+      Opacity(key: key, opacity: opacity, alwaysIncludeSemantics: alwaysIncludeSemantics, child: this);
 
-  Padding paddingAll(double padding) =>
-      Padding(padding: EdgeInsets.all(padding), child: this);
+  Padding paddingAll(double padding) => Padding(padding: EdgeInsets.all(padding), child: this);
 
   Padding paddingHorizontal([double value = 0.0]) =>
       Padding(padding: EdgeInsets.symmetric(horizontal: value), child: this);
 
-  Padding paddingVertical([double value = 0.0]) =>
-      Padding(padding: EdgeInsets.symmetric(vertical: value), child: this);
+  Padding paddingVertical([double value = 0.0]) => Padding(padding: EdgeInsets.symmetric(vertical: value), child: this);
 
   Padding paddingOnly({
     double left = 0.0,
@@ -53,10 +45,7 @@ extension WidgetExtensions on Widget {
     double right = 0.0,
     double bottom = 0.0,
   }) =>
-      Padding(
-          padding: EdgeInsets.only(
-              top: top, left: left, right: right, bottom: bottom),
-          child: this);
+      Padding(padding: EdgeInsets.only(top: top, left: left, right: right, bottom: bottom), child: this);
 
   /// Allows you to insert widgets inside a CustomScrollView
   SliverToBoxAdapter get wSliverBox => SliverToBoxAdapter(child: this);

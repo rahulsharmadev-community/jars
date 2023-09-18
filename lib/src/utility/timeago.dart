@@ -1,4 +1,5 @@
-import 'package:jars/jars.dart';
+import 'package:jars/extensions.dart';
+import 'datetimelang/datetimelang.dart';
 
 class Timeago {
   final Duration duration;

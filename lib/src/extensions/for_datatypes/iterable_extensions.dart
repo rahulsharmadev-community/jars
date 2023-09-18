@@ -1,20 +1,48 @@
+import 'dart:convert';
 import 'dart:math' as math;
 
+extension NullableIterableExtensions<T> on Iterable<T?> {
+  Iterable<T> nonNulls() {
+    if (isEmpty) return [];
+    return [
+      for (var e in this)
+        if (e != null) e
+    ];
+  }
+
+  Iterable<T> tillFirstNull() {
+    if (isEmpty) return [];
+
+    final result = <T>[];
+    for (var e in this) {
+      if (e == null) break;
+      result.add(e);
+    }
+    return result;
+  }
+}
+
 extension IterableExtensions<T> on Iterable<T> {
+  /// Returns the number of elements that matches the [test].\
+  /// If not [test] is specified it will count every element.\
+  /// Example:
+  /// ```
+  /// [1, 2, 3, 13, 14, 15].count();             // 6
+  /// [1, 2, 3, 13, 14, 15].count((n) => n > 9); // 3
+  /// ```
+  int count([bool Function(T element)? test]) {
+    test ??= (_) => true;
+    if (isEmpty) return 0;
+
+    return map((element) => test!(element) ? 1 : 0).reduce((value, element) => value + element);
+  }
+
   /// The first element satisfying [test], or `null` if there are none.
   T? firstWhereOrNull(bool Function(T element) test) {
     for (var element in this) {
       if (test(element)) return element;
     }
     return null;
-  }
-
-  Iterable<TRes> mapMany<TRes>(
-      Iterable<TRes>? Function(T item) selector) sync* {
-    for (var item in this) {
-      final res = selector(item);
-      if (res != null) yield* res;
-    }
   }
 
   /// Returns true if every element in [other] also exists in [this].
@@ -48,8 +76,7 @@ extension IterableExtensions<T> on Iterable<T> {
   ///
   /// If [seed] is provided, will be used as the random seed for determining
   /// which element to select. (See [math.Random].)
-  T? getRandom({int? seed}) =>
-      isEmpty ? null : elementAt(math.Random(seed).nextInt(length));
+  T? getRandom({int? seed}) => isEmpty ? null : elementAt(math.Random(seed).nextInt(length));
 
   Map<E, int> _elementCountsIn<E>(Iterable<E> iterable) {
     final counts = <E, int>{};
@@ -58,6 +85,84 @@ extension IterableExtensions<T> on Iterable<T> {
       counts[element] = currentCount + 1;
     }
     return counts;
+  }
+
+  /// Splits the elements into lists of the specified [size].
+  ///
+  /// You can specify an optional [fill] function that produces values
+  /// that fill up the last chunk to match the chunk size.
+  ///
+  /// Example:
+  /// ```dart
+  /// [1, 2, 3, 4, 5, 6].chunked(2);        // [[1, 2], [3, 4], [5, 6]]
+  /// [1, 2, 3].chunked(2);                 // [[1, 2], [3]]
+  /// [1, 2, 3].chunked(2, fill: () => 99); // [[1, 2], [3, 99]]
+  /// ```
+  Iterable<List<T>> chunked(int size, {T Function()? fill}) {
+    ArgumentError.checkNotNull(size, 'chunkSize');
+    if (size <= 0) {
+      throw ArgumentError('chunkSize must be positive integer greater than 0.');
+    }
+
+    if (isEmpty) {
+      return const Iterable.empty();
+    }
+
+    final countOfChunks = (length / size.toDouble()).ceil();
+
+    return Iterable.generate(countOfChunks, (int index) {
+      final chunk = skip(index * size).take(size).toList();
+
+      if (fill != null) {
+        while (chunk.length < size) {
+          chunk.add(fill());
+        }
+      }
+
+      return chunk;
+    });
+  }
+
+  /// Groups the elements of the list into a map by a key
+  /// that is defined by a [keySelector] function.
+  ///
+  /// The optional [valueTransform] function can be used to
+  /// remap your elements.
+  ///
+  /// Example:
+  /// ```dart
+  /// var map = [1, 2, 3, 97, 98, 99].groupBy((n) => n < 10 ? 'smallNumbers' : 'largeNumbers')
+  /// // map = {'smallNumbers': [1, 2, 3], 'largeNumbers': [97, 98, 99]}
+  /// ```
+  ///
+  /// ```dart
+  /// List<Person> persons = [
+  ///     Person(name: 'John', age: 21),
+  ///     Person(name: 'Carl', age: 18),
+  ///     Person(name: 'Peter', age: 56),
+  ///     Person(name: 'Sarah', age: 61)
+  /// ];
+  /// var map = persons.groupBy((p) => p.age < 40 ? 'young' : 'old',
+  ///        valueTransform: (p) => p.name);
+  /// // map = {'young': ['John', 'Carl'], 'old': ['Peter', 'Sarah']}
+  /// ```
+  Map<K, List<V>> groupBy<K, V>(K Function(T element) keySelector, {V Function(T element)? valueTransform}) {
+    ArgumentError.checkNotNull(keySelector);
+
+    valueTransform ??= (element) => element as V;
+
+    final map = <K, List<V>>{};
+
+    forEach((element) {
+      final key = keySelector(element);
+
+      if (!map.containsKey(key)) {
+        map[key] = [];
+      }
+      map[key]!.add(valueTransform!(element));
+    });
+
+    return map;
   }
 }
 
@@ -70,10 +175,8 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   ///     [-47, 10, 2].max((a, b) =>
   ///     a.toString().length.compareTo(b.toString().length)).value; // -47
   /// ```
-  E? max([Comparator<E>? compare]) => isEmpty
-      ? null
-      : reduce(
-          compare == null ? math.max : _generateCustomMaxFunction<E>(compare));
+  E? max([Comparator<E>? compare]) =>
+      isEmpty ? null : reduce(compare == null ? math.max : _generateCustomMaxFunction<E>(compare));
 
   /// Returns the least number in [this], or [null] if [this] is empty.
   ///
@@ -82,10 +185,8 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   /// [-100, -200, 5].min((a, b) =>
   ///     a.toString().length.compareTo(b.toString().length)).value; // 5
   /// ```
-  E? min([Comparator<E>? compare]) => isEmpty
-      ? null
-      : reduce(
-          compare == null ? math.min : _generateCustomMinFunction<E>(compare));
+  E? min([Comparator<E>? compare]) =>
+      isEmpty ? null : reduce(compare == null ? math.min : _generateCustomMinFunction<E>(compare));
 
   /// Returns the sum of all the values in this iterable.
   ///
@@ -97,9 +198,7 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   /// ```
   num sum([num Function(E)? addend]) {
     if (isEmpty) return 0;
-    return addend == null
-        ? reduce((a, b) => (a + b) as E)
-        : fold(0, (prev, element) => prev + addend(element));
+    return addend == null ? reduce((a, b) => (a + b) as E) : fold(0, (prev, element) => prev + addend(element));
   }
 
   /// Returns the average of all the values in this iterable.
@@ -133,4 +232,10 @@ T Function(T, T) _generateCustomMinFunction<T>(Comparator<T> compare) {
   }
 
   return min;
+}
+
+extension IntBasics<E extends int> on Iterable<E> {
+  String get base64Encode => base64.encode(toList());
+
+  String get utf8Decode => utf8.decode(toList());
 }

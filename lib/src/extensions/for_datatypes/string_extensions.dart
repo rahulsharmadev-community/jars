@@ -1,11 +1,26 @@
+import 'dart:convert';
+
 import 'package:jars/jars.dart';
 
 extension StringExtensions on String {
-  RegPattern get regPattern => RegPattern(this);
-
   ReCase get reCase => ReCase(this);
 
   bool get isBlank => trim().isEmpty;
+
+  /// Sample:
+  /// ```
+  /// void main(){
+  ///   print('451251365'.numberReadableFormat);
+  /// }
+  /// ```
+  /// ----------
+  /// 451,251,365
+  /// ----------
+  String numberReadableFormat([String separator = ',']) {
+    RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    mathFunc(Match match) => '${match[1]}$separator';
+    return split('.').map((e) => e.replaceAllMapped(readable, mathFunc)).join('.');
+  }
 
   /// Sample
   /// ```
@@ -14,7 +29,12 @@ extension StringExtensions on String {
   ///   print(path.format.isPDF)
   /// }
   /// ```
-  FilesFormat get format => FilesFormat(this);
+  String? get fileFormat {
+    var startFrom = lastIndexOf('.');
+    if (startFrom == -1) return null;
+    var last = lastIndexOf('?');
+    return substring(startFrom + 1, last == -1 ? null : last);
+  }
 
   /// Checks if string is boolean.
   bool get isBool => (this == 'true' || this == 'false');
@@ -22,19 +42,12 @@ extension StringExtensions on String {
   /// Sample
   /// ```dart
   /// void main(){
-  ///   bool isValidEmail = 'sample@gmail.com'.regMatch(RegPatterns.isEmail);
+  ///   bool isValidEmail = 'sample@gmail.com'.regMatch(RegPatterns.email);
   ///   print(isValidEmail)
   /// }
   /// ```
   /// ### Use RegPatterns library for RegPattern
-  bool regMatch(RegPattern regPattern) => RegPattern.regMatch(this, regPattern);
-
-  /// Uppercase first letter inside string and let the others lowercase
-  /// Example: your name => Your name
-  String get onlyfirstUppercase {
-    if (isBlank) return this;
-    return this[0].toUpperCase() + substring(1).toLowerCase();
-  }
+  bool regMatch(RegPatterns regPattern) => regPattern.hasMatch(this);
 
   /// Remove all whitespace inside string
   /// Example: your name => yourname
@@ -49,13 +62,13 @@ extension StringExtensions on String {
   String get trimAll => replaceAll(RegExp(r'[ |\\n]+'), '');
 
   /// Extract numeric value of string
-  /// Example: OTP 12312 27/04/2020 => 1231227042020ß
+  /// Example: OTP 12312 27/04/2020 => 1231227042020
   /// If firstword only is true, then the example return is "12312"
   /// (first found numeric word)
   String numericOnly({bool firstWordOnly = false}) {
     var numericOnlyStr = '';
     for (var i = 0; i < length; i++) {
-      if (regMatch(RegPatterns.isNumericOnly)) {
+      if (regMatch(RegPatterns.decimalDigits())) {
         numericOnlyStr += this[i];
       }
       if (firstWordOnly && numericOnlyStr.isNotEmpty && this[i] == " ") {
@@ -75,17 +88,28 @@ extension StringExtensions on String {
     return path + list.join();
   }
 
-  /// Checks if string is Palindrom.
-  bool get isPalindrom {
-    final cleanString = toLowerCase()
-        .replaceAll(RegExp(r"\s+"), '')
-        .replaceAll(RegExp(r"[^0-9a-zA-Z]+"), "");
+  List<String> get toList => split('');
 
-    for (var i = 0; i < cleanString.length; i++) {
-      if (cleanString[i] != cleanString[cleanString.length - i - 1]) {
-        return false;
-      }
-    }
-    return true;
+  List<String> get toReversedList => split('').reversed.toList();
+
+  String get reversed => split('').reversed.join('');
+
+  /// A palindrome is a sequence of characters that reads the same forwards and backwards
+  /// when ignoring spaces, non-alphanumeric characters, and considering letter casing.
+  ///
+  /// Returns `true` if the string is a palindrome(normal and reversed are same), and ` false` otherwise.
+  /// ```
+  bool isPalindrom([removeAllSpace = false]) {
+    final cleanString = removeAllSpace ? this.removeAllSpace : this;
+    return cleanString == cleanString.reversed;
   }
+
+  /// Base64 encryption
+  String get toEncodedBase64 => base64.encode(utf8.encode(this));
+
+  /// Base64 decryption
+  String get toDecodedBase64 => String.fromCharCodes(base64.decode(this));
+
+  /// Perform utf8 encoding
+  List<int> get utf8Encode => utf8.encode(this);
 }

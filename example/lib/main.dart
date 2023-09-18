@@ -1,4 +1,5 @@
 import 'package:example/demos/export.dart';
+import 'package:example/demos/formbuilder_demo.dart';
 import 'package:example/demos/jdialogs.dart';
 import 'package:jars/jars.dart';
 import 'package:flutter/material.dart';
@@ -21,16 +22,17 @@ class AppRun extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       navigatorKey: navigatorKey,
-      initialRoute: '/JDialogsDemo',
+      initialRoute: '/HomePage',
       routes: {
         '/HomePage': (context) => const HomePage(),
         '/JMarqueeDemo': (context) => const JMarqueeDemo(),
-        '/RToastandRSnakBarDemo': (context) => const RToastandRSnakBarDemo(),
-        '/JTextPlusDemo': (context) => const JTextPlusDemo(),
+        '/JToastandJSnakBarDemo': (context) => const JToastandJSnakBarDemo(),
         '/JDialogsDemo': (context) => const JDialogsDemo(),
+        '/FormBuilderDemo': (context) => const FormBuilderDemo(),
       },
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       darkTheme: ThemeData.dark(useMaterial3: true),
+      theme: ThemeData(useMaterial3: true),
     );
   }
 }
@@ -45,22 +47,16 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            JTextPlus(
-                    'Welcome in <r>JARS ❤️</r> Demo\n<s>developed by @rahulsharmadev</s>',
-                    jTextStyles: [
-                      JTextStyle('r',
-                          color: Colors.red.shade400,
-                          fontWeight: FontWeight.bold),
-                      JTextStyle('s', fontSize: 12.dp)
-                    ],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24.dp, color: Colors.white))
-                .opacity(10),
+            Text('Welcome in JARS ❤️ Demo\ndeveloped by @rahulsharmadev',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 24.dp, color: Colors.white)),
             const SizedBox(height: 64),
             ...{
               '/JMarqueeDemo': 'JMarquee Demo',
-              '/RToastandRSnakBarDemo': 'RToast & RSnakBar Demo',
+              '/JToastandJSnakBarDemo': 'JToast & JSnakBar Demo',
               '/JTextPlusDemo': 'JTextPlus Demo',
+              '/JDialogsDemo': 'JDialogs Demo',
+              '/FormBuilderDemo': 'FormBuilder Demo'
             }
                 .entries
                 .map((e) => TextButton(

@@ -2,25 +2,26 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:jars/extensions.dart';
 import 'configs/jrtoast_config.dart';
 part 'designs/jtoast_design.dart';
 
-_RToast? _toast;
-void showRTost(BuildContext context,
+_JToast? _toast;
+void showJTost(BuildContext context,
     {required String msg, JToastConfig? config}) {
   if (_toast?._context != context) {
-    _toast = _RToast(context);
+    _toast = _JToast(context);
   }
   _toast?.showToast(msg, config);
 }
 
-void removeRTost() => _toast?.removeToast();
+void removeJTost() => _toast?.removeToast();
 
-class _RToast {
+class _JToast {
   final BuildContext _context;
   final OverlayState? _overlayState;
   OverlayEntry? _overlayEntry;
-  _RToast(BuildContext context)
+  _JToast(BuildContext context)
       : _context = context,
         _overlayState = Overlay.of(context);
 
@@ -70,7 +71,7 @@ class _TostStateWidget extends State<_ToastWidget>
       controller.reverse();
       await Future.delayed(widget.config.animationDuration);
     }
-    widget.config.onDismissed();
+    if (widget.config.onDismissed != null) widget.config.onDismissed!();
   }
 
   Timer? timer;
@@ -84,15 +85,11 @@ class _TostStateWidget extends State<_ToastWidget>
         reverseDuration: widget.config.animationDuration)
       ..forward();
 
-    timer = Timer.periodic(widget.config.duration, (_) {
-      // print('Auto Close from initState');
-      close();
-    });
+    timer = Timer.periodic(widget.config.duration, (_) => close());
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     timer?.cancel();
     controller.dispose();
     super.dispose();
@@ -100,19 +97,20 @@ class _TostStateWidget extends State<_ToastWidget>
 
   @override
   Widget build(BuildContext context) {
+    double bottom = context.mediaQuery.viewInsets.bottom;
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
         return Positioned(
             top: widget.config.alignment.y < 0
-                ? widget.config.farFromEdge * controller.value
+                ? widget.config.farFromEdge * controller.value + bottom
                 : widget.config.alignment.y == 0
-                    ? 0
+                    ? 0 + bottom
                     : null,
             bottom: widget.config.alignment.y > 0
-                ? widget.config.farFromEdge * controller.value
+                ? widget.config.farFromEdge * controller.value + bottom
                 : widget.config.alignment.y == 0
-                    ? 0
+                    ? 0 + bottom
                     : null,
             left: 0,
             right: 0,

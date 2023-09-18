@@ -13,22 +13,19 @@ class JMarqueeDemo extends StatelessWidget {
           child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Marquee(
-            maxHeight: 50,
-            scrollAxis: Axis.horizontal,
-            accelerationCurve: Curves.fastLinearToSlowEaseIn,
+          JMarquee(
             pauseAfterRound: 3.seconds,
             blankSpace: 10,
             velocity: 100,
-            child: const FlutterLogo(
+            widget: const FlutterLogo(
                 size: 100, style: FlutterLogoStyle.horizontal),
           ),
-          Marquee(
-            maxHeight: 50,
-            blankSpace: 50,
-            child: JTextPlus(
-                '<r>JMarquee</r> is a flutter widget that scrolls widget infinitely.',
-                jTextStyles: [JTextStyle('r', color: Colors.red)]),
+          const Icon(Icons.account_circle_outlined),
+          JMarquee(
+            blankSpace: 100,
+            text:
+                'JMarquee is a flutter widget that scrolls widget infinitely.',
+            style: const TextStyle(color: Colors.red),
           ),
         ],
       )),

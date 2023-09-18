@@ -99,4 +99,21 @@ class DateTimeFormat {
             '${showPeriod ? _dt.period.name : ''}'
         .trim();
   }
+
+  /// ```dart
+  ///   yMMd() => 30 Oct 2022, 2:37 
+  ///   yMMd(isFull: true) => 30 October 2022, 2:37 AM
+  /// ```
+  String yMMdhm({bool isFull = false}) => '${_dt.day}${_ ?? ' '}'
+      '${isFull ? _model.months.LIST[_dt.month - 1] : _model.shortmonths.LIST[_dt.month - 1]}${_ ?? ' '}'
+      '${_dt.year}${_ ?? ', '}${hm(showPeriod: isFull)}';
+
+  /// ```dart
+  ///   yMMd() => 30 Oct 2022, 2:37:31 
+  ///   yMMd(isFull: true) => 30 October 2022, 2:37:31 AM
+  /// ```
+  String yMMdhms({bool isFull = false}) => '${_dt.day}${_ ?? ' '}'
+      '${isFull ? _model.months.LIST[_dt.month - 1] : _model.shortmonths.LIST[_dt.month - 1]}${_ ?? ' '}'
+      '${_dt.year}${_ ?? ', '}${hms(showPeriod: isFull)}';
+
 }

@@ -4,21 +4,6 @@ import 'package:jars/jars.dart';
 const _defaultInsetPadding =
     EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0);
 
-class JDialogButtonConfig<T> {
-  final T text;
-  final Color? color;
-  final BorderRadius? border;
-  final VoidCallback? onTap;
-  final bool enabledfullSize;
-
-  JDialogButtonConfig(
-    this.text, {
-    this.color,
-    this.border,
-    this.onTap,
-    this.enabledfullSize = true,
-  });
-}
 
 class JDialogConfig {
   final Color? backgroundColor;

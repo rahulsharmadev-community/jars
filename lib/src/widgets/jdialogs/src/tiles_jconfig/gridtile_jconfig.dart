@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
-import '../model/item_indicator.dart';
 import 'tile_jconfig.dart';
 
 class GridTileJConfig implements TileJConfig {
