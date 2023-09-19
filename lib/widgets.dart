@@ -2,6 +2,7 @@ library widgets;
 
 export 'src/widgets/formbuilder.dart';
 export 'src/widgets/gap/gap.dart';
+export 'src/widgets/sticky_headers/sticky_headers.dart';
 export 'src/widgets/jdialogs/jdialogs.dart';
 export 'src/widgets/jsnackbar_jtoast/jsnackbar_jtoast.dart';
 
