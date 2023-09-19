@@ -10,7 +10,7 @@
   </p>
 </div>
 
-JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like. **[DateTimeApis](#datetime-apis), [DateTimeFormat](#datetimeformat), [DateTimeLang](#datetimelang), [Timeago](#timeago), [PlatformQuery](#platformquery-apis), [showRTost](#rtoast--rsnackbar), [removeRTost](#rtoast--rsnackbar), [showRSnackBar](#rtoast--rsnackbar), [removeRSnackBar](#rtoast--rsnackbar), [printInfo](), [printError](), [JMarquee](#jmarquee), [JTextPlus](#jtextplus)**
+JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like. **[DateTimeApis](#datetime-apis), [DateTimeFormat](#datetimeformat), [DateTimeLang](#datetimelang), [Timeago](#timeago), [PlatformQuery](#platformquery-apis), [showJTost](#JToast--JSnackBar), [removeJTost](#JToast--JSnackBar), [showJSnackBar](#JToast--JSnackBar), [removeJSnackBar](#JToast--JSnackBar), [Marquee](#Marquee), [FormBuilder](), [SmartJTextField](), [DateTimeJTextField](), [JTextField](), [guard](), [asyncGuard](), [RegPatterns]()**
 
 - ### [How to install](https://pub.dev/packages/jars/install)
 - ### [See how to use](https://github.com/rahulsharmadev-community/jars/tree/master/example)
@@ -34,16 +34,16 @@ As we all know, text is a key component of any mobile app's user interface. and 
           );
 ```
 
-# JMarquee
+# Marquee
 
 A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/jmarquee.gif" height=700>
+  <img src="https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/Marquee.gif" height=700>
 </p>
 
 ```dart
-JMarquee(
+Marquee(
             maxHeight: 50,
             scrollAxis: Axis.horizontal,
             accelerationCurve: Curves.fastLinearToSlowEaseIn,
@@ -53,22 +53,22 @@ JMarquee(
             child: const FlutterLogo(
                 size: 100, style: FlutterLogoStyle.horizontal),
           ),
-          JMarquee(
+          Marquee(
             maxHeight: 50,
             blankSpace: 50,
             child: JTextPlus(
-                '<r>JMarquee</r> is a flutter widget that scrolls widget infinitely.',
+                '<r>Marquee</r> is a flutter widget that scrolls widget infinitely.',
                 jTextStyles: [JTextStyle('r', color: Colors.red)]),
           )
 ```
 
-# RToast & RSnackBar
+# JToast & JSnackBar
 
-With RSnackBar and RToast it is now easier than ever to show a little notification to the user. It may appear on the screen in any direction, including the top, bottom, center, and so on.
+With JSnackBar and JToast it is now easier than ever to show a little notification to the user. It may appear on the screen in any direction, including the top, bottom, center, and so on.
 
-- In the true sense of RToast & RSnackBar, you can call it whenever you need it, without any restrictions!
-- Feature-rich, support for displaying notifications, text, loading, attachments, etc. RToast & RSnackBar
-- Support for popping up various custom RToasts & RSnackBars, or you can pop up any Widget as long as it meets the requirements of the flutter code.
+- In the true sense of JToast & JSnackBar, you can call it whenever you need it, without any restrictions!
+- Feature-rich, support for displaying notifications, text, loading, attachments, etc. JToast & JSnackBar
+- Support for popping up various custom JToasts & JSnackBars, or you can pop up any Widget as long as it meets the requirements of the flutter code.
 - API is simple and easy to use
 - Pure flutter implementation
 
@@ -79,23 +79,23 @@ With RSnackBar and RToast it is now easier than ever to show a little notificati
 ```dart
  // RTost Demo
  OutlinedButton(
-          onPressed: () => showRTost(context,
+          onPressed: () => showJTost(context,
               msg: '👋 Hi i am form top center.',
-              config: RToastConfig(alignment: Alignment.topCenter)),
+              config: JToastConfig(alignment: Alignment.topCenter)),
           child: const Text('TOP CENTER'),
         );
 
-// RSnackBar Demo
+// JSnackBar Demo
   simpleTile('Simple Loading Snackbar',
     onPressed: () =>
-        showRSnackBar(context, config: RSnackbarLoadingConfig('Loading')),
-    onDismissed: () => removeRSnackBar()),
+        showJSnackBar(context, config: JSnackBarLoadingConfig('Loading')),
+    onDismissed: () => removeJSnackBar()),
 
 ```
 
 # DateTime APIs
 
-Most popular datetime apis are:
+Most popular under datetime apis are:
 
 - **[DateTimeFormat](#datetimeformat)**
 - **[DateTimeLang](#datetimelang)**

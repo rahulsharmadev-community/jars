@@ -12,19 +12,7 @@ class _ToastDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MainAxisAlignment mainAxis() {
-      switch (config.alignment.x.toInt()) {
-        case 0:
-          return MainAxisAlignment.center;
-        case -1:
-          return MainAxisAlignment.start;
-        default:
-          return MainAxisAlignment.end;
-      }
-    }
-
     return Row(
-      mainAxisAlignment: mainAxis(),
       mainAxisSize: MainAxisSize.min,
       children: [
         Dismissible(
@@ -38,9 +26,7 @@ class _ToastDesign extends StatelessWidget {
             type: MaterialType.card,
             elevation: 0,
             clipBehavior: Clip.hardEdge,
-            textStyle: (config.textStyle ??
-                    context.textTheme.bodySmall ??
-                    const TextStyle())
+            textStyle: (config.textStyle ?? context.textTheme.bodySmall ?? const TextStyle())
                 .copyWith(color: context.colorScheme.onSecondary),
             color: config.backgroundColor ?? context.colorScheme.secondary,
             borderRadius: config.borderRadius,

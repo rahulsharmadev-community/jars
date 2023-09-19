@@ -4,6 +4,17 @@ import 'src/jars.dart';
 extension WidgetExtensions on Widget {
   AlignJar get align => AlignJar(this);
 
+  SizedBox boxHeight(double value) => SizedBox(height: value, child: this);
+  SizedBox boxWidth(double value) => SizedBox(width: value, child: this);
+
+  SizedBox boxSize(double width, double height) {
+    return SizedBox(width: width, height: height, child: this);
+  }
+
+  PreferredSize preferredSize(double width, double height) {
+    return PreferredSize(preferredSize: Size(width, height), child: this);
+  }
+
   SizedBox expandBox() => SizedBox.expand(child: this);
 
   SizedBox squareBox([double? dimension]) => SizedBox.square(dimension: dimension, child: this);
@@ -16,9 +27,9 @@ extension WidgetExtensions on Widget {
 
   SizedBox fittedBox([double? dimension]) => SizedBox.square(dimension: dimension, child: FittedBox(child: this));
 
-  void tightFit([int flex = 1]) => Flexible(fit: FlexFit.tight, flex: flex, child: this);
+  Flexible tightFit([int flex = 1]) => Flexible(fit: FlexFit.tight, flex: flex, child: this);
 
-  void looseFit([int flex = 1]) => Flexible(fit: FlexFit.loose, flex: flex, child: this);
+  Flexible looseFit([int flex = 1]) => Flexible(fit: FlexFit.loose, flex: flex, child: this);
 
   /// Creates a widget that makes its child partially transparent.
   ///

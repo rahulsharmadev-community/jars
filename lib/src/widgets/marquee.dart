@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
-part 'jmarquee_curveImp.dart';
 
 /// A widget that repeats text and automatically scrolls it infinitely.
 ///
@@ -19,7 +18,7 @@ part 'jmarquee_curveImp.dart';
 /// customizability:
 ///
 /// ```dart
-/// JMarquee(
+/// Marquee(
 ///   text: 'Some sample text that takes some space.',
 ///   style: TextStyle(fontWeight: FontWeight.bold),
 ///   scrollAxis: Axis.horizontal,
@@ -39,8 +38,8 @@ part 'jmarquee_curveImp.dart';
 /// * [ListView.builder], where by returning the same widget to the builder
 ///   every time, a similar result can be achieved, just without the automatic
 ///   scrolling and manual scrolling enabled.
-class JMarquee extends StatefulWidget {
-  JMarquee({
+class Marquee extends StatefulWidget {
+  Marquee({
     super.key,
     this.text,
     this.maxheight,
@@ -64,8 +63,7 @@ class JMarquee extends StatefulWidget {
     this.decelerationDuration = Duration.zero,
     Curve decelerationCurve = Curves.decelerate,
     this.onDone,
-  })  : assert(
-            text == null || widget == null, "text and widget both not null."),
+  })  : assert(text == null || widget == null, "text and widget both not null."),
         assert(!blankSpace.isNaN),
         assert(blankSpace >= 0, "The blankSpace needs to be positive or zero."),
         assert(blankSpace.isFinite),
@@ -150,7 +148,7 @@ class JMarquee extends StatefulWidget {
   ///
   /// ## Sample code
   ///
-  /// This [JMarquee] starts scrolling one second after being displayed.
+  /// This [Marquee] starts scrolling one second after being displayed.
   ///
   /// ```dart
   /// Marquee(
@@ -213,7 +211,7 @@ class JMarquee extends StatefulWidget {
   /// ```
   final bool showFadingOnlyWhenScrolling;
 
-  /// The fraction of the [JMarquee] that will be faded on the left or top.
+  /// The fraction of the [Marquee] that will be faded on the left or top.
   /// By default, there won't be any fading.
   ///
   /// ## Sample code
@@ -230,7 +228,7 @@ class JMarquee extends StatefulWidget {
   /// ```
   final double fadingEdgeStartFraction;
 
-  /// The fraction of the [JMarquee] that will be faded on the right or down.
+  /// The fraction of the [Marquee] that will be faded on the right or down.
   /// By default, there won't be any fading.
   ///
   /// ## Sample code
@@ -349,22 +347,21 @@ class JMarquee extends StatefulWidget {
   /// * [accelerationCurve], the equivalent for decelerating.
   final _IntegralCurve decelerationCurve;
 
-  /// This function will be called if [numberOfRounds] is set and the [JMarquee]
+  /// This function will be called if [numberOfRounds] is set and the [Marquee]
   /// finished scrolled the specified number of rounds.
   final VoidCallback? onDone;
 
   @override
-  State<StatefulWidget> createState() => _JMarqueeState();
+  State<StatefulWidget> createState() => _MarqueeState();
 }
 
-class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin {
+class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
   /// The controller for the scrolling behavior.
   final ScrollController _controller = ScrollController();
   double? _maxHeight;
   // The scroll positions at various scrolling phases.
   late double _startPosition; // At the start, before accelerating.
-  late double
-      _accelerationTarget; // After accelerating, before moving linearly.
+  late double _accelerationTarget; // After accelerating, before moving linearly.
   late double _linearTarget; // After moving linearly, before decelerating.
   late double _decelerationTarget; // After decelerating.
 
@@ -379,11 +376,8 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
   bool _running = false;
   bool _isOnPause = false;
   int _roundCounter = 0;
-  bool get isDone => widget.numberOfRounds == null
-      ? false
-      : widget.numberOfRounds == _roundCounter;
-  bool get showFading =>
-      !widget.showFadingOnlyWhenScrolling ? true : !_isOnPause;
+  bool get isDone => widget.numberOfRounds == null ? false : widget.numberOfRounds == _roundCounter;
+  bool get showFading => !widget.showFadingOnlyWhenScrolling ? true : !_isOnPause;
 
   @override
   void initState() {
@@ -412,7 +406,7 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
 
   @override
   void didUpdateWidget(Widget oldWidget) {
-    super.didUpdateWidget(oldWidget as JMarquee);
+    super.didUpdateWidget(oldWidget as Marquee);
   }
 
   @override
@@ -425,22 +419,14 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
   void _initialize(BuildContext context) {
     // Calculate lengths (amount of pixels that each phase needs).
 
-    final totalLength = (widget.widget != null
-            ? context.widthOf(100)
-            : _getTextWidth(context)) +
-        widget.blankSpace;
+    final totalLength = (widget.widget != null ? context.widthOf(100) : _getTextWidth(context)) + widget.blankSpace;
 
-    final accelerationLength = widget.accelerationCurve.integral *
-        widget.velocity *
-        _accelerationDuration.inMilliseconds /
-        1000.0;
-    final decelerationLength = widget.decelerationCurve.integral *
-        widget.velocity *
-        _decelerationDuration.inMilliseconds /
-        1000.0;
+    final accelerationLength =
+        widget.accelerationCurve.integral * widget.velocity * _accelerationDuration.inMilliseconds / 1000.0;
+    final decelerationLength =
+        widget.decelerationCurve.integral * widget.velocity * _decelerationDuration.inMilliseconds / 1000.0;
     final linearLength =
-        (totalLength - accelerationLength.abs() - decelerationLength.abs()) *
-            (widget.velocity > 0 ? 1 : -1);
+        (totalLength - accelerationLength.abs() - decelerationLength.abs()) * (widget.velocity > 0 ? 1 : -1);
 
     // Calculate scroll positions at various scrolling phases.
     _startPosition = 2 * totalLength - widget.startPadding;
@@ -452,8 +438,7 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
     _totalDuration = _accelerationDuration +
         _decelerationDuration +
         Duration(milliseconds: (linearLength / widget.velocity * 1000).toInt());
-    _linearDuration =
-        _totalDuration - _accelerationDuration - _decelerationDuration;
+    _linearDuration = _totalDuration - _accelerationDuration - _decelerationDuration;
 
     assert(
       _totalDuration > Duration.zero,
@@ -557,8 +542,7 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
         alignment = isHorizontal ? Alignment.topCenter : Alignment.centerLeft;
         break;
       case CrossAxisAlignment.end:
-        alignment =
-            isHorizontal ? Alignment.bottomCenter : Alignment.centerRight;
+        alignment = isHorizontal ? Alignment.bottomCenter : Alignment.centerRight;
         break;
       case CrossAxisAlignment.center:
         alignment = Alignment.center;
@@ -568,8 +552,7 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
         alignment = null;
         break;
     }
-    var text = Text(widget.text ?? '',
-        style: widget.style, textScaleFactor: widget.textScaleFactor);
+    var text = Text(widget.text ?? '', style: widget.style, textScaleFactor: widget.textScaleFactor);
 
     var child = ListView.builder(
       shrinkWrap: true,
@@ -579,15 +562,13 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, i) {
         final child = i.isEven ? (widget.widget ?? text) : _buildBlankSpace();
-        return alignment == null
-            ? child
-            : Align(alignment: alignment, child: child);
+        return alignment == null ? child : Align(alignment: alignment, child: child);
       },
     );
 
     return _maxHeight != null
         ? SizedBox(height: _maxHeight, child: child)
-        : _PrototypeHeight(
+        : _prototypeHeight(
             prototype: widget.widget ?? text,
             listView: child,
           );
@@ -601,7 +582,7 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget _PrototypeHeight({
+  Widget _prototypeHeight({
     required Widget prototype,
     required Widget listView,
   }) =>
@@ -614,4 +595,56 @@ class _JMarqueeState extends State<JMarquee> with SingleTickerProviderStateMixin
           Positioned.fill(child: listView),
         ],
       );
+}
+
+/// A curve that represents the integral of another curve.
+///
+/// The constructor takes an other curve and calculates the integral. The
+/// values of this curve are then being normalized onto the interval from 0 to
+/// 1, but the integration value can always be obtained using the [interval]
+/// property.
+class _IntegralCurve extends Curve {
+  /// Delta for integrating.
+  static double delta = 0.01;
+
+  const _IntegralCurve._(this.original, this.integral, this._values);
+
+  /// The original curve that was integrated.
+  final Curve original;
+
+  /// The integral value.
+  final double integral;
+
+  /// Cached cumulative values of the integral.
+  final Map<double, double> _values;
+
+  /// The constructor that takes the [original] curve.
+  factory _IntegralCurve(Curve original) {
+    double integral = 0.0;
+    final values = <double, double>{};
+
+    for (double t = 0.0; t <= 1.0; t += delta) {
+      integral += original.transform(t) * delta;
+      values[t] = integral;
+    }
+    values[1.0] = integral;
+
+    // Normalize.
+    for (final double t in values.keys) {
+      values[t] = values[t]! / integral;
+    }
+
+    return _IntegralCurve._(original, integral, values);
+  }
+
+  /// Transforms a value to the normalized integrated value of the [original]
+  /// curve.
+  @override
+  double transform(double t) {
+    if (t < 0) return 0.0;
+    for (final key in _values.keys) {
+      if (key > t) return _values[key]!;
+    }
+    return 1.0;
+  }
 }

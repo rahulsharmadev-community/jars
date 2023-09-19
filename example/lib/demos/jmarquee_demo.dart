@@ -13,7 +13,7 @@ class JMarqueeDemo extends StatelessWidget {
           child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          JMarquee(
+          Marquee(
             pauseAfterRound: 3.seconds,
             blankSpace: 10,
             velocity: 100,
@@ -21,7 +21,7 @@ class JMarqueeDemo extends StatelessWidget {
                 size: 100, style: FlutterLogoStyle.horizontal),
           ),
           const Icon(Icons.account_circle_outlined),
-          JMarquee(
+          Marquee(
             blankSpace: 100,
             text:
                 'JMarquee is a flutter widget that scrolls widget infinitely.',

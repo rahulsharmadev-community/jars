@@ -41,8 +41,7 @@ class JDialogsDemo extends StatelessWidget {
                       .map((e) => JListTile(
                             key: e,
                             title: Text(e),
-                            subtitle: const Text(
-                                'Here are selected dialog subtitle.'),
+                            subtitle: const Text('Here are selected dialog subtitle.'),
                             leading: const Icon(Icons.ac_unit),
                           ))
                       .toList(),
@@ -66,10 +65,7 @@ class JDialogsDemo extends StatelessWidget {
                             child: const Icon(Icons.abc),
                           ))
                       .toList(),
-                ),
-                onSelected: (result) {
-                  print(result);
-                },
+                ), onSelected: (List<String> result) {  },
               ),
             ],
           ),

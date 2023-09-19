@@ -12,17 +12,6 @@ class _SnackBarDesign extends StatelessWidget {
     this.durationSync,
   });
 
-  MainAxisAlignment _mainAxis() {
-    switch (config.alignment.x.toInt()) {
-      case 0:
-        return MainAxisAlignment.center;
-      case -1:
-        return MainAxisAlignment.start;
-      default:
-        return MainAxisAlignment.end;
-    }
-  }
-
   void _onManualDismissed() {
     onDismissed();
     if (config.onDismissed != null) config.onDismissed!();
