@@ -119,26 +119,17 @@ class _TostStateWidget extends State<_SnackBarWidget>
         durationSync: timeController?.stream,
         config: widget.config,
         onDismissed: () => close(false));
-    double bottom = context.mediaQuery.viewInsets.bottom;
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) => Positioned(
-          top: widget.config.alignment.y < 0
-              ? widget.config.farFromEdge * controller.value
-              : widget.config.alignment.y == 0
-                  ? 0
-                  : null,
-          bottom: widget.config.alignment.y > 0
-              ? widget.config.farFromEdge * controller.value + bottom
-              : widget.config.alignment.y == 0
-                  ? 0 + bottom
-                  : null,
-          left: 0,
-          right: 0,
-          child: FadeTransition(
-            opacity: controller,
-            child: FadeTransition(opacity: controller, child: snakbar),
-          )),
+    var align = widget.config.alignment;
+    bool keyboardOpen = context.mediaQuery.viewInsets.bottom > 0.0;
+    double margin = keyboardOpen && !align.y.isNegative ? 0.8 : 0.2;
+    return Align(
+      alignment: align.add(Alignment(0, -1 * align.y * margin)),
+      child: AnimatedBuilder(
+          animation: controller,
+          builder: (context, child) => FadeTransition(
+                opacity: controller,
+                child: FadeTransition(opacity: controller, child: snakbar),
+              )),
     );
   }
 }

@@ -97,29 +97,21 @@ class _TostStateWidget extends State<_ToastWidget>
 
   @override
   Widget build(BuildContext context) {
-    double bottom = context.mediaQuery.viewInsets.bottom;
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        return Positioned(
-            top: widget.config.alignment.y < 0
-                ? widget.config.farFromEdge * controller.value + bottom
-                : widget.config.alignment.y == 0
-                    ? 0 + bottom
-                    : null,
-            bottom: widget.config.alignment.y > 0
-                ? widget.config.farFromEdge * controller.value + bottom
-                : widget.config.alignment.y == 0
-                    ? 0 + bottom
-                    : null,
-            left: 0,
-            right: 0,
-            child: FadeTransition(
-              opacity: controller,
-              child: _ToastDesign(widget.msg,
-                  config: widget.config, onDismissed: () => close(false)),
-            ));
-      },
+    var align = widget.config.alignment;
+    bool keyboardOpen = context.mediaQuery.viewInsets.bottom > 0.0;
+    double margin = keyboardOpen && !align.y.isNegative ? 0.8 : 0.2;
+    return Align(
+      alignment: align.add(Alignment(0, -1 * align.y * margin)),
+      child: AnimatedBuilder(
+        animation: controller,
+        builder: (context, child) {
+          return FadeTransition(
+            opacity: controller,
+            child: _ToastDesign(widget.msg,
+                config: widget.config, onDismissed: () => close(false)),
+          );
+        },
+      ),
     );
   }
 }

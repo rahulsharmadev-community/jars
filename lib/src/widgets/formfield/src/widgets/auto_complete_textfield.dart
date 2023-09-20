@@ -9,96 +9,98 @@ class SmartJTextField extends JTextFieldModel {
   final AutoCompleteBoxDecoration decoration;
   final AutoCompleteConfig configuration;
 
-  SmartJTextField.autoCompleteField({
-    required this.options,
-    final AutoCompleteBoxDecoration? decoration,
-    final AutoCompleteConfig? configuration,
-    super.key,
-    super.cursorConfig,
-    super.inputFormatters = const [],
-    super.maxLengthEnforcement,
-    int lines = 1,
-    super.expands = false,
-    super.maxLength,
-    super.errorText,
-    super.label,
-    super.labelText,
-    super.onClear,
-    super.inital,
-    super.onChange,
-    super.onSubmitted,
-    super.borderConfig,
-    super.textDirection,
-    super.autofocus = false,
-    super.textAlign = TextAlign.start,
-    super.autovalidateMode,
-    super.validatorPattern,
-    super.validatorText,
-    super.onTap,
-    super.enableInteractiveSelection,
-    super.selectionControls,
-    super.buildCounter,
-    super.autofillHints,
-    super.scrollController,
-    super.magnifierConfiguration,
-    super.keyboardType = TextInputType.text,
-    super.textInputAction = TextInputAction.done,
-    super.prefixIcon,
-    super.prefixText,
-    super.leading,
-    super.suffixIcon,
-    super.helperText,
-    super.hintText,
-    super.suffixText,
-    super.counterText,
-    super.error,
-    super.prefix,
-    super.suffix,
-    super.counter,
-    super.isDense,
-    super.styleConfig,
-  })  : decoration = decoration ?? const AutoCompleteBoxDecoration(),
+  SmartJTextField.autoCompleteField(
+      {required this.options,
+      final AutoCompleteBoxDecoration? decoration,
+      final AutoCompleteConfig? configuration,
+      super.key,
+      super.cursorConfig,
+      super.inputFormatters = const [],
+      super.maxLengthEnforcement,
+      int lines = 1,
+      super.expands = false,
+      super.maxLength,
+      super.errorText,
+      super.label,
+      super.labelText,
+      super.onClear,
+      super.inital,
+      super.onChange,
+      super.onSubmitted,
+      super.borderConfig,
+      super.textDirection,
+      super.autofocus = false,
+      super.textAlign = TextAlign.start,
+      super.autovalidateMode,
+      super.validatorPattern,
+      super.validatorText,
+      super.onTap,
+      super.enableInteractiveSelection,
+      super.selectionControls,
+      super.buildCounter,
+      super.autofillHints,
+      super.scrollController,
+      super.magnifierConfiguration,
+      super.keyboardType = TextInputType.text,
+      super.textInputAction = TextInputAction.done,
+      super.prefixIcon,
+      super.prefixText,
+      super.leading,
+      super.suffixIcon,
+      super.helperText,
+      super.hintText,
+      super.suffixText,
+      super.counterText,
+      super.error,
+      super.prefix,
+      super.suffix,
+      super.counter,
+      super.isDense,
+      super.styleConfig,
+      super.onDone})
+      : decoration = decoration ?? const AutoCompleteBoxDecoration(),
         configuration = configuration ?? AutoCompleteConfig(),
         super(minLines: lines, maxLines: lines);
 
-  SmartJTextField.dropdownField({
-    required this.options,
-    this.decoration = const AutoCompleteBoxDecoration(),
-    super.key,
-    super.inputFormatters = const [],
-    super.errorText,
-    super.label,
-    super.labelText,
-    super.inital,
-    super.onChange,
-    super.borderConfig,
-    super.textDirection,
-    super.textAlign = TextAlign.start,
-    super.autovalidateMode,
-    super.validatorPattern,
-    super.validatorText,
-    super.onTap,
-    super.enableInteractiveSelection,
-    super.selectionControls,
-    super.buildCounter,
-    super.autofillHints,
-    super.scrollController,
-    super.magnifierConfiguration,
-    super.prefixIcon,
-    super.prefixText,
-    super.leading,
-    super.suffixIcon,
-    super.helperText,
-    super.hintText,
-    super.suffixText,
-    super.counterText,
-    super.error,
-    super.prefix,
-    super.suffix,
-    super.counter,
-    super.isDense,
-    super.styleConfig,
-  }) : configuration = AutoCompleteConfig(
+  SmartJTextField.dropdownField(
+      {required this.options,
+      this.decoration = const AutoCompleteBoxDecoration(),
+      super.key,
+      super.inputFormatters = const [],
+      super.errorText,
+      super.label,
+      super.labelText,
+      super.inital,
+      super.onChange,
+      super.borderConfig,
+      super.textDirection,
+      super.textAlign = TextAlign.start,
+      super.autovalidateMode,
+      super.validatorPattern,
+      super.validatorText,
+      super.onTap,
+      super.enableInteractiveSelection,
+      super.selectionControls,
+      super.buildCounter,
+      super.autofillHints,
+      super.scrollController,
+      super.magnifierConfiguration,
+      super.prefixIcon,
+      super.prefixText,
+      super.leading,
+      super.suffixIcon,
+      super.helperText,
+      super.hintText,
+      super.suffixText,
+      super.counterText,
+      super.error,
+      super.prefix,
+      super.suffix,
+      super.counter,
+      super.isDense,
+      super.styleConfig,
+      super.onDone})
+      : configuration = AutoCompleteConfig(
             showOptionsOnEmptyField: true,
             openCloseIndicator: true,
             disabledTextField: true);
@@ -145,9 +147,10 @@ class _AutoCompleteTextFieldState extends State<SmartJTextField> {
   }
 
   void _onSelected(String text) {
+    text = text.trim();
     if (widget.onChange != null) widget.onChange!(text);
+    _onSubmitted(text);
     setState(() {});
-    onSubmittedFocusNext(text);
   }
 
   @override
@@ -202,9 +205,9 @@ class _AutoCompleteTextFieldState extends State<SmartJTextField> {
     );
   }
 
-  void onSubmittedFocusNext(String text) {
+  void _onSubmitted(String text) {
+    if (widget.onDone != null) widget.onDone!();
     if (widget.onSubmitted != null) widget.onSubmitted!(text);
-    if (widget.onFocus != null) widget.onFocus!();
   }
 
   GlobalKey textfieldKey = GlobalKey();
@@ -223,7 +226,7 @@ class _AutoCompleteTextFieldState extends State<SmartJTextField> {
       controller: controller,
       style: widget.styleConfig.style,
       readOnly: configuration.disabledTextField,
-      onFieldSubmitted: onSubmittedFocusNext,
+      onFieldSubmitted: _onSubmitted,
       expands: widget.expands,
       textDirection: widget.textDirection,
       autofocus: widget.autofocus,
@@ -282,7 +285,7 @@ class _AutoCompleteTextFieldState extends State<SmartJTextField> {
             textfieldBorder(colors.primary),
       ),
       onChanged: widget.onChange,
-      onEditingComplete: () => onSubmittedFocusNext(controller.text),
+      onEditingComplete: () => _onSubmitted(controller.text),
     );
   }
 
@@ -293,6 +296,9 @@ class _AutoCompleteTextFieldState extends State<SmartJTextField> {
             controller.clear();
             if (widget.onChange != null) {
               widget.onChange!(controller.text);
+            }
+            if (widget.onSubmitted != null) {
+              widget.onSubmitted!(controller.text);
             }
             setState(() {});
           },

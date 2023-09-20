@@ -1,7 +1,5 @@
-import 'package:example/demos/export.dart';
-import 'package:example/demos/formbuilder_demo.dart';
-import 'package:example/demos/jdialogs.dart';
 import 'package:jars/jars.dart';
+import 'demos/export.dart';
 import 'package:flutter/material.dart';
 
 void main() {

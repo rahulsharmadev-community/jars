@@ -13,8 +13,7 @@ abstract class JTextFieldModel extends StatefulWidget {
   final Widget? label, error, prefixIcon, prefix;
   final Widget? suffixIcon, suffix, counter, leading;
   final void Function(String text)? onChange, onSubmitted;
-  final VoidCallback? onClear, onTap;
-  VoidCallback? onFocus;
+  final VoidCallback? onClear, onTap, onDone;
   final BorderConfig borderConfig;
 
   final bool isDense;
@@ -81,7 +80,7 @@ abstract class JTextFieldModel extends StatefulWidget {
   final DragStartBehavior dragStartBehavior = DragStartBehavior.start;
   final List<TextInputFormatter> inputFormatters;
 
-  JTextFieldModel({
+  const JTextFieldModel({
     super.key,
     this.helperText,
     this.hintText,
@@ -100,7 +99,6 @@ abstract class JTextFieldModel extends StatefulWidget {
     this.labelText,
     this.inital,
     this.textDirection,
-    this.autovalidateMode,
     this.validatorPattern,
     this.validatorText,
     this.onClear,
@@ -134,6 +132,8 @@ abstract class JTextFieldModel extends StatefulWidget {
     this.styleConfig = const StyleConfig(),
     this.cursorConfig = const CursorConfig(),
     this.borderConfig = const BorderConfig(),
+    this.onDone,
+    AutovalidateMode? autovalidateMode,
   })  : assert(maxLines > 0),
         assert(minLines == null || minLines > 0),
         assert(
@@ -146,7 +146,10 @@ abstract class JTextFieldModel extends StatefulWidget {
         ),
         assert(maxLength == null ||
             maxLength == TextField.noMaxLength ||
-            maxLength > 0);
+            maxLength > 0),
+        autovalidateMode = validatorPattern != null
+            ? autovalidateMode ?? AutovalidateMode.onUserInteraction
+            : null;
 
   InputDecoration get inputDecoration => InputDecoration(
         isDense: isDense,
@@ -243,7 +246,7 @@ class StyleConfig {
       this.focusColor,
       this.hoverColor,
       this.helperMaxLines,
-      this.errorMaxLines});
+      this.errorMaxLines = 2});
 }
 
 class CursorConfig {

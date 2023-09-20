@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jars/jars.dart';
-import '../model/text_field_model.dart';
 
 // ignore: must_be_immutable
 class JTextField extends JTextFieldModel {
-  JTextField(
+  const JTextField(
       {super.key,
       super.inputFormatters,
       super.maxLengthEnforcement,
@@ -57,9 +56,10 @@ class JTextField extends JTextFieldModel {
       super.isDense,
       super.numberFormatting,
       super.numberSeparator,
-      super.obscuringCharacter});
+      super.obscuringCharacter,
+      super.onDone});
 
-  JTextField.obscureField({
+  const JTextField.obscureField({
     super.key,
     super.cursorConfig,
     super.maxLengthEnforcement,
@@ -108,6 +108,7 @@ class JTextField extends JTextFieldModel {
     super.suffix,
     super.counter,
     super.isDense,
+    super.onDone,
     super.styleConfig = const StyleConfig(style: TextStyle(letterSpacing: 2)),
   }) : super(obscureText: true);
 
@@ -135,24 +136,26 @@ class _SimpleTextFieldState extends State<JTextField> {
         borderSide: BorderSide(width: 0.7, color: color),
       );
 
-  void onSubmittedFocusNext(String text) {
+  void _onSubmitted(String text) {
     if (widget.onSubmitted != null) {
-      var newText = text;
+      var newText = text.trim();
+      controller.text = newText;
       if (widget.numberFormatting) {
         newText = newText.replaceAll(widget.numberSeparator, '');
-        newText = double.tryParse(newText) != null ? newText : text;
+        newText = double.tryParse(newText) != null ? newText : controller.text;
       }
-      widget.onSubmitted!(newText);
+
+      if (widget.onDone != null) widget.onDone!();
+      if (widget.onSubmitted != null) widget.onSubmitted!(newText);
     }
-    if (widget.onFocus != null) widget.onFocus!();
   }
 
   void _onChange(String text) {
     if (widget.onChange != null) {
-      var newText = text;
+      var newText = text.trim();
       if (widget.numberFormatting) {
         newText = newText.replaceAll(widget.numberSeparator, '');
-        newText = double.tryParse(newText) != null ? newText : text;
+        newText = double.tryParse(newText) != null ? newText : text.trim();
       }
       widget.onChange!(newText);
     }
@@ -166,7 +169,7 @@ class _SimpleTextFieldState extends State<JTextField> {
         controller: controller,
         style: widget.styleConfig.style,
         readOnly: widget.readOnly,
-        onFieldSubmitted: onSubmittedFocusNext,
+        onFieldSubmitted: _onSubmitted,
         textDirection: widget.textDirection,
         autofocus: widget.autofocus,
         cursorWidth: widget.cursorConfig.cursorWidth,
@@ -230,7 +233,9 @@ class _SimpleTextFieldState extends State<JTextField> {
               textfieldBorder(colors.primary),
         ),
         onChanged: _onChange,
-        onEditingComplete: () => onSubmittedFocusNext(controller.text));
+        onEditingComplete: () {
+          _onSubmitted(controller.text);
+        });
   }
 
   IconButton clearButton() {
@@ -238,6 +243,9 @@ class _SimpleTextFieldState extends State<JTextField> {
         onPressed: () {
           controller.clear();
           _onChange(controller.text);
+          if (widget.onSubmitted != null) {
+            widget.onSubmitted!(controller.text);
+          }
         },
         icon: const Icon(Icons.close_rounded));
   }

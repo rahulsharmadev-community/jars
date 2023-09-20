@@ -69,34 +69,6 @@ class _FormBuilderDemoState extends State<FormBuilderDemo> {
                         hintText: 'Hint Text',
                         onSubmitted: onSubmit,
                       ),
-                      [
-                        DateTimeJTextField(
-                          labelText: 'Date',
-                          onChange: onSubmit,
-                          datePickerConfig: DatePickerConfig(
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1999),
-                            lastDate: DateTime.now(),
-                          ),
-                        ),
-                        DateTimeJTextField(
-                          labelText: 'Time',
-                          onChange: onSubmit,
-                          timePickerConfig:
-                              TimePickerConfig(initialTime: TimeOfDay.now()),
-                        ),
-                        DateTimeJTextField(
-                          labelText: 'DateTime',
-                          timePickerConfig:
-                              TimePickerConfig(initialTime: TimeOfDay.now()),
-                          onChange: onSubmit,
-                          datePickerConfig: DatePickerConfig(
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1999),
-                            lastDate: DateTime.now(),
-                          ),
-                        ),
-                      ],
                       SmartJTextField.autoCompleteField(
                         options: items,
                         inital: items.first,
@@ -109,21 +81,6 @@ class _FormBuilderDemoState extends State<FormBuilderDemo> {
                         inital: items.first,
                         onChange: onSubmit,
                       ),
-                      [
-                        JTextField.obscureField(
-                          inital: 'Field 1',
-                          hintText: 'Hint for Field 1',
-                          onChange: (text) =>
-                              print({'autoCompleteField': text}),
-                          onSubmitted: onSubmit,
-                        ),
-                        JTextField(
-                          inital: 'Field 2',
-                          onChange: (text) =>
-                              print({'autoCompleteField': text}),
-                          onSubmitted: onSubmit,
-                        ),
-                      ],
                       listTile,
                     ],
                   );

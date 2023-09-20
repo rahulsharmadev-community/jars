@@ -11,7 +11,7 @@ class DateTimeJTextField extends JTextFieldModel {
   final DatePickerConfig? datePickerConfig;
   final TimePickerConfig? timePickerConfig;
   final String Function(DateTime?, TimeOfDay?) setValue;
-  DateTimeJTextField({
+  const DateTimeJTextField({
     super.key,
     String Function(DateTime?, TimeOfDay?)? setValue,
     this.datePickerConfig,
@@ -43,6 +43,7 @@ class DateTimeJTextField extends JTextFieldModel {
     super.suffix,
     super.isDense,
     super.styleConfig,
+    super.onDone,
   })  : assert(datePickerConfig != null || timePickerConfig != null),
         setValue = setValue ?? defaultSetValue;
 
@@ -109,7 +110,7 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
     isDialogOpen = false;
     canAttempt = false;
     controller.text = widget.setValue(dateTime, time);
-    onSubmittedFocusNext(controller.text);
+    _onSubmitted();
     canAttempt = true;
     setState(() {});
   }
@@ -119,9 +120,10 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
         borderSide: BorderSide(width: 0.7, color: color),
       );
 
-  void onSubmittedFocusNext(String text) {
-    if (widget.onSubmitted != null) widget.onSubmitted!(text);
-    if (widget.onFocus != null) widget.onFocus!();
+  void _onSubmitted() {
+    controller.text = controller.text.trim();
+    if (widget.onSubmitted != null) widget.onSubmitted!(controller.text);
+    if (widget.onDone != null) widget.onDone!();
   }
 
   @override
@@ -187,6 +189,9 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
           controller.clear();
           if (widget.onChange != null) {
             widget.onChange!(controller.text);
+            if (widget.onSubmitted != null) {
+              widget.onSubmitted!(controller.text);
+            }
           }
           setState(() {});
         },
