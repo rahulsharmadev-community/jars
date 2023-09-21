@@ -144,10 +144,9 @@ class _SimpleTextFieldState extends State<JTextField> {
         newText = newText.replaceAll(widget.numberSeparator, '');
         newText = double.tryParse(newText) != null ? newText : controller.text;
       }
-
-      if (widget.onDone != null) widget.onDone!();
-      if (widget.onSubmitted != null) widget.onSubmitted!(newText);
+      widget.onSubmitted!(newText);
     }
+    if (widget.onDone != null) widget.onDone!();
   }
 
   void _onChange(String text) {
@@ -233,9 +232,7 @@ class _SimpleTextFieldState extends State<JTextField> {
               textfieldBorder(colors.primary),
         ),
         onChanged: _onChange,
-        onEditingComplete: () {
-          _onSubmitted(controller.text);
-        });
+        onEditingComplete: () => _onSubmitted(controller.text));
   }
 
   IconButton clearButton() {
