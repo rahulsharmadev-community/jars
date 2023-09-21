@@ -7,6 +7,8 @@ extension StringExtensions on String {
 
   bool get isBlank => trim().isEmpty;
 
+  Uri uri([int start = 0, int? end]) => Uri.parse(this, start, end);
+
   /// Sample:
   /// ```
   /// void main(){
@@ -19,7 +21,9 @@ extension StringExtensions on String {
   String numberReadableFormat([String separator = ',']) {
     RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
     mathFunc(Match match) => '${match[1]}$separator';
-    return split('.').map((e) => e.replaceAllMapped(readable, mathFunc)).join('.');
+    return split('.')
+        .map((e) => e.replaceAllMapped(readable, mathFunc))
+        .join('.');
   }
 
   /// Sample
