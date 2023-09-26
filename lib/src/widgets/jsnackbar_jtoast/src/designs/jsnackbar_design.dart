@@ -25,7 +25,9 @@ class _SnackBarDesign extends StatelessWidget {
             stream: durationSync,
             builder: (context, s) {
               return Text('${s.data?.hms()}s',
-                      style: TextStyle(fontWeight: FontWeight.w600, color: context.colorScheme.primaryContainer))
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: context.colorScheme.primaryContainer))
                   .paddingOnly(right: 8);
             })
       ];
@@ -35,19 +37,25 @@ class _SnackBarDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = (config.textStyle ?? context.textTheme.bodyMedium ?? const TextStyle()).copyWith(
+    TextStyle textStyle =
+        (config.textStyle ?? context.textTheme.bodyMedium ?? const TextStyle())
+            .copyWith(
       color: config.forgroundColor ?? context.colorScheme.onSecondary,
     );
     late Widget returnChild;
 
     Widget? title, subtitle;
-    title = config.titleText != null ? Text(config.titleText!) : config.title;
+    title = config.titleText != null
+        ? Text(config.titleText!, textAlign: config.textAlign)
+        : config.title;
 
     if (config.subTitleText != null) subtitle = Text(config.subTitleText!);
     if (config.subTitle != null) subtitle = config.title;
 
     returnChild = Theme(
-      data: context.theme.copyWith(iconTheme: IconThemeData(color: context.colorScheme.primaryContainer)),
+      data: context.theme.copyWith(
+          iconTheme:
+              IconThemeData(color: context.colorScheme.primaryContainer)),
       child: ListTile(
         dense: true,
         title: title,
@@ -70,6 +78,8 @@ class _SnackBarDesign extends StatelessWidget {
       ),
     );
 
+    var textStyle2 =
+        (config.textStyle ?? context.textTheme.bodySmall ?? const TextStyle());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Dismissible(
@@ -80,6 +90,8 @@ class _SnackBarDesign extends StatelessWidget {
           type: MaterialType.card,
           elevation: config.elevation,
           clipBehavior: Clip.hardEdge,
+          textStyle: textStyle2.copyWith(
+              color: config.forgroundColor ?? context.colorScheme.onSecondary),
           color: config.backgroundColor ?? context.colorScheme.secondary,
           borderRadius: config.borderRadius,
           child: Padding(padding: config.padding, child: returnChild),

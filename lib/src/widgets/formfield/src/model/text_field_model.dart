@@ -14,6 +14,9 @@ abstract class JTextFieldModel extends StatefulWidget {
   final Widget? suffixIcon, suffix, counter, leading;
   final void Function(String text)? onChange, onSubmitted;
   final VoidCallback? onClear, onTap, onDone;
+
+  final void Function(String)? onValidator;
+
   final BorderConfig borderConfig;
 
   final bool isDense;
@@ -79,9 +82,12 @@ abstract class JTextFieldModel extends StatefulWidget {
   final ui.BoxWidthStyle selectionWidthStyle = ui.BoxWidthStyle.tight;
   final DragStartBehavior dragStartBehavior = DragStartBehavior.start;
   final List<TextInputFormatter> inputFormatters;
+  final TextEditingController? controller;
+  final bool showLimitText;
 
-  const JTextFieldModel({
+  JTextFieldModel({
     super.key,
+    this.controller,
     this.helperText,
     this.hintText,
     this.suffixText,
@@ -93,7 +99,6 @@ abstract class JTextFieldModel extends StatefulWidget {
     this.isDense = true,
     this.maxLengthEnforcement,
     this.minLines,
-    this.maxLength,
     this.errorText,
     this.label,
     this.labelText,
@@ -120,11 +125,13 @@ abstract class JTextFieldModel extends StatefulWidget {
     this.maxLines = 1,
     this.readOnly = false,
     this.autofocus = false,
-    this.inputFormatters = const [],
+    int? maxLength,
+    List<TextInputFormatter>? inputFormatters,
     this.obscureText = false,
     this.obscuringCharacter = '•',
     this.expands = false,
     this.numberFormatting = false,
+    this.showLimitText = false,
     this.numberSeparator = ',',
     this.textAlign = TextAlign.start,
     this.keyboardType = TextInputType.text,
@@ -134,6 +141,7 @@ abstract class JTextFieldModel extends StatefulWidget {
     this.borderConfig = const BorderConfig(),
     this.onDone,
     AutovalidateMode? autovalidateMode,
+    this.onValidator,
   })  : assert(maxLines > 0),
         assert(minLines == null || minLines > 0),
         assert(
@@ -144,12 +152,12 @@ abstract class JTextFieldModel extends StatefulWidget {
           !expands || minLines == null,
           'minLines and maxLines must be null when expands is true.',
         ),
-        assert(maxLength == null ||
-            maxLength == TextField.noMaxLength ||
-            maxLength > 0),
-        autovalidateMode = validatorPattern != null
-            ? autovalidateMode ?? AutovalidateMode.onUserInteraction
-            : null;
+        assert(maxLength == null || maxLength == TextField.noMaxLength || maxLength > 0),
+        inputFormatters = inputFormatters ??
+            [if (maxLength != null && !showLimitText) LengthLimitingTextInputFormatter(maxLength)],
+        maxLength = inputFormatters == null && showLimitText ? maxLength : null,
+        autovalidateMode =
+            validatorPattern != null ? autovalidateMode ?? AutovalidateMode.onUserInteraction : null;
 
   InputDecoration get inputDecoration => InputDecoration(
         isDense: isDense,
@@ -227,10 +235,8 @@ class StyleConfig {
       this.labelStyle,
       this.floatingLabelStyle,
       this.helperStyle,
-      this.hintStyle = const TextStyle(
-          letterSpacing: 0,
-          fontWeight: FontWeight.normal,
-          overflow: TextOverflow.ellipsis),
+      this.hintStyle =
+          const TextStyle(letterSpacing: 0, fontWeight: FontWeight.normal, overflow: TextOverflow.ellipsis),
       this.hintTextDirection,
       this.hintMaxLines,
       this.errorStyle,

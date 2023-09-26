@@ -122,14 +122,17 @@ class _TostStateWidget extends State<_SnackBarWidget>
     var align = widget.config.alignment;
     bool keyboardOpen = context.mediaQuery.viewInsets.bottom > 0.0;
     double margin = keyboardOpen && !align.y.isNegative ? 0.8 : 0.2;
-    return Align(
-      alignment: align.add(Alignment(0, -1 * align.y * margin)),
-      child: AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) => FadeTransition(
-                opacity: controller,
-                child: FadeTransition(opacity: controller, child: snakbar),
-              )),
+    return Padding(
+      padding: widget.config.margin,
+      child: Align(
+        alignment: align.add(Alignment(0, -1 * align.y * margin)),
+        child: AnimatedBuilder(
+            animation: controller,
+            builder: (context, child) => FadeTransition(
+                  opacity: controller,
+                  child: FadeTransition(opacity: controller, child: snakbar),
+                )),
+      ),
     );
   }
 }

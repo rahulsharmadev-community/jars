@@ -39,7 +39,7 @@ class FormBuilder extends StatelessWidget {
       this.titleStyle,
       this.subtitleStyle,
       this.captionStyle,
-      this.padding = const EdgeInsets.fromLTRB(16, 24, 16, 24),
+      this.padding = const EdgeInsets.fromLTRB(16, 0, 16, 24),
       this.onChanged,
       this.formKey,
       this.onWillPop})
@@ -55,8 +55,7 @@ class FormBuilder extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: alignment,
           children: [
-            if (title != null)
-              Text(title!, style: context.textTheme.titleLarge).semiBold,
+            if (title != null) Text(title!, style: context.textTheme.titleLarge).semiBold,
             if (subtitle != null) Text(subtitle!).opacity(0.7),
             if (title != null || title != null) 16.gap,
             ...children.map((child) {
@@ -65,15 +64,12 @@ class FormBuilder extends StatelessWidget {
                       .copyWith(
                           children: List<Widget>.generate(
                         child.children.length * 2 - 1,
-                        (i) => i % 2 == 0
-                            ? child.children[i ~/ 2]
-                            : verticalGap.gap,
+                        (i) => i % 2 == 0 ? child.children[i ~/ 2] : verticalGap.gap,
                       ).toList())
                       .paddingOnly(bottom: horizontalGap)
                   : child.paddingOnly(bottom: horizontalGap);
             }),
-            if (actions.isNotEmpty)
-              Row(mainAxisAlignment: actionsAlignment, children: actions),
+            if (actions.isNotEmpty) Row(mainAxisAlignment: actionsAlignment, children: actions),
             if (caption != null)
               Center(
                   child: Text(caption!, textAlign: TextAlign.center)
@@ -89,7 +85,8 @@ class FormBuilder extends StatelessWidget {
             key: formKey,
             onChanged: onChanged,
             onWillPop: onWillPop,
-            child: returnChild)
+            child: returnChild,
+          )
         : returnChild;
   }
 }

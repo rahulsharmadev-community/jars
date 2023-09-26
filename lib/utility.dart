@@ -6,4 +6,5 @@ export 'src/utility/re_case.dart';
 export 'src/utility/schedule.dart';
 export 'src/utility/timeago.dart';
 export 'src/utility/static/_export.dart';
+export 'src/utility/after_layout.dart';
 export 'src/utility/guard.dart';

@@ -1,8 +1,7 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, prefer_interpolation_to_compose_strings
 
 extension RegPatternsExt on RegPatterns {
-  bool hasMatch(String value, {multiLine = false}) =>
-      RegExp(pattern, multiLine: multiLine).hasMatch(value);
+  bool hasMatch(String value, {multiLine = false}) => RegExp(pattern, multiLine: multiLine).hasMatch(value);
 }
 
 class RegPatterns {
@@ -13,18 +12,24 @@ class RegPatterns {
   }) : message = message ?? 'Invalid format';
 
   /// Username regex
-  static username([bool allowWhitespace = false]) => RegPatterns._(
-      pattern: allowWhitespace
-          ? r'^[a-zA-Z0-9 ][a-zA-Z0-9_. ]+[a-zA-Z0-9 ]$'
-          : r'^[a-zA-Z0-9][a-zA-Z0-9_.]+[a-zA-Z0-9]$',
-      message:
-          'Username only contain number, alphabet, dot and underscore only.');
+  static RegPatterns username({
+    bool allowSpace = false,
+    int minLength = 2,
+    int maxLength = 16,
+  }) {
+    final min = (minLength < 2 ? 2 : minLength - 2).toString();
+    final max = (maxLength - 2).toString();
+    return RegPatterns._(
+        pattern: allowSpace
+            ? r'^[a-zA-Z0-9][a-zA-Z0-9_\-/. ]{' + min + ',' + max + r'}[a-zA-Z0-9]$'
+            : r'^[a-zA-Z0-9][a-zA-Z0-9_\-/.]{' + min + ',' + max + r'}[a-zA-Z0-9]$',
+        message: 'Only accepts a-zA-Z - _ • / ${allowSpace ? 'and space.' : ''}');
+  }
 
   /// Name regex
-  static name([bool allowWhitespace = false]) => RegPatterns._(
-      pattern: allowWhitespace ? r"^[a-zA-Z.\-' ]*$" : r"^[a-zA-Z.\-']*$",
-      message:
-          'Only accepts a-zA-Z ′ - • ${allowWhitespace ? 'and whitespace.' : ''}');
+  static name([bool allowSpace = false]) => RegPatterns._(
+      pattern: allowSpace ? r"^[a-zA-Z.\-' ]*$" : r"^[a-zA-Z.\-']*$",
+      message: 'Only accepts a-zA-Z ′ - • ${allowSpace ? 'and space.' : ''}');
 
   /// Email regex
   static const email = RegPatterns._(
@@ -44,16 +49,8 @@ class RegPatterns {
   /// Can add whitespace separating digit with "+" or "(+XX)"
   /// Example: 05555555555, +555 5555555555, (+123) 5555555555, (555) 5555555555, +5555 5555555555
   static const phone = RegPatterns._(
-    pattern:
-        r'^(0|\+|(\+[0-9]{2,4}|\(\+?[0-9]{2,4}\)) ?)([0-9]*|\d{2,4}-\d{2,4}(-\d{2,4})?)$',
+    pattern: r'^(0|\+|(\+[0-9]{2,4}|\(\+?[0-9]{2,4}\)) ?)([0-9]*|\d{2,4}-\d{2,4}(-\d{2,4})?)$',
     message: 'Invalid phone number.',
-  );
-
-  /// Hexadecimal regex
-  static const hexadecimal = RegPatterns._(
-    pattern: r'^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$',
-    message:
-        "Can start with an '#' and are followed by either 3 or 6 hexadecimal characters (0-9, a-f, A-F)",
   );
 
   static const svg = RegPatterns._(
@@ -140,28 +137,24 @@ class RegPatterns {
   /// SHA1 regex
   static const sha1 = RegPatterns._(
     pattern: r'(([A-Fa-f0-9]{2}\:){19}[A-Fa-f0-9]{2}|[A-Fa-f0-9]{40})',
-    message:
-        'Either 40 hexadecimal characters or 20 pairs of hexadecimal characters separated by colons.',
+    message: 'Either 40 hexadecimal characters or 20 pairs of hexadecimal characters separated by colons.',
   );
 
   /// SHA256 regex
   static const sha256 = RegPatterns._(
     pattern: r'([A-Fa-f0-9]{2}\:){31}[A-Fa-f0-9]{2}|[A-Fa-f0-9]{64}',
-    message:
-        'Either be 64 hexadecimal characters or 32 pairs of hexadecimal characters separated by colons.',
+    message: 'Either be 64 hexadecimal characters or 32 pairs of hexadecimal characters separated by colons.',
   );
 
   /// SSN (Social Security Number) regex
   static const ssn = RegPatterns._(
-    pattern:
-        r'^(?!0{3}|6{3}|9[0-9]{2})[0-9]{3}-?(?!0{2})[0-9]{2}-?(?!0{4})[0-9]{4}$',
+    pattern: r'^(?!0{3}|6{3}|9[0-9]{2})[0-9]{3}-?(?!0{2})[0-9]{2}-?(?!0{4})[0-9]{4}$',
     message:
         "ensuring it doesn't start with all zeros in each section and follows the typical format: XXX-XX-XXXX.",
   );
 
   /// IPv4 regex
-  static const ipv4 = RegPatterns._(
-      pattern: r'^(?:(?:^|\.)(?:2(?:5[0-5]|[0-4]\d)|1?\d?\d)){4}$');
+  static const ipv4 = RegPatterns._(pattern: r'^(?:(?:^|\.)(?:2(?:5[0-5]|[0-4]\d)|1?\d?\d)){4}$');
 
   /// IPv6 regex
   static const ipv6 = RegPatterns._(
@@ -169,14 +162,12 @@ class RegPatterns {
           r'^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$');
 
   /// ISBN 10 & 13 regex
-  static const isbn = RegPatterns._(
-      pattern:
-          r'(ISBN(\-1[03])?[:]?[ ]?)?(([0-9Xx][- ]?){13}|([0-9Xx][- ]?){10})');
+  static const isbn =
+      RegPatterns._(pattern: r'(ISBN(\-1[03])?[:]?[ ]?)?(([0-9Xx][- ]?){13}|([0-9Xx][- ]?){10})');
 
   /// Github repository regex
-  static const github = RegPatterns._(
-      pattern:
-          r'((git|ssh|http(s)?)|(git@[\w\.]+))(:(\/\/)?)([\w\.@\:/\-~]+)(\.git)(\/)?');
+  static const github =
+      RegPatterns._(pattern: r'((git|ssh|http(s)?)|(git@[\w\.]+))(:(\/\/)?)([\w\.@\:/\-~]+)(\.git)(\/)?');
 
   /// Passport No. regex
   static const passport = RegPatterns._(pattern: r'^(?!^0+$)[a-zA-Z0-9]{6,9}$');
@@ -184,38 +175,50 @@ class RegPatterns {
   /// Currency regex
   static const currency = RegPatterns._(
       pattern:
-          r'^(S?\$|\₩|Rp|\¥|\€|\₹|\₽|fr|R$|R)?[ ]?[-]?([0-9]{1,3}[,.]([0-9]{3}[,.])*[0-9]{3}|[0-9]+)([,.][0-9]{1,2})?( ?(USD?|AUD|NZD|CAD|CHF|GBP|CNY|EUR|JPY|IDR|MXN|NOK|KRW|TRY|INR|RUB|BRL|ZAR|SGD|MYR))?$');
+          r'^(S?\$|\₩|Rp|\¥|\€|\₹|\₽|fr|R$|R)?[ ]?[-]?([0-9]{1,3}[,.]([0-9]{3}[,.])*[0-9]{3}|[0-9]*)([,.][0-9]{1,2})?( ?(USD?|AUD|NZD|CAD|CHF|GBP|CNY|EUR|JPY|IDR|MXN|NOK|KRW|TRY|INR|RUB|BRL|ZAR|SGD|MYR))?$');
 
-  /// Consist only 0 & 1
-  /// - **allowEmpty**: If `true`, the pattern allows for an empty string.
-  ///                 If `false`, the pattern requires at least one binary digit.
-  static RegPatterns binaryDigits([allowEmpty = false]) {
-    var value = !allowEmpty ? r'^[0-1]+$' : r'^[0-1]*$';
-    return RegPatterns._(pattern: value);
-  }
-
-  /// Consist only 0 to 7
-  /// - **allowEmpty**: If `true`, the pattern allows for an empty string.
-  ///                 If `false`, the pattern requires at least one octal digit .
-  static RegPatterns octalDigits([allowEmpty = false]) {
-    var value = !allowEmpty ? r'^[0-7]+$' : r'^[0-7]*$';
-    return RegPatterns._(pattern: value);
-  }
-
-  /// Consist only 0 to 9
-  /// - **allowEmpty**: If `true`, the pattern allows for an empty string.
-  ///                 If `false`, the pattern requires at least one decimal digit .
-  static RegPatterns decimalDigits([allowEmpty = false]) {
-    var value = !allowEmpty ? r'^[0-9]+$' : r'^[0-9]*$';
-    return RegPatterns._(pattern: value);
-  }
-
-  /// Consist only 0 to F
-  ///   - [allowEmpty]: If `true`, the pattern allows for an empty string.
-  ///                   If `false`, the pattern requires at least one digit.
-  static RegPatterns hexDecimalDigits([allowEmpty = false]) {
-    var value = !allowEmpty ? r'^[0-9A-Fa-f]+$' : r'^[0-9A-Fa-f]*$';
-    return RegPatterns._(pattern: value);
+  /// Use this function to create a regular expression pattern that matches
+  /// strings consisting only of digits with allow additional characters within a
+  ///  specified range of lengths.
+  ///
+  /// - [**type**]: The type of numbers to match (e.g., decimal, binary, octal).
+  /// - [**allowEmptyString**]:
+  ///
+  ///       - If `true`, the pattern allows for an empty string.
+  ///       - If `false`, the pattern requires at least one digit.
+  ///
+  /// - [**allowSpecialChar**]: Additional characters to allow within the number pattern.
+  /// - [**minLength**]: The minimum length required for the number (default is 1).
+  /// - [**maxLength**]: The maximum length required for the number (default is 16).
+  ///
+  ///
+  /// ### Example...
+  ///```dart
+  ///      RegPatterns.number(
+  ///               type: Number.octal, // only use [0-7]
+  ///               allowEmptyString: true,
+  ///               allowSpecialChar: ".,", // allow dots and comma
+  ///               minLength: 4,
+  ///               maxLength: 8 );
+  ///```
+  ///
+  /// Returns a [RegPatterns] instance with the generated regular expression pattern.
+  static RegPatterns number({
+    Number type = Number.decimal,
+    bool allowEmptyString = false,
+    String allowSpecialChar = '',
+    int minLength = 2,
+    int maxLength = 16,
+  }) {
+    final min = minLength.toString();
+    final max = maxLength.toString();
+    final range = RegExp.escape(type.range + allowSpecialChar);
+    final value = allowEmptyString ? '^(|[$range]{$min,$max})\$' : '^[$range]{$min,$max}\$';
+    return RegPatterns._(
+      pattern: value,
+      message: 'Only contain the numbers ${type.range} ${allowSpecialChar.split('').join(' ')} '
+          'and the length should be larger than $min but less than $max.',
+    );
   }
 
   /// Alphabet Only regex (No Whitespace & Symbols)
@@ -224,8 +227,7 @@ class RegPatterns {
   static const alphabetAndDigits = RegPatterns._(pattern: r'^[a-zA-Z]+$');
 
   /// Postal Code
-  static postalCode({int maxLength = 6, bool allowAlphabets = false}) =>
-      RegPatterns._(
+  static postalCode({int maxLength = 6, bool allowAlphabets = false}) => RegPatterns._(
         pattern: allowAlphabets
             ? r'^[a-zA-Z0-9]{5,' + maxLength.toString() + r'}$'
             : r'^\d{5,' + maxLength.toString() + r'}?$',
@@ -234,19 +236,16 @@ class RegPatterns {
   /// HTML Tags
   /// multiLine = true
   static const htmlTags = RegPatterns._(
-      pattern:
-          r"^<(?:([A-Za-z][A-Za-z0-9]*)\b[^>]*>(?:.*?)</\1>|[A-Za-z][A-Za-z0-9]*\b[^/>]*/>)$",
+      pattern: r"^<(?:([A-Za-z][A-Za-z0-9]*)\b[^>]*>(?:.*?)</\1>|[A-Za-z][A-Za-z0-9]*\b[^/>]*/>)$",
       message: "Ensures the tags have proper names");
 
   /// Credit/Debit Card
   static const creditCard = RegPatterns._(
-      pattern:
-          r"^(?:3[47]\d{2}([\- ]?)\d{6}\1\d{5}|(?:4\d{3}|5[1-5]\d{2}|6011)([\- ]?)\d{4}\2\d{4}\2\d{4})$",
+      pattern: r"^(?:3[47]\d{2}([\- ]?)\d{6}\1\d{5}|(?:4\d{3}|5[1-5]\d{2}|6011)([\- ]?)\d{4}\2\d{4}\2\d{4})$",
       message: "Invalid credit/debit card format");
 
   static const base64 = RegPatterns._(
-      pattern:
-          r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$');
+      pattern: r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$');
 
   /// ### Password validation based on the specified `PasswordType`.
   ///
@@ -256,14 +255,14 @@ class RegPatterns {
   /// - [type]: The desired [PasswordType] for the password pattern.
   /// - [minLength]: The minimum length required for the password (default is 8).
   /// - [maxLength]: The maximum length required for the password (default is 24).
-  /// - [allowWhitespace]: Determines if whitespace characters are allowed in the password (default is false).
+  /// - [allowSpace]: Determines if whitespace characters are allowed in the password (default is false).
   /// - [failedMessage]: An optional custom message to display when password validation fails.
   ///
   static RegPatterns password(
     PasswordType type, {
     int minLength = 8,
     int maxLength = 24,
-    allowWhitespace = false,
+    bool allowSpace = false,
     String? failedMessage,
   }) {
     late final String value;
@@ -271,45 +270,27 @@ class RegPatterns {
     var max = maxLength.toString();
     switch (type) {
       case PasswordType.ANY_CHAR:
-        value = !allowWhitespace
-            ? r'^\S{' + min + r',' + max + r'}$'
-            : r'^[\S ]{' + min + r',' + max + r'}$';
+        value = allowSpace ? r'^[\S ]{' + min + r',' + max + r'}$' : r'^\S{' + min + r',' + max + r'}$';
 
       case PasswordType.ALL_CHAR_LETTER_NUM:
-        value = !allowWhitespace
-            ? r'^(?=.*[A-Za-z])(?=.*\d)\S{' + min + r',' + max + r'}$'
-            : r'^(?=.*[A-Za-z])(?=.*\d)[\S ]{' + min + r',' + max + r'}$';
+        value = allowSpace
+            ? r'^(?=.*[A-Za-z])(?=.*\d)[\S ]{' + min + r',' + max + r'}$'
+            : r'^(?=.*[A-Za-z])(?=.*\d)\S{' + min + r',' + max + r'}$';
 
       case PasswordType.ONLY_LETTER_NUM:
-        value = !allowWhitespace
-            ? r'^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{' + min + r',' + max + r'}$'
-            : r'^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9 ]{' +
-                min +
-                r',' +
-                max +
-                r'}$';
+        value = allowSpace
+            ? r'^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9 ]{' + min + r',' + max + r'}$'
+            : r'^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{' + min + r',' + max + r'}$';
 
       case PasswordType.ALL_CHARS_UPPER_LOWER_NUM:
-        value = !allowWhitespace
-            ? r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{' + min + r',' + max + r'}$'
-            : r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\S ]{' +
-                min +
-                r',' +
-                max +
-                r'}$';
+        value = allowSpace
+            ? r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\S ]{' + min + r',' + max + r'}$'
+            : r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{' + min + r',' + max + r'}$';
 
       default:
-        value = !allowWhitespace
-            ? r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])\S{' +
-                min +
-                r',' +
-                max +
-                r'}$'
-            : r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[\S ]{' +
-                min +
-                r',' +
-                max +
-                r'}$';
+        value = allowSpace
+            ? r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[\S ]{' + min + r',' + max + r'}$'
+            : r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])\S{' + min + r',' + max + r'}$';
     }
     return RegPatterns._(
       pattern: value,
@@ -328,22 +309,36 @@ enum PasswordType {
   /// Allowing all character with
   /// Requires at least: 1 uppercase letter, 1 lowecase letter & 1 number
   ALL_CHARS_UPPER_LOWER_NUM(
-      message:
-          'Allowing all character with Requires at least: 1 uppercase & 1 lowecase letter, 1 number'),
+      message: 'Allowing all character with Requires at least: 1 uppercase & 1 lowecase letter, 1 number'),
 
   /// Allowing all character with
   /// Requires at least: 1 letter & 1 number
-  ALL_CHAR_LETTER_NUM(
-      message:
-          'Allowing all character with Requires at least: 1 letter & 1 number'),
+  ALL_CHAR_LETTER_NUM(message: 'Allowing all character with Requires at least: 1 letter & 1 number'),
 
   /// Allowing only letter &  number
   ONLY_LETTER_NUM(message: 'Allowing only letter &  number'),
 
   /// Allows all characters without specific character requirements
-  ANY_CHAR(
-      message: 'Allows all characters without specific character requirements');
+  ANY_CHAR(message: 'Allows all characters without specific character requirements');
 
   final String message;
   const PasswordType({required this.message});
+}
+
+/// An enumeration (enum) representing different number systems.
+enum Number {
+  /// Represents [0-1] binary numbers.
+  binary(range: '0-1'),
+
+  /// Represents [0-7] octal numbers.
+  octal(range: '0-8'),
+
+  /// Represents [0-9] decimal numbers.
+  decimal(range: '0-9'),
+
+  /// Represents [0-9, A-F] hexadecimal numbers.
+  hexDecimal(range: '0-9A-Fa-f');
+
+  final String range;
+  const Number({required this.range});
 }

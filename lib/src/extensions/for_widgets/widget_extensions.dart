@@ -25,7 +25,8 @@ extension WidgetExtensions on Widget {
   ClipRRect circleBox() =>
       ClipRRect(borderRadius: BorderRadius.circular(1000), clipBehavior: Clip.hardEdge, child: this);
 
-  SizedBox fittedBox([double? dimension]) => SizedBox.square(dimension: dimension, child: FittedBox(child: this));
+  SizedBox fittedBox([double? dimension]) =>
+      SizedBox.square(dimension: dimension, child: FittedBox(child: this));
 
   Flexible tightFit([int flex = 1]) => Flexible(fit: FlexFit.tight, flex: flex, child: this);
 
@@ -48,7 +49,8 @@ extension WidgetExtensions on Widget {
   Padding paddingHorizontal([double value = 0.0]) =>
       Padding(padding: EdgeInsets.symmetric(horizontal: value), child: this);
 
-  Padding paddingVertical([double value = 0.0]) => Padding(padding: EdgeInsets.symmetric(vertical: value), child: this);
+  Padding paddingVertical([double value = 0.0]) =>
+      Padding(padding: EdgeInsets.symmetric(vertical: value), child: this);
 
   Padding paddingOnly({
     double left = 0.0,
@@ -57,6 +59,14 @@ extension WidgetExtensions on Widget {
     double bottom = 0.0,
   }) =>
       Padding(padding: EdgeInsets.only(top: top, left: left, right: right, bottom: bottom), child: this);
+
+  Padding paddingLTRB([
+   double left = 0.0,
+   double top = 0.0,
+   double right = 0.0,
+   double bottom = 0.0,
+  ]) =>
+      Padding(padding: EdgeInsets.fromLTRB(left, top, right, bottom), child: this);
 
   /// Allows you to insert widgets inside a CustomScrollView
   SliverToBoxAdapter get wSliverBox => SliverToBoxAdapter(child: this);

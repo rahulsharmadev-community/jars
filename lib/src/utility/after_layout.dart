@@ -5,12 +5,10 @@ mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.endOfFrame.then(
-      (_) {
-        if (mounted) afterFirstLayout(context);
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (mounted) afterFirstLayout(context, timeStamp);
+    });
   }
 
-  FutureOr<void> afterFirstLayout(BuildContext context);
+  FutureOr<void> afterFirstLayout(BuildContext context, Duration timeStamp);
 }

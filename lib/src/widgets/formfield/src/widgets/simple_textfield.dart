@@ -4,8 +4,9 @@ import 'package:jars/jars.dart';
 
 // ignore: must_be_immutable
 class JTextField extends JTextFieldModel {
-  const JTextField(
+  JTextField(
       {super.key,
+      super.controller,
       super.inputFormatters,
       super.maxLengthEnforcement,
       super.cursorConfig,
@@ -29,6 +30,7 @@ class JTextField extends JTextFieldModel {
       super.autovalidateMode,
       super.validatorPattern,
       super.validatorText,
+      super.onValidator,
       super.onTap,
       super.enableInteractiveSelection,
       super.selectionControls,
@@ -59,8 +61,9 @@ class JTextField extends JTextFieldModel {
       super.obscuringCharacter,
       super.onDone});
 
-  const JTextField.obscureField({
+  JTextField.obscureField({
     super.key,
+    super.controller,
     super.cursorConfig,
     super.maxLengthEnforcement,
     super.maxLines = 1,
@@ -78,6 +81,7 @@ class JTextField extends JTextFieldModel {
     super.autovalidateMode,
     super.validatorPattern,
     super.validatorText,
+    super.onValidator,
     super.onTap,
     super.enableInteractiveSelection,
     super.selectionControls,
@@ -119,15 +123,17 @@ class JTextField extends JTextFieldModel {
 class _SimpleTextFieldState extends State<JTextField> {
   late TextEditingController controller;
 
+  String get cText => controller.text;
+
   @override
   void initState() {
-    controller = TextEditingController(text: widget.inital);
     super.initState();
+    controller = widget.controller ?? TextEditingController(text: widget.inital);
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    if (widget.controller == null) controller.dispose();
     super.dispose();
   }
 
@@ -136,25 +142,22 @@ class _SimpleTextFieldState extends State<JTextField> {
         borderSide: BorderSide(width: 0.7, color: color),
       );
 
-  void _onSubmitted(String text) {
+  void _onSubmitted(String newText) {
     if (widget.onSubmitted != null) {
-      var newText = text.trim();
-      controller.text = newText;
       if (widget.numberFormatting) {
         newText = newText.replaceAll(widget.numberSeparator, '');
-        newText = double.tryParse(newText) != null ? newText : controller.text;
+        newText = double.tryParse(newText) != null ? newText : cText;
       }
       widget.onSubmitted!(newText);
     }
     if (widget.onDone != null) widget.onDone!();
   }
 
-  void _onChange(String text) {
+  void _onChange(String newText) {
     if (widget.onChange != null) {
-      var newText = text.trim();
       if (widget.numberFormatting) {
         newText = newText.replaceAll(widget.numberSeparator, '');
-        newText = double.tryParse(newText) != null ? newText : text.trim();
+        newText = double.tryParse(newText) != null ? newText : newText;
       }
       widget.onChange!(newText);
     }
@@ -207,41 +210,37 @@ class _SimpleTextFieldState extends State<JTextField> {
         validator: (value) {
           var text = value;
 
-          if (text != null &&
-              widget.validatorPattern != null &&
-              !text.regMatch(widget.validatorPattern!)) {
-            return widget.validatorText ?? widget.validatorPattern!.message;
+          if (text != null && widget.validatorPattern != null && !text.regMatch(widget.validatorPattern!)) {
+            var msg = widget.validatorText ?? widget.validatorPattern?.message ?? 'format error!';
+
+            if (widget.onValidator != null) {
+              guard(() => widget.onValidator!(msg));
+            }
+            return msg;
           }
           return null;
         },
         decoration: widget.inputDecoration.copyWith(
-          suffixIcon: controller.text.isEmpty
-              ? null
-              : widget.suffixIcon ?? clearButton(),
-          border:
-              widget.borderConfig.border ?? textfieldBorder(colors.onSurface),
-          errorBorder:
-              widget.borderConfig.errorBorder ?? textfieldBorder(colors.error),
-          enabledBorder: widget.borderConfig.enabledBorder ??
-              textfieldBorder(colors.onSurface),
-          focusedBorder: widget.borderConfig.focusedBorder ??
-              textfieldBorder(colors.primary),
+          suffixIcon: cText.isEmpty ? null : widget.suffixIcon ?? clearButton(),
+          border: widget.borderConfig.border ?? textfieldBorder(colors.onSurface),
+          errorBorder: widget.borderConfig.errorBorder ?? textfieldBorder(colors.error),
+          enabledBorder: widget.borderConfig.enabledBorder ?? textfieldBorder(colors.onSurface),
+          focusedBorder: widget.borderConfig.focusedBorder ?? textfieldBorder(colors.primary),
           disabledBorder: widget.borderConfig.disabledBorder ??
               textfieldBorder(colors.onSurfaceVariant.withOpacity(0.35)),
-          focusedErrorBorder: widget.borderConfig.focusedErrorBorder ??
-              textfieldBorder(colors.primary),
+          focusedErrorBorder: widget.borderConfig.focusedErrorBorder ?? textfieldBorder(colors.primary),
         ),
         onChanged: _onChange,
-        onEditingComplete: () => _onSubmitted(controller.text));
+        onEditingComplete: () => _onSubmitted(cText));
   }
 
   IconButton clearButton() {
     return IconButton(
         onPressed: () {
           controller.clear();
-          _onChange(controller.text);
+          _onChange(cText);
           if (widget.onSubmitted != null) {
-            widget.onSubmitted!(controller.text);
+            widget.onSubmitted!(cText);
           }
         },
         icon: const Icon(Icons.close_rounded));
@@ -257,8 +256,7 @@ class NumberFormatting extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    var text = newValue.text
-        .replaceAllMapped(RegExp(r'[ .,!@#\$%^&*()_+{}":;>?<[\]]+'), (match) {
+    var text = newValue.text.replaceAllMapped(RegExp(r'[ .,!@#\$%^&*()_+{}":;>?<[\]]+'), (match) {
       // Replace commas with an empty string
 
       var other = match.group(0)!;

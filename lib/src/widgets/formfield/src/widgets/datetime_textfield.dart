@@ -11,7 +11,7 @@ class DateTimeJTextField extends JTextFieldModel {
   final DatePickerConfig? datePickerConfig;
   final TimePickerConfig? timePickerConfig;
   final String Function(DateTime?, TimeOfDay?) setValue;
-  const DateTimeJTextField({
+  DateTimeJTextField({
     super.key,
     String Function(DateTime?, TimeOfDay?)? setValue,
     this.datePickerConfig,
@@ -50,8 +50,7 @@ class DateTimeJTextField extends JTextFieldModel {
   static String defaultSetValue(DateTime? dateTime, TimeOfDay? time) {
     return [
       if (dateTime != null) dateTime.format().yMMd(),
-      if (time != null)
-        const DefaultMaterialLocalizations().formatTimeOfDay(time)
+      if (time != null) const DefaultMaterialLocalizations().formatTimeOfDay(time)
     ].join(' | ');
   }
 
@@ -60,23 +59,24 @@ class DateTimeJTextField extends JTextFieldModel {
 }
 
 class _DateTimeTextFieldState extends State<DateTimeJTextField> {
+  late TextEditingController controller;
+
   DatePickerConfig? get datePickerConfig => widget.datePickerConfig;
   TimePickerConfig? get timePickerConfig => widget.timePickerConfig;
-  late TextEditingController controller;
   late FocusNode focusNode;
   bool isDialogOpen = false;
   bool canAttempt = true;
 
-  bool get isDateTimePicker =>
-      datePickerConfig != null && timePickerConfig != null;
+  bool get isDateTimePicker => datePickerConfig != null && timePickerConfig != null;
+  String get cText => controller.text;
 
   @override
   void initState() {
+    controller = widget.controller ?? TextEditingController(text: widget.inital);
     focusNode = FocusNode();
-    controller = TextEditingController(text: widget.inital);
     focusNode.addListener(() async {
       if (!focusNode.hasFocus) canAttempt = true;
-      if (canAttempt && controller.text.isEmpty) {
+      if (canAttempt && cText.isEmpty) {
         await _showDialog();
       }
     });
@@ -87,7 +87,9 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
   @override
   void dispose() {
     focusNode.dispose();
-    controller.dispose();
+    if (widget.controller == null) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -121,8 +123,7 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
       );
 
   void _onSubmitted() {
-    controller.text = controller.text.trim();
-    if (widget.onSubmitted != null) widget.onSubmitted!(controller.text);
+    if (widget.onSubmitted != null) widget.onSubmitted!(cText);
     if (widget.onDone != null) widget.onDone!();
   }
 
@@ -161,20 +162,15 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
       selectionWidthStyle: widget.selectionWidthStyle,
       dragStartBehavior: widget.dragStartBehavior,
       decoration: widget.inputDecoration.copyWith(
-        suffixIcon: controller.text.isEmpty
-            ? const Icon(Icons.calendar_month_rounded)
-            : widget.suffixIcon ?? clearButton(),
+        suffixIcon:
+            cText.isEmpty ? const Icon(Icons.calendar_month_rounded) : widget.suffixIcon ?? clearButton(),
         border: widget.borderConfig.border ?? textfieldBorder(colors.onSurface),
-        errorBorder:
-            widget.borderConfig.errorBorder ?? textfieldBorder(colors.error),
-        enabledBorder: widget.borderConfig.enabledBorder ??
-            textfieldBorder(colors.onSurface),
-        focusedBorder: widget.borderConfig.focusedBorder ??
-            textfieldBorder(colors.primary),
-        disabledBorder: widget.borderConfig.disabledBorder ??
-            textfieldBorder(colors.onSurfaceVariant.withOpacity(0.35)),
-        focusedErrorBorder: widget.borderConfig.focusedErrorBorder ??
-            textfieldBorder(colors.primary),
+        errorBorder: widget.borderConfig.errorBorder ?? textfieldBorder(colors.error),
+        enabledBorder: widget.borderConfig.enabledBorder ?? textfieldBorder(colors.onSurface),
+        focusedBorder: widget.borderConfig.focusedBorder ?? textfieldBorder(colors.primary),
+        disabledBorder:
+            widget.borderConfig.disabledBorder ?? textfieldBorder(colors.onSurfaceVariant.withOpacity(0.35)),
+        focusedErrorBorder: widget.borderConfig.focusedErrorBorder ?? textfieldBorder(colors.primary),
       ),
       onChanged: (text) {
         if (widget.onChange != null) widget.onChange!(text);
@@ -188,9 +184,9 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
         onPressed: () {
           controller.clear();
           if (widget.onChange != null) {
-            widget.onChange!(controller.text);
+            widget.onChange!(cText);
             if (widget.onSubmitted != null) {
-              widget.onSubmitted!(controller.text);
+              widget.onSubmitted!(cText);
             }
           }
           setState(() {});

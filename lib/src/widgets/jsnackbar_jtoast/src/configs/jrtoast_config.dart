@@ -16,7 +16,9 @@ class JToastConfig extends DefaultConfig {
       super.dismissDirection,
       super.animationDuration,
       super.elevation,
-      super.forgroundColor})
+      super.margin,
+      super.forgroundColor,
+      super.textAlign = TextAlign.center})
       : super(
             onDismissed: onDismissed ?? (() {}),
             borderRadius: borderRadius ?? BorderRadius.circular(100));
@@ -32,17 +34,28 @@ class JToastConfig extends DefaultConfig {
           Alignment? alignment,
           DismissDirection? dismissDirection,
           VoidCallback? onDismissed,
-          EdgeInsets? padding}) =>
+          EdgeInsets? padding,
+          double? elevation,
+          TextAlign? textAlign,
+          Color? forgroundColor,
+          String? titleText,
+          EdgeInsets? margin}) =>
       JToastConfig(
-          alignment: alignment ?? this.alignment,
-          farFromEdge: farFromEdge ?? this.farFromEdge,
-          animationDuration: animationDuration ?? this.animationDuration,
-          backgroundColor: backgroundColor ?? this.backgroundColor,
-          borderRadius: borderRadius ?? this.borderRadius,
-          onDismissed: onDismissed ?? this.onDismissed,
-          curve: curve ?? this.curve,
-          dismissDirection: dismissDirection ?? this.dismissDirection,
-          duration: duration ?? this.duration,
-          textStyle: textStyle ?? this.textStyle,
-          padding: padding ?? this.padding);
+        alignment: alignment ?? this.alignment,
+        farFromEdge: farFromEdge ?? this.farFromEdge,
+        animationDuration: animationDuration ?? this.animationDuration,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+        borderRadius: borderRadius ?? this.borderRadius,
+        onDismissed: onDismissed ?? this.onDismissed,
+        curve: curve ?? this.curve,
+        dismissDirection: dismissDirection ?? this.dismissDirection,
+        duration: duration ?? this.duration,
+        textStyle: textStyle ?? this.textStyle,
+        padding: padding ?? this.padding,
+        elevation: elevation ?? this.elevation,
+        forgroundColor: forgroundColor ?? this.forgroundColor,
+        margin: margin ?? this.margin,
+        textAlign: textAlign ?? this.textAlign,
+        titleText: titleText ?? this.titleText,
+      );
 }

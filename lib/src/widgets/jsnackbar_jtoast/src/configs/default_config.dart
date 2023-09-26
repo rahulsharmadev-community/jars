@@ -14,7 +14,8 @@ abstract class DefaultConfig {
   final Alignment alignment;
   final DismissDirection dismissDirection;
   final double farFromEdge;
-  final EdgeInsets padding;
+  final EdgeInsets padding, margin;
+  final TextAlign textAlign;
   final VoidCallback? onDismissed;
 
   const DefaultConfig({
@@ -31,6 +32,8 @@ abstract class DefaultConfig {
     this.backgroundColor,
     this.textStyle,
     this.onDismissed,
+    this.textAlign = TextAlign.left,
     this.borderRadius = BorderRadius.zero,
+    this.margin = const EdgeInsets.symmetric(horizontal: 28),
   });
 }

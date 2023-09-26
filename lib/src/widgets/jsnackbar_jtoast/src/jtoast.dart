@@ -7,6 +7,9 @@ import 'configs/jrtoast_config.dart';
 part 'designs/jtoast_design.dart';
 
 _JToast? _toast;
+
+bool get isJTostAlive => _toast?._overlayEntry != null;
+
 void showJTost(BuildContext context,
     {required String msg, JToastConfig? config}) {
   if (_toast?._context != context) {
@@ -100,17 +103,20 @@ class _TostStateWidget extends State<_ToastWidget>
     var align = widget.config.alignment;
     bool keyboardOpen = context.mediaQuery.viewInsets.bottom > 0.0;
     double margin = keyboardOpen && !align.y.isNegative ? 0.8 : 0.2;
-    return Align(
-      alignment: align.add(Alignment(0, -1 * align.y * margin)),
-      child: AnimatedBuilder(
-        animation: controller,
-        builder: (context, child) {
-          return FadeTransition(
-            opacity: controller,
-            child: _ToastDesign(widget.msg,
-                config: widget.config, onDismissed: () => close(false)),
-          );
-        },
+    return Padding(
+      padding: widget.config.margin,
+      child: Align(
+        alignment: align.add(Alignment(0, -1 * align.y * margin)),
+        child: AnimatedBuilder(
+          animation: controller,
+          builder: (context, child) {
+            return FadeTransition(
+              opacity: controller,
+              child: _ToastDesign(widget.msg,
+                  config: widget.config, onDismissed: () => close(false)),
+            );
+          },
+        ),
       ),
     );
   }

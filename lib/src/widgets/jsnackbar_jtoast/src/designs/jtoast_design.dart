@@ -12,6 +12,8 @@ class _ToastDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textStyle =
+        (config.textStyle ?? context.textTheme.bodySmall ?? const TextStyle());
     return Dismissible(
       direction: config.dismissDirection,
       key: UniqueKey(),
@@ -23,15 +25,17 @@ class _ToastDesign extends StatelessWidget {
         type: MaterialType.card,
         elevation: 0,
         clipBehavior: Clip.hardEdge,
-        textStyle: (config.textStyle ??
-                context.textTheme.bodySmall ??
-                const TextStyle())
-            .copyWith(color: context.colorScheme.onSecondary),
         color: config.backgroundColor ?? context.colorScheme.secondary,
         borderRadius: config.borderRadius,
+        textStyle: textStyle.copyWith(
+          color: config.forgroundColor ?? context.colorScheme.onSecondary,
+        ),
         child: Padding(
           padding: config.padding,
-          child: Text(msg),
+          child: Text(
+            msg,
+            textAlign: config.textAlign,
+          ),
         ),
       ),
     );

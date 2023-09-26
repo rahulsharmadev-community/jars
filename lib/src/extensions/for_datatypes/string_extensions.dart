@@ -72,7 +72,7 @@ extension StringExtensions on String {
   String numericOnly({bool firstWordOnly = false}) {
     var numericOnlyStr = '';
     for (var i = 0; i < length; i++) {
-      if (regMatch(RegPatterns.decimalDigits())) {
+      if (regMatch(RegPatterns.number())) {
         numericOnlyStr += this[i];
       }
       if (firstWordOnly && numericOnlyStr.isNotEmpty && this[i] == " ") {
