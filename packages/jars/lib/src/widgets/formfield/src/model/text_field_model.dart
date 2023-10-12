@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
-import 'package:jars/utility.dart';
+import 'package:regpatterns/regpatterns.dart';
 
 // ignore: must_be_immutable
 abstract class JTextFieldModel extends StatefulWidget {
