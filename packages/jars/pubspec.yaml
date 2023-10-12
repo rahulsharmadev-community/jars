@@ -1,0 +1,30 @@
+name: jars
+description: JARS is a super-effective and lightweight solution for Flutter.
+version: 0.0.7
+homepage: https://github.com/rahulsharmadev-community
+repository: https://github.com/rahulsharmadev-community/jars
+documentation: https://github.com/rahulsharmadev-community/jars/blob/master/README.md
+issue_tracker: https://github.com/rahulsharmadev-community/jars/issues
+
+# This package supports all platforms listed below.
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+environment:
+  sdk: ">=3.1.0 <4.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  regpatterns: ^1.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
