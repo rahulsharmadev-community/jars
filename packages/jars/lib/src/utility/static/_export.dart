@@ -1,1 +1,0 @@
-export 'reg_patterns.dart';
