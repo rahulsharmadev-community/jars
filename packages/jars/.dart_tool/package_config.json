@@ -56,6 +56,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "jars_core",
+      "rootUri": "file:///C:/Users/mi493/AppData/Local/Pub/Cache/git/jars-7e281efe81aa19ab271990bbbe9e226e3f4d80c9/packages/jars_core",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "leak_tracker",
       "rootUri": "file:///C:/Users/mi493/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.0",
       "packageUri": "lib/",
@@ -170,7 +176,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-03-23T05:26:53.264380Z",
+  "generated": "2024-03-23T11:39:38.064897Z",
   "generator": "pub",
   "generatorVersion": "3.3.2"
 }

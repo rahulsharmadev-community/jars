@@ -23,6 +23,11 @@ dependencies:
   flutter:
     sdk: flutter
   regpatterns: ^1.0.1
+  jars_core:
+    git:
+      url: https://github.com/rahulsharmadev-community/jars.git
+      ref: main
+      path: packages/jars_core
 
 dev_dependencies:
   flutter_test:

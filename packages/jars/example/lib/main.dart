@@ -1,5 +1,5 @@
+import 'package:example/demos/export.dart';
 import 'package:jars/jars.dart';
-import 'demos/export.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,8 +46,7 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Welcome in JARS ❤️ Demo\ndeveloped by @rahulsharmadev',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24.dp, color: Colors.white)),
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 24.dp, color: Colors.white)),
             const SizedBox(height: 64),
             ...{
               '/JMarqueeDemo': 'JMarquee Demo',
@@ -58,8 +57,7 @@ class HomePage extends StatelessWidget {
             }
                 .entries
                 .map((e) => TextButton(
-                      onPressed: () =>
-                          navigatorKey.currentState?.pushNamed(e.key),
+                      onPressed: () => navigatorKey.currentState?.pushNamed(e.key),
                       child: Text(e.value),
                     ))
                 .toList()

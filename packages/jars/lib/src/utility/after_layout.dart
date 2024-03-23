@@ -8,6 +8,7 @@ mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (mounted) afterFirstLayout(context, timeStamp);
     });
+
   }
 
   FutureOr<void> afterFirstLayout(BuildContext context, Duration timeStamp);

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:jars_core/jars_core.dart';
-import 'package:regpatterns/regpatterns.dart';
 
 extension StringExtensions on String {
   ReCase get reCase => ReCase(this);
