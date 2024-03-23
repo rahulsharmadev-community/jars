@@ -6,7 +6,15 @@ repository: https://github.com/rahulsharmadev-community/jars/blob/main/packages/
 environment:
   sdk: ^3.3.2
 
-# Add regular dependencies here.
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
 dependencies:
   regpatterns:
     git:

@@ -2,7 +2,7 @@ library jars;
 
 export 'src/extensions/context_extensions.dart';
 export 'src/extensions/flex.dart';
-export 'src/extensions/jars.dart';
+export 'src/extensions/align_jar.dart';
 export 'src/extensions/other_extensions.dart';
 export 'src/extensions/text_extensions.dart';
 export 'src/extensions/widget_extensions.dart';
