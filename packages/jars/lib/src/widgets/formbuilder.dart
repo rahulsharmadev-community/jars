@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
-import 'package:jars/src/extensions/for_widgets/flex.dart';
 
 class FormBuilder extends StatelessWidget {
   final String? title, subtitle, caption;

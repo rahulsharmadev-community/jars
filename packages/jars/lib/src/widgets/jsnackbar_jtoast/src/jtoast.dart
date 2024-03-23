@@ -2,8 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:jars/extensions.dart';
-import 'configs/jrtoast_config.dart';
+import 'package:jars/jars.dart';
 part 'designs/jtoast_design.dart';
 
 _JToast? _toast;
