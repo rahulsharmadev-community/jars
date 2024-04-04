@@ -22,7 +22,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  regpatterns: ^1.0.1
   jars_core:
     git:
       url: https://github.com/rahulsharmadev-community/jars.git
