@@ -11,6 +11,7 @@ export 'src/extensions/string_extensions.dart';
 export 'src/utility/datetime_format.dart';
 export 'src/utility/datetimelang/datetimelang.dart';
 export 'src/utility/helper_function.dart';
+export 'src/utility/typedef.dart';
 export 'src/utility/re_case.dart';
 export 'src/utility/timeago.dart';
 
