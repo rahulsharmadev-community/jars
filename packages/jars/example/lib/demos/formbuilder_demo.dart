@@ -1,47 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
 
-class FormBuilderDemo extends StatefulWidget {
+class FormBuilderDemo extends StatelessWidget {
   const FormBuilderDemo({
     super.key,
   });
 
   @override
-  State<FormBuilderDemo> createState() => _FormBuilderDemoState();
-}
-
-class _FormBuilderDemoState extends State<FormBuilderDemo> {
-  TextEditingController? controller;
-  @override
-  void initState() {
-    controller = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final items = <String>[
-      'USA',
-      'China',
-      'Japan',
-      'Germany',
-      'India',
-      'United',
-      'France',
-      'Italy',
-      'Canada',
-      'Brazil'
-    ];
+    void onSubmit(String text) {
+      showJSnackBar(context, config: JSnackbarConfig(titleText: text));
+    }
+
     const listTile = ListTile(
-        tileColor: Colors.amberAccent,
-        title: Text('ListTile Title'),
-        subtitle: Text('ListTile subtitle'));
+        tileColor: Colors.amberAccent, title: Text('ListTile Title'), subtitle: Text('ListTile subtitle'));
     return Scaffold(
       body: Center(
         child: OutlinedButton(
@@ -69,18 +41,7 @@ class _FormBuilderDemoState extends State<FormBuilderDemo> {
                         hintText: 'Hint Text',
                         onSubmitted: onSubmit,
                       ),
-                      SmartJTextField.autoCompleteField(
-                        options: items,
-                        inital: items.first,
-                        onChange: (text) => print({'autoCompleteField': text}),
-                        onSubmitted: onSubmit,
-                      ),
                       listTile,
-                      SmartJTextField.dropdownField(
-                        options: items,
-                        inital: items.first,
-                        onChange: onSubmit,
-                      ),
                       listTile,
                     ],
                   );
@@ -89,9 +50,5 @@ class _FormBuilderDemoState extends State<FormBuilderDemo> {
         ),
       ),
     );
-  }
-
-  void onSubmit(text) {
-    showJSnackBar(context, config: JSnackbarConfig(titleText: text));
   }
 }

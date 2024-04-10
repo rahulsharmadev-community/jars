@@ -19,6 +19,7 @@ class DateTimeJTextField extends JTextFieldModel {
     super.labelText,
     super.inital,
     super.onChange,
+    super.onSubmitted,
     super.borderConfig,
     super.textDirection,
     super.textAlign = TextAlign.start,

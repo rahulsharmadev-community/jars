@@ -60,10 +60,60 @@ class HomePage extends StatelessWidget {
                       onPressed: () => navigatorKey.currentState?.pushNamed(e.key),
                       child: Text(e.value),
                     ))
-                .toList()
+                .toList(),
+            const DropdownMenuExample()
           ],
         ),
       ),
     );
+  }
+}
+
+final items = <Map>[
+  {786: 'USA'},
+  {267: 'China'},
+  {564: 'Japan'},
+  {170: 'Germany'},
+  {560: 'India'},
+  {975: 'United'},
+  {450: 'France'},
+  {415: 'Italy'},
+  {919: 'Canada'},
+  {272: 'Brazil'}
+];
+
+class DropdownMenuExample extends StatefulWidget {
+  const DropdownMenuExample({super.key});
+
+  @override
+  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
+}
+
+class _DropdownMenuExampleState extends State<DropdownMenuExample> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController();
+    super.initState();
+  }
+
+  var entries = items.map((e) => DropdownMenuEntry<Map>(value: e, label: e.values.first)).toList();
+  @override
+  Widget build(BuildContext context) {
+    return DropdownMenu<Map>(
+        dropdownMenuEntries: entries,
+        controller: controller,
+        enableSearch: true,
+        enableFilter: true,
+        trailingIcon: IconButton(onPressed: () {}, icon: Icon(Icons.close)),
+        selectedTrailingIcon: IconButton(onPressed: () {}, icon: Icon(Icons.close)),
+        searchCallback: (entries, query) {
+          if (query.isEmpty) {
+            return null;
+          }
+          final int index = entries.indexWhere((entry) => entry.label == query);
+          return index != -1 ? index : null;
+        });
   }
 }
