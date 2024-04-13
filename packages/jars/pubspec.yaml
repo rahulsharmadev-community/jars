@@ -1,6 +1,6 @@
 name: jars
 description: JARS is a super-effective and lightweight solution for Flutter.
-version: 0.0.9
+version: 0.1.0
 homepage: https://github.com/rahulsharmadev-community
 repository: https://github.com/rahulsharmadev-community/jars
 documentation: https://github.com/rahulsharmadev-community/jars/blob/master/README.md
@@ -22,6 +22,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  equatable: ^2.0.5
   jars_core:
     git:
       url: https://github.com/rahulsharmadev-community/jars.git

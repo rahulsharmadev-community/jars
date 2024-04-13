@@ -1,5 +1,6 @@
 library;
 
+export 'src/extensions/all_datatype.dart';
 export 'src/extensions/datetime_extensions.dart';
 export 'src/extensions/double_extensions.dart';
 export 'src/extensions/duration_extensions.dart';

@@ -1,12 +1,9 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 extension BoolExtension on bool {
   bool get toggle => !this;
-}
-
-extension HexColor on Color {
-  /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
-  String get toHex => '#${value.toRadixString(16)}';
 }
 
 extension StringToHex on String {

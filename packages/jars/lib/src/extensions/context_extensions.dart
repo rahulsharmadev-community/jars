@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jars/jars.dart';
 
 extension ContextExtensions on BuildContext {
   /// The same of [MediaQuery.of(context).size]
@@ -9,16 +10,14 @@ extension ContextExtensions on BuildContext {
   /// desktop window)
   ///
   /// `dart heightOf() = heightOf(100);`
-  double heightOf([double percentage = 100]) =>
-      screenSize.height * percentage * 0.01;
+  double heightOf([double percentage = 100]) => screenSize.height * percentage * 0.01;
 
   /// The same of ``MediaQuery.of(context).size.width * percentage * 0.01``
   /// Note: updates when you rezise your screen (like on a browser or
   /// desktop window)
   ///
   /// ```widthOf() = widthOf(100);```
-  double widthOf([double percentage = 100]) =>
-      screenSize.width * percentage * 0.01;
+  double widthOf([double percentage = 100]) => screenSize.width * percentage * 0.01;
 
   /// Gives you the power to get a portion of the height.
   /// Useful for responsive applications.
@@ -30,8 +29,7 @@ extension ContextExtensions on BuildContext {
   /// [reducedBy] is a percentage value of how much of the height you want
   /// if you for example want 46% of the height, then you reduce it by 56%.
   double heightTransformer({double dividedBy = 1, double reducedBy = 0.0}) {
-    return (screenSize.height - ((screenSize.height / 100) * reducedBy)) /
-        dividedBy;
+    return (screenSize.height - ((screenSize.height / 100) * reducedBy)) / dividedBy;
   }
 
   /// Gives you the power to get a portion of the width.
@@ -44,8 +42,7 @@ extension ContextExtensions on BuildContext {
   /// [reducedBy] is a percentage value of how much of the width you want
   /// if you for example want 46% of the width, then you reduce it by 56%.
   double widthTransformer({double dividedBy = 1, double reducedBy = 0.0}) {
-    return (screenSize.width - ((screenSize.width / 100) * reducedBy)) /
-        dividedBy;
+    return (screenSize.width - ((screenSize.width / 100) * reducedBy)) / dividedBy;
   }
 
   /// Divide the height proportionally by the given value
@@ -56,6 +53,34 @@ extension ContextExtensions on BuildContext {
   }) {
     return heightTransformer(dividedBy: dividedBy, reducedBy: reducedByH) /
         widthTransformer(dividedBy: dividedBy, reducedBy: reducedByW);
+  }
+
+  Widget buildFor({
+    Widget? web,
+    Widget? macOS,
+    Widget? windows,
+    Widget? linux,
+    Widget? android,
+    Widget? iOS,
+    Widget? fuchsia,
+    Widget? others,
+    Widget? mobile,
+    Widget? desktop,
+  }) {
+    if (PlatformQuery.isAndroid && android != null) return android;
+    if (PlatformQuery.isIOS && iOS != null) return iOS;
+    if (PlatformQuery.isMobileorTablet && mobile != null) return mobile;
+    if (PlatformQuery.isLinux && linux != null) return linux;
+    if (PlatformQuery.isWindows && windows != null) return windows;
+    if (PlatformQuery.isMacOS && macOS != null) return macOS;
+    if (PlatformQuery.isDesktop && desktop != null) return desktop;
+    if (PlatformQuery.isWeb && web != null) return web;
+    if (PlatformQuery.isFuchsia && fuchsia != null) return fuchsia;
+
+    // Default behavior if no platform-specific widget is provided
+    return const Placeholder(
+      child: Text('No Widget Define'),
+    ); // or any other suitable default widget
   }
 
   /// similar to [Theme.of(context).padding]
@@ -97,8 +122,8 @@ extension ContextExtensions on BuildContext {
   /// similar to [MediaQuery.of(this).devicePixelRatio]
   double get devicePixelRatio => MediaQuery.of(this).devicePixelRatio;
 
-  /// similar to [MediaQuery.of(this).textScaleFactor]
-  double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
+  /// similar to [MediaQuery.of(this).TextScaler]
+  TextScaler  get textScaler => MediaQuery.of(this).textScaler;
 
   /// get the shortestSide from screen
   double get mediaQueryShortestSide => screenSize.shortestSide;

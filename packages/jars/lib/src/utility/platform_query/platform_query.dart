@@ -53,9 +53,7 @@ class PlatformQuery with WidgetsBindingObserver {
   static bool get isFuchsia => activePlatform == Platform.fuchsia;
   static bool get isDesktop {
     Platform active = activePlatform;
-    return active == Platform.windows ||
-        active == Platform.linux ||
-        active == Platform.macOS;
+    return active == Platform.windows || active == Platform.linux || active == Platform.macOS;
   }
 
   static bool get isMobileorTablet {
@@ -106,8 +104,7 @@ class PlatformQuery with WidgetsBindingObserver {
     if ((orientation == Orientation.portrait && width <= maxMobileWidth) ||
         (orientation == Orientation.landscape && height <= maxMobileWidth)) {
       return WindowSize.compact;
-    } else if ((orientation == Orientation.portrait &&
-            width <= maxTabletWidth) ||
+    } else if ((orientation == Orientation.portrait && width <= maxTabletWidth) ||
         (orientation == Orientation.landscape && height <= maxTabletWidth)) {
       return WindowSize.medium;
     } else {
@@ -116,10 +113,9 @@ class PlatformQuery with WidgetsBindingObserver {
   }
 
   static MediaQueryData get mediaQueryData =>
-      MediaQueryData.fromView(WidgetsBinding.instance.renderView.flutterView);
+      MediaQueryData.fromView(WidgetsBinding.instance.renderViews.first.flutterView);
 
-  static T returnSmartly<T>(
-      {required mobile, required tablet, required desktop}) {
+  static T returnSmartly<T>({required mobile, required tablet, required desktop}) {
     assert(
         mobile.runtimeType == tablet.runtimeType &&
             tablet.runtimeType == desktop.runtimeType &&

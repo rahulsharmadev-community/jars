@@ -106,8 +106,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         controller: controller,
         enableSearch: true,
         enableFilter: true,
-        trailingIcon: IconButton(onPressed: () {}, icon: Icon(Icons.close)),
-        selectedTrailingIcon: IconButton(onPressed: () {}, icon: Icon(Icons.close)),
+        trailingIcon: IconButton(onPressed: () {}, icon: const Icon(Icons.close)),
+        selectedTrailingIcon: IconButton(onPressed: () {}, icon: const Icon(Icons.close)),
         searchCallback: (entries, query) {
           if (query.isEmpty) {
             return null;

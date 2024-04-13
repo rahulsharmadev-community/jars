@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:jars_core/jars_core.dart';
 import 'align_jar.dart';
 
 extension WidgetExtensions on Widget {
