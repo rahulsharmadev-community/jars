@@ -40,18 +40,3 @@ Future<T?> asyncGuard<T>(
     return defaultValue;
   }
 }
-
-/// Checks if the provided [property] is not null. If it is not null, applies the [callback]
-/// function to the property and returns the result. Otherwise, returns null.
-///
-///```
-///   // Using ifNotNull function
-///   int? length = ifNotNull(name, (value) => value.length);
-///
-///   // Equivalent alternative using the ternary operator
-///   int? altLength = name != null ? name.length : null;
-/// ```
-///
-R? ifNotNull<T, R>(T? property, R Function(T value) callback) {
-  return property != null ? callback(property) : null;
-}

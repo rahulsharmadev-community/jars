@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:jars_core/jars_core.dart';
 import 'align_jar.dart';
 
 extension WidgetExtensions on Widget {
@@ -44,7 +45,11 @@ extension WidgetExtensions on Widget {
   }) =>
       Opacity(key: key, opacity: opacity, alwaysIncludeSemantics: alwaysIncludeSemantics, child: this);
 
-  Padding paddingAll(double padding) => Padding(padding: EdgeInsets.all(padding), child: this);
+  Widget padding([EdgeInsetsGeometry? padding]) =>
+      padding.ifNotNull(def: this, callback: (_) => Padding(padding: _, child: this));
+
+  Padding paddingAll([double? padding]) =>
+      padding.ifNotNull(def: this, callback: (_) => Padding(padding: EdgeInsets.all(_), child: this));
 
   Padding paddingHorizontal([double value = 0.0]) =>
       Padding(padding: EdgeInsets.symmetric(horizontal: value), child: this);
@@ -61,10 +66,10 @@ extension WidgetExtensions on Widget {
       Padding(padding: EdgeInsets.only(top: top, left: left, right: right, bottom: bottom), child: this);
 
   Padding paddingLTRB([
-   double left = 0.0,
-   double top = 0.0,
-   double right = 0.0,
-   double bottom = 0.0,
+    double left = 0.0,
+    double top = 0.0,
+    double right = 0.0,
+    double bottom = 0.0,
   ]) =>
       Padding(padding: EdgeInsets.fromLTRB(left, top, right, bottom), child: this);
 
