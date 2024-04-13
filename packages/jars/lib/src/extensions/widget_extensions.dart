@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:jars_core/jars_core.dart';
 import 'align_jar.dart';
 
 extension WidgetExtensions on Widget {
@@ -47,7 +48,7 @@ extension WidgetExtensions on Widget {
   Widget padding([EdgeInsetsGeometry? padding]) =>
       padding.ifNotNull(def: this, callback: (_) => Padding(padding: _, child: this));
 
-  Padding paddingAll([double? padding]) =>
+  Widget paddingAll([double? padding]) =>
       padding.ifNotNull(def: this, callback: (_) => Padding(padding: EdgeInsets.all(_), child: this));
 
   Padding paddingHorizontal([double value = 0.0]) =>
