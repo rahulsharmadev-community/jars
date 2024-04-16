@@ -35,21 +35,19 @@ extension NumberFormatExt on NumberFormat {
   }) {
     prefix = prefix + (currencySymbol ? this.currencySymbol : '');
 
-    if (n is int && n < 999) return prefix + toString();
+    if (n is int && n < 999) return '$prefix${n.toStringAsFixed(fractionDigits)}';
 
     RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
 
     mathFunc(Match match) => '${match[1]}$separator';
 
-    if (n is int) return prefix + toString().replaceAllMapped(readable, mathFunc);
+    if (n is int || fractionDigits == 0) return prefix + '${n.toInt()}'.replaceAllMapped(readable, mathFunc);
 
     var str = trimZero
         ? (n as double).toPrecision(fractionDigits).toString().split('.')
         : (n as double).toPrecision(fractionDigits).toStringAsFixed(fractionDigits).split('.');
 
     var strfrac = str[1] == '0' ? '' : '.${str[1]}';
-    return fractionDigits < 3
-        ? '$prefix${str[0].replaceAllMapped(readable, mathFunc)}$strfrac'
-        : prefix + str.map((e) => e.replaceAllMapped(readable, mathFunc)).join('.');
+    return '$prefix${str[0].replaceAllMapped(readable, mathFunc)}$strfrac';
   }
 }

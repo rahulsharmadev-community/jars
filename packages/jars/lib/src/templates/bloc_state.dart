@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 /// such as initial, loading, success, or failure states.
 sealed class BlocState<T> extends Equatable {
   const BlocState();
-  
+
   @override
   List<Object?> get props => [];
 }
@@ -33,11 +33,12 @@ final class BlocStateLoading<T> extends BlocState<T> {
 /// and contains the resulting data of type [T].
 final class BlocStateSuccess<T> extends BlocState<T> {
   final T data;
+  final String? message;
 
-  const BlocStateSuccess(this.data);
+  const BlocStateSuccess(this.data, {this.message});
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [data, message];
 }
 
 /// Represents the failure state of a BLoC.
@@ -86,5 +87,4 @@ final class BlocStateFailure<T> extends BlocState<T> {
 ///
 /// }
 /// ```
-
 bool isBlocState<T extends BlocState>(List<BlocState> ls) => ls.every((e) => e is T);
