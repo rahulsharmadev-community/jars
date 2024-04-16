@@ -185,7 +185,7 @@ class RegPatterns {
 
   /// Use this function to create a regular expression pattern that matches
   /// strings consisting only of digits with allow additional characters within a
-  ///  specified range of lengths.
+  /// specified range of lengths.
   ///
   /// - [**type**]: The type of numbers to match (e.g., decimal, binary, octal).
   /// - [**allowEmptyString**]:
