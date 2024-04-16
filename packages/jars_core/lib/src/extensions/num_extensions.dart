@@ -1,20 +1,29 @@
 import 'dart:async';
+import 'dart:math';
+import '../utility/number_format/number_format.dart';
 
 extension NnmExtensions on num {
+  bool get isInfiniteOrNuN {
+    if (this == 0) return false;
+    var temp = log(this) / ln10;
+    return temp.isNaN || temp.isInfinite;
+  }
+
   /// Sample:
   /// ```
   /// void main(){
-  ///   print(readableString(451251365));
+  ///   print(45125136.numberSimpleFormat);
   /// }
   /// ```
   /// ----------
   /// 451,251,365
   /// ----------
-  String readableFormat([String separator = ',']) {
-    RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-    mathFunc(Match match) => '${match[1]}$separator';
-    return '$this'.split('.').map((e) => e.replaceAllMapped(readable, mathFunc)).join('.');
-  }
+  String get numberSimpleFormat => NumberFormat.en().simple(this, trimZero: true);
+
+  String get numberCompactFormat => NumberFormat.en().compact(this, trimZero: true, shortfrom: true);
+
+  String get currencyCompactFormat =>
+      NumberFormat.en().compact(this, trimZero: true, shortfrom: true, currencySymbol: true);
 
   /// Returns an iterable from [this] inclusive to [end] exclusive.
   ///

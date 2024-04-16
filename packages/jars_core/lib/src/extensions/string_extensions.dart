@@ -12,16 +12,16 @@ extension StringExtensions on String {
   /// Sample:
   /// ```
   /// void main(){
-  ///   print('451251365'.numberReadableFormat);
+  ///   print('ABC1251365'.separator());
   /// }
   /// ```
   /// ----------
-  /// 451,251,365
+  /// ABC,251,365
   /// ----------
-  String numberReadableFormat([String separator = ',']) {
-    RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  String separate([String separator = ',']) {
+    RegExp readable = RegExp(r'(\w{1,3})(?=(\w{3})+(?!\w))');
     mathFunc(Match match) => '${match[1]}$separator';
-    return split('.').map((e) => e.replaceAllMapped(readable, mathFunc)).join('.');
+    return removeAllSpace.split('.').map((e) => e.replaceAllMapped(readable, mathFunc)).join('.');
   }
 
   /// Sample
