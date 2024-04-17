@@ -271,7 +271,7 @@ class NumberFormatting extends TextInputFormatter {
       }
     });
     if (double.tryParse(text) != null) {
-      var res = text.separate(separator);
+      var res = text.separate(separator:separator);
       return newValue.copyWith(
         text: res,
         selection: TextSelection.fromPosition(
