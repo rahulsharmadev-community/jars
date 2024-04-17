@@ -21,7 +21,7 @@ JARS is a super-effective and lightweight solution for Flutter. It combines fron
 
 As we all know, text is a key component of any mobile app's user interface. and it is fustrating to use Text or RichText Widget to create attractive text. Now you no longer need to define multiple TextStyle for attractive text thanks to JTextPlus' simple solution for text decoration. You'll save time and get fantastic results with JTextPlus.
 
-![](https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/jtextplus.png)
+![](_readme_assets/jtextplus.png)
 
 **How to Use**
 
@@ -39,7 +39,7 @@ As we all know, text is a key component of any mobile app's user interface. and 
 A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/Marquee.gif" height=700>
+  <img src="_readme_assets/Marquee.gif" height=700>
 </p>
 
 ```dart
@@ -73,7 +73,7 @@ With JSnackBar and JToast it is now easier than ever to show a little notificati
 - Pure flutter implementation
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/rsnakbar.gif" height=700>
+  <img src="_readme_assets/rsnakbar.gif" height=700>
 </p>
 
 ```dart
