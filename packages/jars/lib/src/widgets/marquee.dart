@@ -45,7 +45,7 @@ class Marquee extends StatefulWidget {
     this.maxheight,
     this.widget,
     this.style,
-    this.textScaleFactor,
+    this.textScaler,
     this.textDirection = TextDirection.ltr,
     this.scrollAxis = Axis.horizontal,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -107,7 +107,7 @@ class Marquee extends StatefulWidget {
 
   final TextStyle? style;
 
-  final double? textScaleFactor;
+  final TextScaler? textScaler;
 
   /// The text direction of the text to be displayed.
   final TextDirection textDirection;
@@ -552,7 +552,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
         alignment = null;
         break;
     }
-    var text = Text(widget.text ?? '', style: widget.style, textScaleFactor: widget.textScaleFactor);
+    var text = Text(widget.text ?? '', style: widget.style, textScaler: widget.textScaler);
 
     var child = ListView.builder(
       shrinkWrap: true,

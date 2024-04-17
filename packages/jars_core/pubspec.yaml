@@ -1,6 +1,6 @@
 name: jars_core
 description: A starting point for Dart libraries or applications.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/rahulsharmadev-community/jars/blob/main/packages/jars_core
 
 environment:

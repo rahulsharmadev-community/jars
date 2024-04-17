@@ -22,7 +22,7 @@ class FormBuilder extends StatelessWidget {
 
   final VoidCallback? onChanged;
   final GlobalKey<FormState>? formKey;
-  final Future<bool> Function()? onWillPop;
+  final void Function(bool)? onPopInvoked;
   const FormBuilder(
       {super.key,
       required this.children,
@@ -41,8 +41,8 @@ class FormBuilder extends StatelessWidget {
       this.padding = const EdgeInsets.fromLTRB(16, 0, 16, 24),
       this.onChanged,
       this.formKey,
-      this.onWillPop})
-      : assert(formKey != null || (onChanged == null && onWillPop == null));
+      this.onPopInvoked})
+      : assert(formKey != null || (onChanged == null && onPopInvoked == null));
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class FormBuilder extends StatelessWidget {
         ? Form(
             key: formKey,
             onChanged: onChanged,
-            onWillPop: onWillPop,
+            onPopInvoked: onPopInvoked,
             child: returnChild,
           )
         : returnChild;
