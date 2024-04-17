@@ -3,9 +3,22 @@ import 'dart:math';
 import '../utility/number_format/number_format.dart';
 
 extension NnmExtensions on num {
+  ///  ```
+  /// void main() {
+  ///   print(23.455.toRoundPrecision(1)); // Expected result: 23.5
+  ///   print(-23.455.toRoundPrecision(1)); // Expected result: -23.5
+  ///   print(23.3554.toRoundPrecision(0)); // Expected result: -23
+  /// }
+  /// ```
+  num toRoundPrecision(int fractionDigits) {
+    if (fractionDigits == 0) return round();
+    var mod = pow(10, fractionDigits);
+    return ((this * mod).round() / mod);
+  }
+
   bool get isInfiniteOrNuN {
     if (this == 0) return false;
-    var temp = log(this) / ln10;
+    var temp = log(abs()) / ln10;
     return temp.isNaN || temp.isInfinite;
   }
 

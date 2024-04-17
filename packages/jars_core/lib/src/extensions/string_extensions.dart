@@ -12,16 +12,29 @@ extension StringExtensions on String {
   /// Sample:
   /// ```
   /// void main(){
-  ///   print('ABC1251365'.separator());
+  ///   print('ABC1251365'.separate());
   /// }
   /// ```
   /// ----------
   /// ABC,251,365
   /// ----------
-  String separate([String separator = ',']) {
-    RegExp readable = RegExp(r'(\w{1,3})(?=(\w{3})+(?!\w))');
+  String separate({
+    int min = 1,
+    int max = 3,
+    String separator = ',',
+    ({Pattern splitBy, String join})? pattern,
+  }) {
+    if (length < max) return this;
+    String min0 = min.abs().toString();
+    String max0 = max.abs().toString();
+    RegExp readable = RegExp(r'(\w{' + min0 + r',' + max0 + r'})(?=(\w{' + max0 + r'})+(?!\w))');
     mathFunc(Match match) => '${match[1]}$separator';
-    return removeAllSpace.split('.').map((e) => e.replaceAllMapped(readable, mathFunc)).join('.');
+    return pattern == null
+        ? replaceAllMapped(readable, mathFunc)
+        : removeAllSpace
+            .split(pattern.splitBy)
+            .map((e) => e.replaceAllMapped(readable, mathFunc))
+            .join(pattern.join);
   }
 
   /// Sample

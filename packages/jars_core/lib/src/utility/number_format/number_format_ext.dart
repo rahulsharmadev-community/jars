@@ -10,12 +10,9 @@ extension NumberFormatExt on NumberFormat {
     bool shortfrom = true,
   }) {
     if (n.isInfiniteOrNuN) return 'Infinite or NuN';
-
     FormatMetaData curr = metaData.firstWhere((e) => (n / e.divisor) < 1000, orElse: () => metaData.last);
-    double result = (n / curr.divisor).toPrecision(fractionDigits);
-
     var str = simple(
-      result,
+      (n / curr.divisor),
       currencySymbol: currencySymbol,
       fractionDigits: fractionDigits,
       prefix: prefix,
@@ -33,21 +30,12 @@ extension NumberFormatExt on NumberFormat {
     String separator = ',',
     int fractionDigits = 2,
   }) {
-    prefix = prefix + (currencySymbol ? this.currencySymbol : '');
+    String minus = n.isNegative ? '-' : '';
+    prefix = prefix + minus + (currencySymbol ? this.currencySymbol : '');
 
-    if (n is int && n < 999) return '$prefix${n.toStringAsFixed(fractionDigits)}';
-
-    RegExp readable = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-
-    mathFunc(Match match) => '${match[1]}$separator';
-
-    if (n is int || fractionDigits == 0) return prefix + '${n.toInt()}'.replaceAllMapped(readable, mathFunc);
-
-    var str = trimZero
-        ? (n as double).toPrecision(fractionDigits).toString().split('.')
-        : (n as double).toPrecision(fractionDigits).toStringAsFixed(fractionDigits).split('.');
-
-    var strfrac = str[1] == '0' ? '' : '.${str[1]}';
-    return '$prefix${str[0].replaceAllMapped(readable, mathFunc)}$strfrac';
+    n = n.abs().toRoundPrecision(fractionDigits);
+    var str = trimZero ? n.toString().split('.') : n.toStringAsFixed(fractionDigits).split('.');
+    var strfrac = (str.length == 1 || (str[1] == '0' && trimZero)) ? '' : '.${str[1]}';
+    return '$prefix${str[0].separate(separator: separator)}$strfrac';
   }
 }
