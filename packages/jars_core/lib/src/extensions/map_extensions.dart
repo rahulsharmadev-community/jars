@@ -1,41 +1,50 @@
-extension MapExtensions on Map<String, dynamic> {
-  Map<String, dynamic> difference(Map<String, dynamic> oldValue,
-      [bool pure = true]) {
-    Map<String, dynamic> map = {};
-    forEach((key, value) {
-      if (oldValue.containsKey(key)) {
-        var diff = _recursiveDifference(value, oldValue[key], pure);
-        if (diff != null) map[key] = diff;
-      } else {
-        map[key] = value;
-      }
+import 'package:collection/collection.dart';
+
+extension MapExtensions<K, V> on Map<K, V> {
+  /// Compare two elements for being equal.
+  bool equals(Map<K, V> other) => DeepCollectionEquality().equals(this, other);
+
+  void removeAll(List<K> keys) => keys.forEach((key) => this.remove(key));
+
+  /// Returns a new map containing all key-value pairs in this map
+  /// except those that are present in the [other] map.
+  ///
+  /// Optionally, you can specify whether to compare only keys ([compareOnlyKey]).
+  Map<K, V> subtract(Map<K, V> other, {bool compareOnlyKey = false}) {
+    if (other.isEmpty) return this;
+    var map = {...this};
+    final deep = DeepCollectionEquality();
+    other.forEach((key, value) {
+      if (this[key] is Map && other[key] is Map) {
+        map[key] = (this[key] as Map).subtract(other[key] as Map) as V;
+      } else if (compareOnlyKey || deep.equals(map[key], value)) map.remove(key);
     });
     return map;
   }
 
-  dynamic _recursiveDifference(dynamic newValue, dynamic oldValue, bool pure) {
-    if (newValue is Map && oldValue is Map) {
-      var diff = {};
-      newValue.forEach((key, value) {
-        var nestedDiff = _recursiveDifference(value, oldValue[key], pure);
-        if (nestedDiff != null) {
-          diff[key] = nestedDiff;
-        }
-      });
-      return diff.isNotEmpty ? diff : null;
-    } else if (newValue is List && oldValue is List) {
-      if (newValue.isEmpty && oldValue.isEmpty) return null;
+  /// Returns a new map containing all key-value pairs from this map
+  /// and the [other] map.
+  Map<K, V> union(Map<K, V> other) => {...other, ...this};
 
-      if (!pure) {
-        if (newValue == oldValue) return null;
-        return newValue;
-      }
-      Set<dynamic> newls = Set<dynamic>.from(newValue);
-      Set<dynamic> oldls = Set<dynamic>.from(oldValue);
-      return newls.difference(oldls).toList();
-    } else if (newValue != oldValue) {
-      return newValue;
-    }
-    return null;
+  /// Returns a new map containing key-value pairs that are present
+  /// in both this map and the [other] map.
+  ///
+  /// Optionally, you can specify whether to compare only keys ([compareOnlyKey]).
+  Map<K, V> intersection(Map<K, V> other, {bool compareOnlyKey = false}) {
+    if (isEmpty || other.isEmpty) return const {};
+    final deep = DeepCollectionEquality();
+    var smks = (length < other.length ? keys : other.keys);
+    return {
+      for (var key in smks)
+        if (this[key] is Map && other[key] is Map) ...{
+          key: (this[key] as Map).intersection(other[key] as Map) as V
+        } else if ((compareOnlyKey && containsKey(key)) || deep.equals(this[key], other[key])) ...{
+          key: this[key]!
+        }
+    };
   }
+
+  /// Returns a new map containing key-value pairs that are present
+  /// either in this map or the [other] map, but not in both.
+  Map<K, V> symmetricDifference(Map<K, V> other) => union(other).subtract(intersection(other));
 }

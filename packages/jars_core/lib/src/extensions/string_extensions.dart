@@ -52,7 +52,13 @@ extension StringExtensions on String {
   }
 
   /// Checks if string is boolean.
-  bool get isBool => (this == 'true' || this == 'false');
+  bool get isBool => isTrue || isFalse;
+
+  /// Checks if string is `true`.
+  bool get isTrue => trim() == 'true';
+
+  /// Checks if string is `false`.
+  bool get isFalse => trim() == 'false';
 
   /// Sample
   /// ```dart
@@ -67,6 +73,14 @@ extension StringExtensions on String {
   /// Remove all whitespace inside string
   /// Example: your name => yourname
   String get removeAllSpace => replaceAll(' ', '');
+
+  /// Trims leading/trailing whitespace and replaces multiple spaces with a single space.
+  /// ```dart
+  ///   String text = '  This   is   an   example   string.  ';
+  ///   print(text.normalizeSpaces);   // Output: 'This is an example string.'
+  /// }
+  /// ```
+  String get normalizeSpaces => trim().replaceAll(RegExp(r'\s+'), ' ');
 
   ///
   /// ```dart

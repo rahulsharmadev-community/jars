@@ -1,17 +1,19 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
-extension NullableIterableExtensions<T> on Iterable<T?> {
-  Iterable<T> nonNulls() {
-    if (isEmpty) return [];
+import 'package:collection/collection.dart';
+
+extension NullableIterableGettersExtensions<T> on Iterable<T?> {
+  Iterable<T> get nonNulls {
+    if (isEmpty) return const [];
     return [
       for (var e in this)
         if (e != null) e
     ];
   }
 
-  Iterable<T> tillFirstNull() {
-    if (isEmpty) return [];
+  Iterable<T> get tillFirstNull {
+    if (isEmpty) return const [];
 
     final result = <T>[];
     for (var e in this) {
@@ -23,6 +25,9 @@ extension NullableIterableExtensions<T> on Iterable<T?> {
 }
 
 extension IterableExtensions<T> on Iterable<T> {
+  /// Compare two elements for being equal.
+  bool equals(Iterable<T> other) => DeepCollectionEquality().equals(this, other);
+
   /// Returns the number of elements that matches the [test].\
   /// If not [test] is specified it will count every element.\
   /// Example:
@@ -72,11 +77,11 @@ extension IterableExtensions<T> on Iterable<T> {
     return true;
   }
 
-  /// Returns a random element of [this], or [null] if [this] is empty.
-  ///
-  /// If [seed] is provided, will be used as the random seed for determining
-  /// which element to select. (See [math.Random].)
-  T? getRandom({int? seed}) => isEmpty ? null : elementAt(math.Random(seed).nextInt(length));
+  /// Returns a random element or null
+  T? getRandom({int skipFirst = 0}) {
+    if (isEmpty || skipFirst >= length) return null;
+    return elementAt(math.Random().nextInt(length - skipFirst) + skipFirst);
+  }
 
   Map<E, int> _elementCountsIn<E>(Iterable<E> iterable) {
     final counts = <E, int>{};
@@ -198,7 +203,9 @@ extension NumIterableBasics<E extends num> on Iterable<E> {
   /// ```
   num sum([num Function(E)? addend]) {
     if (isEmpty) return 0;
-    return addend == null ? reduce((a, b) => (a + b) as E) : fold(0, (prev, element) => prev + addend(element));
+    return addend == null
+        ? reduce((a, b) => (a + b) as E)
+        : fold(0, (prev, element) => prev + addend(element));
   }
 
   /// Returns the average of all the values in this iterable.
