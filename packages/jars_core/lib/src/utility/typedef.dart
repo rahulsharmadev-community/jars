@@ -10,4 +10,4 @@ typedef Dimension = ({double l, double w, double h});
 typedef JSON<T> = Map<String, T>;
 
 /// Individual key-value pairs
-typedef JSON_1<T> = (String key, T value);
+typedef JSON_1<T> = ({String key, T value});
