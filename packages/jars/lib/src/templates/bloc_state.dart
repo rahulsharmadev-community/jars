@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class _BaseBlocState extends Equatable {
+abstract class _BaseBlocState<T> extends Equatable {
   const _BaseBlocState();
 
   /// Handles different BlocState types and executes the corresponding function.
@@ -11,18 +11,18 @@ abstract class _BaseBlocState extends Equatable {
   ///   - onFailure: Optional function to execute if the state is [BlocStateFailure].
   ///   - onLoading: Optional function to execute if the state is [BlocStateLoading].
   /// - Returns: The result of the function corresponding to the state type.
-  T on<T>({
-    required T onInitial,
-    required T Function(BlocStateSuccess state) onSuccess,
-    T Function(BlocStateFailure state)? onFailure,
-    T Function(BlocStateLoading state)? onLoading,
+  R on<R>({
+    required R onInitial,
+    required R Function(BlocStateSuccess<T> state) onSuccess,
+    R Function(BlocStateFailure<T> state)? onFailure,
+    R Function(BlocStateLoading<T> state)? onLoading,
   }) {
     if (this is BlocStateFailure && onFailure != null) {
-      return onFailure(this as BlocStateFailure);
+      return onFailure(this as BlocStateFailure<T>);
     } else if (this is BlocStateLoading && onLoading != null) {
-      return onLoading(this as BlocStateLoading);
+      return onLoading(this as BlocStateLoading<T>);
     } else if (this is BlocStateSuccess) {
-      return onSuccess(this as BlocStateSuccess);
+      return onSuccess(this as BlocStateSuccess<T>);
     } else {
       return onInitial;
     }
@@ -36,26 +36,26 @@ abstract class _BaseBlocState extends Equatable {
 ///
 /// This class is used to define various states that a BLoC can be in,
 /// such as initial, loading, success, or failure states.
-abstract class BlocState<T> extends _BaseBlocState {
+abstract class BlocState<T> extends _BaseBlocState<T> {
   const BlocState();
 
   /// Checks if all elements in the provided list are of type `T`.
-  static bool areAll<T extends BlocState>(List<BlocState> states) => states.every((state) => state is T);
+  static bool areAll<R extends BlocState>(List<BlocState> states) => states.every((state) => state is R);
 
   /// Checks if any element in the provided list is of type `T`.
-  static bool isAny<T extends BlocState>(List<BlocState> states) => states.any((state) => state is T);
+  static bool isAny<R extends BlocState>(List<BlocState> states) => states.any((state) => state is R);
 
   /// Checks if the current state is an initial state.
-  bool get isInitial => this is BlocStateInitial;
+  bool get isInitial => this is BlocStateInitial<T>;
 
   /// Checks if the current state is a loading state.
-  bool get isLoading => this is BlocStateLoading;
+  bool get isLoading => this is BlocStateLoading<T>;
 
   /// Checks if the current state is a success state.
-  bool get isSuccess => this is BlocStateSuccess;
+  bool get isSuccess => this is BlocStateSuccess<T>;
 
   /// Checks if the current state is a failure state.
-  bool get isFailure => this is BlocStateFailure;
+  bool get isFailure => this is BlocStateFailure<T>;
 }
 
 /// Represents the initial state of a BLoC.
