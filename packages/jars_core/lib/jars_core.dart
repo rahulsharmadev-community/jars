@@ -10,6 +10,7 @@ export 'src/extensions/iterable_extensions.dart';
 export 'src/extensions/map_extensions.dart';
 export 'src/extensions/num_extensions.dart';
 export 'src/extensions/string_extensions.dart';
+export 'src/extensions/mapentry_extension.dart';
 
 export 'src/utility/number_format/number_format.dart';
 
