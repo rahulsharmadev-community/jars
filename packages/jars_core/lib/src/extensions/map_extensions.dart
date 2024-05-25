@@ -42,7 +42,7 @@ extension MapExtensions<K, V> on Map<K, V> {
         if (this[key] is Map && other[key] is Map) ...{
           key: (this[key] as Map).intersection(other[key] as Map) as V
         } else if ((compareOnlyKey && containsKey(key)) || deep.equals(this[key], other[key])) ...{
-          key: this[key]!
+          key: this[key] as V
         }
     };
   }
