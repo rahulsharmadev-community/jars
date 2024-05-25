@@ -36,10 +36,17 @@ extension IterableExtensions<T> on Iterable<T> {
   /// [1, 2, 3, 13, 14, 15].count((n) => n > 9); // 3
   /// ```
   int count([bool Function(T element)? test]) {
-    test ??= (_) => true;
+    if (test == null) return length;
     if (isEmpty) return 0;
 
-    return map((element) => test!(element) ? 1 : 0).reduce((value, element) => value + element);
+    return map((element) => test(element) ? 1 : 0).reduce((value, element) => value + element);
+  }
+
+  bool anyOf(List<T> ls) {
+    for (var e in ls) {
+      if (contains(e)) return true;
+    }
+    return false;
   }
 
   /// The first element satisfying [test], or `null` if there are none.
