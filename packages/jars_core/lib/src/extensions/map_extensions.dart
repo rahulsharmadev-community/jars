@@ -4,7 +4,7 @@ extension MapExtensions<K, V> on Map<K, V> {
   /// Compare two elements for being equal.
   bool equals(Map<K, V> other) => DeepCollectionEquality().equals(this, other);
 
-  void removeAll(List<K> keys) => keys.forEach((key) => this.remove(key));
+  void removeAll(List<K> keys) => keys.forEach((key) => remove(key));
 
   /// Returns a new map containing all key-value pairs in this map
   /// except those that are present in the [other] map.
@@ -16,8 +16,11 @@ extension MapExtensions<K, V> on Map<K, V> {
     final deep = DeepCollectionEquality();
     other.forEach((key, value) {
       if (this[key] is Map && other[key] is Map) {
-        map[key] = (this[key] as Map).subtract(other[key] as Map) as V;
-      } else if (compareOnlyKey || deep.equals(map[key], value)) map.remove(key);
+        var subtract = (this[key] as Map).subtract(other[key] as Map);
+        subtract.isEmpty ? map.remove(key) : map[key] = subtract as V;
+      } else if (compareOnlyKey || deep.equals(map[key], value)) {
+        map.remove(key);
+      }
     });
     return map;
   }
