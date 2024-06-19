@@ -4,7 +4,7 @@ part 'file_format_pattern.dart';
 part 'password_pattern.dart';
 part 'regpattern.dart';
 
-final regPatterns = _RegPatterns._internal();
+const regPatterns = _RegPatterns._internal();
 
 /// Enumeration of PAN (Permanent Account Number) types with corresponding code.
 enum PanType {
@@ -25,7 +25,7 @@ enum PanType {
 }
 
 class _RegPatterns with _PasswordRegPattern {
-  _RegPatterns._internal();
+  const _RegPatterns._internal();
 
   _FileFormatRegPatterns get fileFormats => _FileFormatRegPatterns();
 
