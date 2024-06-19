@@ -50,6 +50,11 @@ class _RegPatterns with _PasswordRegPattern {
     );
   }
 
+  RegPattern get googlePlusCode => RegPattern(
+        pattern: r'^[2-9CFGHJMPQRVWX]{4}\+[2-9CFGHJMPQRVWX]{2,8}$',
+        message: 'Invalid Google Plus Code.', 
+      );
+
   /// Username regex
   RegPattern username({
     bool allowSpace = false,
