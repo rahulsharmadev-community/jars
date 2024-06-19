@@ -1,4 +1,4 @@
-part of 'regpatterns_base.dart';
+part of '../regpatterns.dart';
 
 class RegPattern {
   // ignore: unused_field

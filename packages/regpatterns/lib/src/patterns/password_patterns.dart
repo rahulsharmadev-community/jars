@@ -1,6 +1,6 @@
-part of 'regpatterns_base.dart';
+part of '../../regpatterns.dart';
 
-mixin _PasswordRegPattern {
+mixin _PasswordRegPatterns {
   /// ### Password validation based on the specified `PasswordType`.
   ///
   /// The function supports various password types, including requirements for minimum and maximum length,

@@ -34,7 +34,7 @@ abstract class JTextFieldModel extends StatefulWidget {
   final bool autofocus;
 
   final AutovalidateMode? autovalidateMode;
-  final RegPatterns? validatorPattern;
+  final RegPattern? validatorPattern;
   final String? validatorText;
 
   /// {@macro flutter.widgets.editableText.maxLines}

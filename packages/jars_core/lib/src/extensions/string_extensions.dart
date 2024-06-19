@@ -68,13 +68,13 @@ extension StringExtensions on String {
   /// }
   /// ```
   /// ### Use RegPatterns library for RegPattern
-  bool regMatch(RegPatterns regPattern) => regPattern.hasMatch(this);
+  bool regMatch(RegPattern regex) => regex.hasMatch(this);
 
-  bool regNotMatch(RegPatterns regPattern) => !regPattern.hasMatch(this);
+  bool regNotMatch(RegPattern regex) => !regex.hasMatch(this);
 
-  bool regAnyMatch(Set<RegPatterns> regPattern) => regPattern.any((e) => e.hasMatch(this));
+  bool regAnyMatch(Set<RegPattern> regex) => regex.any((e) => e.hasMatch(this));
 
-  bool regAllMatch(Set<RegPatterns> regPattern) => !regPattern.every((e) => e.hasMatch(this));
+  bool regAllMatch(Set<RegPattern> regex) => !regex.every((e) => e.hasMatch(this));
 
   /// Remove all whitespace inside string
   /// Example: your name => yourname
@@ -103,7 +103,7 @@ extension StringExtensions on String {
   String numericOnly({bool firstWordOnly = false}) {
     var numericOnlyStr = '';
     for (var i = 0; i < length; i++) {
-      if (regMatch(RegPatterns.number())) {
+      if (regMatch(regPatterns.number())) {
         numericOnlyStr += this[i];
       }
       if (firstWordOnly && numericOnlyStr.isNotEmpty && this[i] == " ") {

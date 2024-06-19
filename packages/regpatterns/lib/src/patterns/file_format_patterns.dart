@@ -1,4 +1,4 @@
-part of 'regpatterns_base.dart';
+part of '../../regpatterns.dart';
 
 class _FileFormatRegPatterns {
   /// Checks if the provided string represents a valid image file supported by Flutter.
