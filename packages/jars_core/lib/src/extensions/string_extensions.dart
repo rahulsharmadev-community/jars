@@ -64,11 +64,17 @@ extension StringExtensions on String {
   /// ```dart
   /// void main(){
   ///   bool isValidEmail = 'sample@gmail.com'.regMatch(RegPatterns.email);
-  ///   print(isValidEmail)
+  ///   print(isValidEmail) // true
   /// }
   /// ```
   /// ### Use RegPatterns library for RegPattern
   bool regMatch(RegPatterns regPattern) => regPattern.hasMatch(this);
+
+  bool regNotMatch(RegPatterns regPattern) => !regPattern.hasMatch(this);
+
+  bool regAnyMatch(Set<RegPatterns> regPattern) => regPattern.any((e) => e.hasMatch(this));
+
+  bool regAllMatch(Set<RegPatterns> regPattern) => !regPattern.every((e) => e.hasMatch(this));
 
   /// Remove all whitespace inside string
   /// Example: your name => yourname

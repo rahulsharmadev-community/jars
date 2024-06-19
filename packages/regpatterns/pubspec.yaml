@@ -1,6 +1,6 @@
 name: regpatterns
 description: A powerful tool for working with regular expressions in Dart.
-version: 0.0.8
+version: 0.0.9
 repository: https://github.com/rahulsharmadev-community/jars/blob/main/packages/regpatterns
 documentation: https://github.com/rahulsharmadev-community/jars/blob/main/packages/regpatterns/README.md
 issue_tracker: https://github.com/rahulsharmadev-community/jars/issues
