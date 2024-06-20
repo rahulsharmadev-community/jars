@@ -32,12 +32,11 @@ class Gap extends StatelessWidget {
   /// The [crossAxisExtent] must be either null or positive.
   const Gap(
     this.mainAxisExtent, {
-    Key? key,
+    super.key,
     this.crossAxisExtent,
     this.color,
   })  : assert(mainAxisExtent >= 0 && mainAxisExtent < double.infinity),
-        assert(crossAxisExtent == null || crossAxisExtent >= 0),
-        super(key: key);
+        assert(crossAxisExtent == null || crossAxisExtent >= 0);
 
   /// Creates a widget that takes a fixed [mainAxisExtent] of space in the
   /// direction of its parent and expands in the cross axis direction.
@@ -82,8 +81,7 @@ class Gap extends StatelessWidget {
   Widget build(BuildContext context) {
     final scrollableState = Scrollable.maybeOf(context);
     final AxisDirection? axisDirection = scrollableState?.axisDirection;
-    final Axis? fallbackDirection =
-        axisDirection == null ? null : axisDirectionToAxis(axisDirection);
+    final Axis? fallbackDirection = axisDirection == null ? null : axisDirectionToAxis(axisDirection);
 
     return _RawGap(
       mainAxisExtent,
@@ -97,13 +95,11 @@ class Gap extends StatelessWidget {
 class _RawGap extends LeafRenderObjectWidget {
   const _RawGap(
     this.mainAxisExtent, {
-    Key? key,
     this.crossAxisExtent,
     this.color,
     this.fallbackDirection,
   })  : assert(mainAxisExtent >= 0 && mainAxisExtent < double.infinity),
-        assert(crossAxisExtent == null || crossAxisExtent >= 0),
-        super(key: key);
+        assert(crossAxisExtent == null || crossAxisExtent >= 0);
 
   final double mainAxisExtent;
 
@@ -136,8 +132,7 @@ class _RawGap extends LeafRenderObjectWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DoubleProperty('mainAxisExtent', mainAxisExtent));
-    properties.add(
-        DoubleProperty('crossAxisExtent', crossAxisExtent, defaultValue: 0));
+    properties.add(DoubleProperty('crossAxisExtent', crossAxisExtent, defaultValue: 0));
     properties.add(ColorProperty('color', color));
     properties.add(EnumProperty<Axis>('fallbackDirection', fallbackDirection));
   }

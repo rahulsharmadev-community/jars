@@ -209,13 +209,9 @@ class _SimpleTextFieldState extends State<JTextField> {
         autovalidateMode: widget.autovalidateMode,
         validator: (value) {
           var text = value;
-
           if (text != null && widget.validatorPattern != null && !text.regMatch(widget.validatorPattern!)) {
             var msg = widget.validatorText ?? widget.validatorPattern?.message ?? 'format error!';
-
-            if (widget.onValidator != null) {
-              guard(() => widget.onValidator!(msg));
-            }
+            if (widget.onValidator != null) widget.onValidator!(msg);
             return msg;
           }
           return null;
@@ -271,7 +267,7 @@ class NumberFormatting extends TextInputFormatter {
       }
     });
     if (double.tryParse(text) != null) {
-      var res = text.separate(separator:separator);
+      var res = text.separate(separator: separator);
       return newValue.copyWith(
         text: res,
         selection: TextSelection.fromPosition(

@@ -26,15 +26,13 @@ typedef StickyHeaderWidgetBuilder = Widget Function(BuildContext context, double
 class StickyHeader extends MultiChildRenderObjectWidget {
   /// Constructs a new [StickyHeader] widget.
   StickyHeader({
-    Key? key,
+    super.key,
     required this.header,
     required this.content,
     this.overlapHeaders = false,
     this.controller,
     this.callback,
   }) : super(
-          key: key,
-          // Note: The order of the children must be preserved for the RenderObject.
           children: [content, header],
         );
 
@@ -84,12 +82,12 @@ class StickyHeader extends MultiChildRenderObjectWidget {
 class StickyHeaderBuilder extends StatefulWidget {
   /// Constructs a new [StickyHeaderBuilder] widget.
   const StickyHeaderBuilder({
-    Key? key,
+    super.key,
     required this.builder,
     required this.content,
     this.overlapHeaders = false,
     this.controller,
-  }) : super(key: key);
+  });
 
   /// Called when the sticky amount changes for the header.
   /// This builder must not return null.
