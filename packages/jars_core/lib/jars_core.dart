@@ -20,5 +20,6 @@ export 'src/utility/guard.dart';
 export 'src/utility/typedef.dart';
 export 'src/utility/re_case.dart';
 export 'src/utility/timeago.dart';
+export 'src/utility/validator/validator_mixin.dart';
 
 export 'package:regpatterns/regpatterns.dart';
