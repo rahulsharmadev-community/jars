@@ -3,8 +3,8 @@ import 'package:meta/meta.dart';
 
 mixin ValidatorMixin {
   @nonVirtual
-  bool isValid([bool reThrow = false]) {
-    return validator.guard(def: false, reThrow: reThrow);
+  bool isValid([bool reThrow = false, void Function(dynamic)? onError]) {
+    return validator.guardSafe(reThrow: reThrow, onError: onError);
   }
 
   @protected
