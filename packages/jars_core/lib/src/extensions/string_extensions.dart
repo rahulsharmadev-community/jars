@@ -68,13 +68,19 @@ extension StringExtensions on String {
   /// }
   /// ```
   /// ### Use RegPatterns library for RegPattern
-  bool regMatch(RegPattern regex) => regex.hasMatch(this);
+  bool regMatch(RegPattern regex, {bool throwError = false, bool multiLine = false}) {
+    return regex.hasMatch(this, throwError: throwError, multiLine: multiLine);
+  }
 
-  bool regNotMatch(RegPattern regex) => !regex.hasMatch(this);
+  bool regNotMatch(RegPattern regex, {bool throwError = false, bool multiLine = false}) {
+    return !regex.hasMatch(this, throwError: throwError, multiLine: multiLine);
+  }
 
-  bool regAnyMatch(Set<RegPattern> regex) => regex.any((e) => e.hasMatch(this));
+  bool regAnyMatch(Set<RegPattern> regex, {bool throwError = false, bool multiLine = false}) =>
+      regex.any((e) => e.hasMatch(this, throwError: throwError, multiLine: multiLine));
 
-  bool regAllMatch(Set<RegPattern> regex) => !regex.every((e) => e.hasMatch(this));
+  bool regAllMatch(Set<RegPattern> regex, {bool throwError = false, bool multiLine = false}) =>
+      !regex.every((e) => e.hasMatch(this, throwError: throwError, multiLine: multiLine));
 
   /// Remove all whitespace inside string
   /// Example: your name => yourname

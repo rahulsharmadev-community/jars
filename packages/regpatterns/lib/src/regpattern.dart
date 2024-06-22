@@ -9,10 +9,9 @@ class RegPattern {
   })  : message = message ?? 'Invalid format',
         _pattern = pattern;
 
-  bool hasMatch(String value, {multiLine = false}) {
-    return RegExp(
-      _pattern,
-      multiLine: multiLine,
-    ).hasMatch(value);
+  bool hasMatch(String value, {multiLine = false, bool throwError = false}) {
+    bool result = RegExp(_pattern, multiLine: multiLine).hasMatch(value);
+    if (throwError && !result) throw ArgumentError(message);
+    return result;
   }
 }
