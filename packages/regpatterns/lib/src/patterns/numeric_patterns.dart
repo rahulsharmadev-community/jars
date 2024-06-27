@@ -35,14 +35,13 @@ mixin _NumericRegPatterns {
     int minLength = 2,
     int maxLength = 16,
   }) {
-    final min = minLength.toString();
-    final max = maxLength.toString();
     final range = RegExp.escape(type.range + allowSpecialChar);
-    final value = allowEmptyString ? '^(|[$range]{$min,$max})\$' : '^[$range]{$min,$max}\$';
+    final value =
+        allowEmptyString ? '^(|[$range]{$minLength,$maxLength})\$' : '^[$range]{$minLength,$maxLength}\$';
     return RegPattern(
       pattern: value,
       message: 'Only contain the numbers ${type.range} ${allowSpecialChar.split('').join(' ')} '
-          'and the length should be larger than $min but less than $max.',
+          'and the length should be larger than $minLength but less than $maxLength.',
     );
   }
 }

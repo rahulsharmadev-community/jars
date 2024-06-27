@@ -60,28 +60,6 @@ extension StringExtensions on String {
   /// Checks if string is `false`.
   bool get isFalse => trim() == 'false';
 
-  /// Sample
-  /// ```dart
-  /// void main(){
-  ///   bool isValidEmail = 'sample@gmail.com'.regMatch(RegPatterns.email);
-  ///   print(isValidEmail) // true
-  /// }
-  /// ```
-  /// ### Use RegPatterns library for RegPattern
-  bool regMatch(RegPattern regex, {bool throwError = false, bool multiLine = false}) {
-    return regex.hasMatch(this, throwError: throwError, multiLine: multiLine);
-  }
-
-  bool regNotMatch(RegPattern regex, {bool throwError = false, bool multiLine = false}) {
-    return !regex.hasMatch(this, throwError: throwError, multiLine: multiLine);
-  }
-
-  bool regAnyMatch(Set<RegPattern> regex, {bool throwError = false, bool multiLine = false}) =>
-      regex.any((e) => e.hasMatch(this, throwError: throwError, multiLine: multiLine));
-
-  bool regAllMatch(Set<RegPattern> regex, {bool throwError = false, bool multiLine = false}) =>
-      !regex.every((e) => e.hasMatch(this, throwError: throwError, multiLine: multiLine));
-
   /// Remove all whitespace inside string
   /// Example: your name => yourname
   String get removeAllSpace => replaceAll(' ', '');
@@ -106,17 +84,18 @@ extension StringExtensions on String {
   /// Example: OTP 12312 27/04/2020 => 1231227042020
   /// If firstword only is true, then the example return is "12312"
   /// (first found numeric word)
-  String numericOnly({bool firstWordOnly = false}) {
-    var numericOnlyStr = '';
-    for (var i = 0; i < length; i++) {
-      if (regMatch(regPatterns.number())) {
-        numericOnlyStr += this[i];
-      }
-      if (firstWordOnly && numericOnlyStr.isNotEmpty && this[i] == " ") {
-        break;
-      }
+  String numericOnly({
+    int startFrom = 0,
+    int? endAt,
+    bool firstWordOnly = false,
+  }) {
+    var numericOnly = '';
+    for (var i = startFrom; i < (endAt ?? length); i++) {
+      var code = codeUnitAt(i);
+      if (code >= 48 && code <= 57) numericOnly += this[i];
+      if (firstWordOnly && numericOnly.isNotEmpty && code == 32) break;
     }
-    return numericOnlyStr;
+    return numericOnly;
   }
 
   String createPath([Iterable? segments]) {

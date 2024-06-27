@@ -45,7 +45,8 @@ class JTextField extends JTextFieldModel {
       super.prefixIcon,
       super.prefixText,
       super.leading,
-      super.suffixIcon,
+      super.emptyFieldSuffixIcon,
+      super.filledFieldSuffixIcon,
       super.obscureText,
       super.helperText,
       super.hintText,
@@ -94,15 +95,16 @@ class JTextField extends JTextFieldModel {
     super.prefixIcon,
     super.prefixText,
     super.leading,
-    super.obscuringCharacter = '●',
-    super.expands = false,
-    super.readOnly = false,
-    super.autofocus = false,
-    super.textAlign = TextAlign.start,
-    super.inputFormatters = const [],
-    super.keyboardType = TextInputType.text,
-    super.textInputAction = TextInputAction.done,
-    super.suffixIcon,
+    super.obscuringCharacter,
+    super.expands,
+    super.readOnly,
+    super.autofocus,
+    super.textAlign,
+    super.inputFormatters,
+    super.keyboardType,
+    super.textInputAction,
+    super.emptyFieldSuffixIcon,
+    super.filledFieldSuffixIcon,
     super.helperText,
     super.hintText,
     super.suffixText,
@@ -121,32 +123,19 @@ class JTextField extends JTextFieldModel {
 }
 
 class _SimpleTextFieldState extends State<JTextField> {
-  late TextEditingController controller;
-
-  String get cText => controller.text;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = widget.controller ?? TextEditingController(text: widget.inital);
-  }
+  String get str => widget.controller.text;
 
   @override
   void dispose() {
-    if (widget.controller == null) controller.dispose();
+    widget.controller.dispose();
     super.dispose();
   }
-
-  InputBorder textfieldBorder(Color color) => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(width: 0.7, color: color),
-      );
 
   void _onSubmitted(String newText) {
     if (widget.onSubmitted != null) {
       if (widget.numberFormatting) {
         newText = newText.replaceAll(widget.numberSeparator, '');
-        newText = double.tryParse(newText) != null ? newText : cText;
+        newText = double.tryParse(newText) != null ? newText : str;
       }
       widget.onSubmitted!(newText);
     }
@@ -168,7 +157,7 @@ class _SimpleTextFieldState extends State<JTextField> {
   Widget build(BuildContext context) {
     var colors = context.colorScheme;
     return TextFormField(
-        controller: controller,
+        controller: widget.controller,
         style: widget.styleConfig.style,
         readOnly: widget.readOnly,
         onFieldSubmitted: _onSubmitted,
@@ -216,30 +205,9 @@ class _SimpleTextFieldState extends State<JTextField> {
           }
           return null;
         },
-        decoration: widget.inputDecoration.copyWith(
-          suffixIcon: cText.isEmpty ? null : widget.suffixIcon ?? clearButton(),
-          border: widget.borderConfig.border ?? textfieldBorder(colors.onSurface),
-          errorBorder: widget.borderConfig.errorBorder ?? textfieldBorder(colors.error),
-          enabledBorder: widget.borderConfig.enabledBorder ?? textfieldBorder(colors.onSurface),
-          focusedBorder: widget.borderConfig.focusedBorder ?? textfieldBorder(colors.primary),
-          disabledBorder: widget.borderConfig.disabledBorder ??
-              textfieldBorder(colors.onSurfaceVariant.withOpacity(0.35)),
-          focusedErrorBorder: widget.borderConfig.focusedErrorBorder ?? textfieldBorder(colors.primary),
-        ),
+        decoration: widget.inputDecoration(colors),
         onChanged: _onChange,
-        onEditingComplete: () => _onSubmitted(cText));
-  }
-
-  IconButton clearButton() {
-    return IconButton(
-        onPressed: () {
-          controller.clear();
-          _onChange(cText);
-          if (widget.onSubmitted != null) {
-            widget.onSubmitted!(cText);
-          }
-        },
-        icon: const Icon(Icons.close_rounded));
+        onEditingComplete: () => _onSubmitted(str));
   }
 }
 

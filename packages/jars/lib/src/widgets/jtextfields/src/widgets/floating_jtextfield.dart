@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
 
-class FloatingTextField extends StatefulWidget {
+class FloatingJTextField extends StatefulWidget {
   final bool hideCloseButton;
   final String hintText;
   final Color? color;
@@ -14,7 +14,7 @@ class FloatingTextField extends StatefulWidget {
   final TextEditingController textController;
   final Function(String)? onSubmitted;
   final Function(String)? onChange;
-  FloatingTextField({
+  FloatingJTextField({
     super.key,
     this.duration = const Duration(milliseconds: 300),
     this.hintText = 'Search...',
@@ -33,10 +33,10 @@ class FloatingTextField extends StatefulWidget {
         textController = textController ?? TextEditingController();
 
   @override
-  State<FloatingTextField> createState() => _FloatingTextFieldState();
+  State<FloatingJTextField> createState() => _FloatingJTextFieldState();
 }
 
-class _FloatingTextFieldState extends State<FloatingTextField>
+class _FloatingJTextFieldState extends State<FloatingJTextField>
     with SingleTickerProviderStateMixin {
   late final AnimationController animController;
   @override

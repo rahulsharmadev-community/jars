@@ -10,8 +10,25 @@ class RegPattern {
         _pattern = pattern;
 
   bool hasMatch(String value, {bool multiLine = false, bool throwError = false}) {
-    bool result = RegExp(_pattern, multiLine: multiLine).hasMatch(value);
-    if (throwError && !result) throw ArgumentError(message);
-    return result;
+    var regExp = RegExp(_pattern, multiLine: multiLine);
+    if (regExp.hasMatch(value)) return true;
+    if (throwError) throw ArgumentError(message);
+    return false;
   }
+}
+
+extension RegPatternExtension on String {
+  bool regMatch(RegPattern regex, {bool throwError = false, bool multiLine = false}) {
+    return regex.hasMatch(this, throwError: throwError, multiLine: multiLine);
+  }
+
+  bool regNotMatch(RegPattern regex, {bool throwError = false, bool multiLine = false}) {
+    return !regex.hasMatch(this, throwError: throwError, multiLine: multiLine);
+  }
+
+  bool regAnyMatch(Set<RegPattern> regex, {bool throwError = false, bool multiLine = false}) =>
+      regex.any((e) => e.hasMatch(this, throwError: throwError, multiLine: multiLine));
+
+  bool regAllMatch(Set<RegPattern> regex, {bool throwError = false, bool multiLine = false}) =>
+      !regex.every((e) => e.hasMatch(this, throwError: throwError, multiLine: multiLine));
 }

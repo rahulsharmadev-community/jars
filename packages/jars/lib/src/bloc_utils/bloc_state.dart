@@ -28,6 +28,16 @@ abstract class _BaseBlocState<T> extends Equatable {
     }
   }
 
+  // R on_<R>(
+  //   Map<Type, Function(dynamic)> states, {
+  //   required R def,
+  // }) {
+  //   for (var e in states.entries) {
+  //     if (runtimeType == e.key.runtimeType) return e.value(this as T);
+  //   }
+  //   return def;
+  // }
+
   @override
   List<Object?> get props => [];
 }

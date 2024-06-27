@@ -10,7 +10,7 @@ extension TextExtension on Text {
       Locale? locale,
       bool? softWrap,
       TextOverflow? overflow,
-      double? textScaleFactor,
+      TextScaler? textScaler,
       int? maxLines,
       String? semanticsLabel,
       TextWidthBasis? textWidthBasis,
@@ -27,14 +27,14 @@ extension TextExtension on Text {
       semanticsLabel: semanticsLabel ?? this.semanticsLabel,
       softWrap: softWrap ?? this.softWrap,
       textDirection: textDirection ?? this.textDirection,
-      textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+      textScaler: textScaler ?? this.textScaler,
       textWidthBasis: textWidthBasis ?? this.textWidthBasis,
       selectionColor: selectionColor ?? this.selectionColor,
       textHeightBehavior: textHeightBehavior ?? this.textHeightBehavior,
     );
   }
 
-  Text scale(double scaleFactor) => copyWith(textScaleFactor: scaleFactor);
+  Text scale(double scaleFactor) => copyWith(textScaler: textScaler);
 
   Text selectionColor(Color color) => copyWith(selectionColor: color);
 
@@ -48,36 +48,28 @@ extension TextExtension on Text {
   }
 
   /// Extra-bold - FontWeight.w800
-  Text get extraBold =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w800));
+  Text get extraBold => copyWith(style: _style.copyWith(fontWeight: FontWeight.w800));
 
   /// Bold - FontWeight.bold - FontWeight.w700
-  Text get bold =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w700));
+  Text get bold => copyWith(style: _style.copyWith(fontWeight: FontWeight.w700));
 
   /// Semi-bold - FontWeight.w600
-  Text get semiBold =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w600));
+  Text get semiBold => copyWith(style: _style.copyWith(fontWeight: FontWeight.w600));
 
   /// Medium - FontWeight.w500
-  Text get medium =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w500));
+  Text get medium => copyWith(style: _style.copyWith(fontWeight: FontWeight.w500));
 
   /// Regular - FontWeight.w400
-  Text get regular =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w400));
+  Text get regular => copyWith(style: _style.copyWith(fontWeight: FontWeight.w400));
 
   /// Light - FontWeight.w300
-  Text get light =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w300));
+  Text get light => copyWith(style: _style.copyWith(fontWeight: FontWeight.w300));
 
   /// Extra-light - FontWeight.w200
-  Text get extraLight =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w200));
+  Text get extraLight => copyWith(style: _style.copyWith(fontWeight: FontWeight.w200));
 
   /// Thin, the least thick - FontWeight.w100
-  Text get thin =>
-      copyWith(style: _style.copyWith(fontWeight: FontWeight.w100));
+  Text get thin => copyWith(style: _style.copyWith(fontWeight: FontWeight.w100));
 
   Text fontWeight(FontWeight fontWeight) => copyWith(
         style: _style.copyWith(fontWeight: fontWeight),
@@ -90,27 +82,19 @@ extension TextExtension on Text {
       );
 
   Text fontFamily(String font) => copyWith(
-        style: _style.copyWith(
-          fontFamily: font,
-        ),
+        style: _style.copyWith(fontFamily: font),
       );
 
   Text letterSpacing(double space) => copyWith(
-        style: _style.copyWith(
-          letterSpacing: space,
-        ),
+        style: _style.copyWith(letterSpacing: space),
       );
 
   Text wordSpacing(double space) => copyWith(
-        style: _style.copyWith(
-          wordSpacing: space,
-        ),
+        style: _style.copyWith(wordSpacing: space),
       );
 
   Text color(Color color) => copyWith(
-        style: _style.copyWith(
-          color: color,
-        ),
+        style: _style.copyWith(color: color),
       );
 
   Text align(TextAlign align) => copyWith(textAlign: align);
@@ -127,10 +111,7 @@ extension TextExtension on Text {
     return copyWith(textWidthBasis: textWidthBasis);
   }
 
-  Text get underline =>
-      copyWith(style: _style.copyWith(decoration: TextDecoration.underline));
-  Text get overline =>
-      copyWith(style: _style.copyWith(decoration: TextDecoration.overline));
-  Text get lineThrough =>
-      copyWith(style: _style.copyWith(decoration: TextDecoration.lineThrough));
+  Text get underline => copyWith(style: _style.copyWith(decoration: TextDecoration.underline));
+  Text get overline => copyWith(style: _style.copyWith(decoration: TextDecoration.overline));
+  Text get lineThrough => copyWith(style: _style.copyWith(decoration: TextDecoration.lineThrough));
 }

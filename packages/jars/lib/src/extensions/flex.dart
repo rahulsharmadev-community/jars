@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 extension FlexExtensions on Flex {
   Flex copyWith({
+    Key? key,
     MainAxisAlignment? mainAxisAlignment,
     MainAxisSize? mainAxisSize,
     CrossAxisAlignment? crossAxisAlignment,
@@ -12,6 +13,7 @@ extension FlexExtensions on Flex {
     List<Widget>? children,
   }) =>
       Flex(
+        key: key,
         direction: direction,
         mainAxisAlignment: mainAxisAlignment ?? this.mainAxisAlignment,
         mainAxisSize: mainAxisSize ?? this.mainAxisSize,

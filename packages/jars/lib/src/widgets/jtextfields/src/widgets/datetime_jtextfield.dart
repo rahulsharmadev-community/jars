@@ -32,7 +32,6 @@ class DateTimeJTextField extends JTextFieldModel {
     super.prefixIcon,
     super.prefixText,
     super.leading,
-    super.suffixIcon,
     super.helperText,
     super.hintText,
     super.suffixText,
@@ -42,10 +41,11 @@ class DateTimeJTextField extends JTextFieldModel {
     super.isDense,
     super.styleConfig,
     super.onDone,
+    super.emptyFieldSuffixIcon = const Icon(Icons.calendar_month_rounded),
   })  : assert(datePickerConfig != null || timePickerConfig != null),
-        setValue = setValue ?? defaultSetValue;
+        setValue = setValue ?? _defaultSetValue;
 
-  static String defaultSetValue(DateTime? dateTime, TimeOfDay? time) {
+  static String _defaultSetValue(DateTime? dateTime, TimeOfDay? time) {
     return [
       if (dateTime != null) dateTime.format().yMMd(),
       if (time != null) const DefaultMaterialLocalizations().formatTimeOfDay(time)
@@ -57,7 +57,7 @@ class DateTimeJTextField extends JTextFieldModel {
 }
 
 class _DateTimeTextFieldState extends State<DateTimeJTextField> {
-  late TextEditingController controller;
+  TextEditingController get controller => widget.controller;
 
   DatePickerConfig? get datePickerConfig => widget.datePickerConfig;
   TimePickerConfig? get timePickerConfig => widget.timePickerConfig;
@@ -70,7 +70,6 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
 
   @override
   void initState() {
-    controller = widget.controller ?? TextEditingController(text: widget.inital);
     focusNode = FocusNode();
     focusNode.addListener(() async {
       if (!focusNode.hasFocus) canAttempt = true;
@@ -85,9 +84,7 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
   @override
   void dispose() {
     focusNode.dispose();
-    if (widget.controller == null) {
-      controller.dispose();
-    }
+    controller.dispose();
     super.dispose();
   }
 
@@ -159,36 +156,11 @@ class _DateTimeTextFieldState extends State<DateTimeJTextField> {
       selectionHeightStyle: widget.selectionHeightStyle,
       selectionWidthStyle: widget.selectionWidthStyle,
       dragStartBehavior: widget.dragStartBehavior,
-      decoration: widget.inputDecoration.copyWith(
-        suffixIcon:
-            cText.isEmpty ? const Icon(Icons.calendar_month_rounded) : widget.suffixIcon ?? clearButton(),
-        border: widget.borderConfig.border ?? textfieldBorder(colors.onSurface),
-        errorBorder: widget.borderConfig.errorBorder ?? textfieldBorder(colors.error),
-        enabledBorder: widget.borderConfig.enabledBorder ?? textfieldBorder(colors.onSurface),
-        focusedBorder: widget.borderConfig.focusedBorder ?? textfieldBorder(colors.primary),
-        disabledBorder:
-            widget.borderConfig.disabledBorder ?? textfieldBorder(colors.onSurfaceVariant.withOpacity(0.35)),
-        focusedErrorBorder: widget.borderConfig.focusedErrorBorder ?? textfieldBorder(colors.primary),
-      ),
+      decoration: widget.inputDecoration(colors),
       onChanged: (text) {
         if (widget.onChange != null) widget.onChange!(text);
-        setState(() {});
+        if (mounted) setState(() {});
       },
     );
-  }
-
-  IconButton clearButton() {
-    return IconButton(
-        onPressed: () {
-          controller.clear();
-          if (widget.onChange != null) {
-            widget.onChange!(cText);
-            if (widget.onSubmitted != null) {
-              widget.onSubmitted!(cText);
-            }
-          }
-          setState(() {});
-        },
-        icon: const Icon(Icons.close_rounded));
   }
 }

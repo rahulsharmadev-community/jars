@@ -6,6 +6,7 @@ extension WidgetExtensions on Widget {
   AlignJar get align => AlignJar(this);
 
   SizedBox boxHeight(double value) => SizedBox(height: value, child: this);
+  
   SizedBox boxWidth(double value) => SizedBox(width: value, child: this);
 
   SizedBox boxSize(double width, double height) {

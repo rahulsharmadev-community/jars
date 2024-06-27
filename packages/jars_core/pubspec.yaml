@@ -6,7 +6,6 @@ repository: https://github.com/rahulsharmadev-community/jars/blob/main/packages/
 environment:
   sdk: ^3.3.2
 
-
 platforms:
   android:
   ios:
@@ -18,11 +17,15 @@ platforms:
 dependencies:
   collection: ^1.18.0
   meta: ^1.12.0
+
   regpatterns:
-    git:
-      url: https://github.com/rahulsharmadev-community/jars.git
-      ref: main
-      path: packages/regpatterns
+    path: ../regpatterns
+
+  # regpatterns:
+  #   git:
+  #     url: https://github.com/rahulsharmadev-community/jars.git
+  #     ref: main
+  #     path: packages/regpatterns
 
 dev_dependencies:
   lints: ^4.0.0

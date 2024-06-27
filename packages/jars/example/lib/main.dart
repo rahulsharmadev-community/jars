@@ -1,4 +1,5 @@
 import 'package:jars/jars.dart';
+
 import 'demos/export.dart';
 import 'package:flutter/material.dart';
 
@@ -45,13 +46,12 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Welcome in JARS ❤️ Demo\ndeveloped by @rahulsharmadev',
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 24.dp, color: Colors.white)),
+            const Text('Welcome in JARS ❤️ Demo\ndeveloped by @rahulsharmadev',
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 24, color: Colors.white)),
             const SizedBox(height: 64),
             ...{
               '/JMarqueeDemo': 'JMarquee Demo',
               '/JToastandJSnakBarDemo': 'JToast & JSnakBar Demo',
-              '/JTextPlusDemo': 'JTextPlus Demo',
               '/JDialogsDemo': 'JDialogs Demo',
               '/FormBuilderDemo': 'FormBuilder Demo'
             }
@@ -61,7 +61,11 @@ class HomePage extends StatelessWidget {
                       child: Text(e.value),
                     ))
                 .toList(),
-            const DropdownMenuExample()
+            12.gap,
+            const DropdownMenuExample(),
+            Container(
+                constraints: BoxConstraints(maxHeight: 300, maxWidth: 200), child: JTextField(expands: true)),
+            // JTextField(expands: true),
           ],
         ),
       ),
@@ -106,12 +110,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         controller: controller,
         enableSearch: true,
         enableFilter: true,
-        trailingIcon: IconButton(onPressed: () {}, icon: const Icon(Icons.close)),
-        selectedTrailingIcon: IconButton(onPressed: () {}, icon: const Icon(Icons.close)),
         searchCallback: (entries, query) {
-          if (query.isEmpty) {
-            return null;
-          }
+          if (query.isBlank) return null;
           final int index = entries.indexWhere((entry) => entry.label == query);
           return index != -1 ? index : null;
         });

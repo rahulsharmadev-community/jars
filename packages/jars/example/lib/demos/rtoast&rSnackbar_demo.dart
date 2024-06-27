@@ -6,9 +6,7 @@ import 'package:jars/jars.dart';
 class JToastandJSnakBarDemo extends StatelessWidget {
   const JToastandJSnakBarDemo({super.key});
 
-  simpleTile(String text,
-          {VoidCallback? onPressed, VoidCallback? onDismissed}) =>
-      Padding(
+  simpleTile(String text, {VoidCallback? onPressed, VoidCallback? onDismissed}) => Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Row(children: [
           Expanded(
@@ -30,15 +28,11 @@ class JToastandJSnakBarDemo extends StatelessWidget {
     List<Widget> children = [
       Row(children: [
         Text('RSnackBar Sample',
-            style: TextStyle(
-                fontSize: 18.dp,
-                fontWeight: FontWeight.w600,
-                color: context.theme.primaryColor)),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: context.theme.primaryColor)),
         const Spacer()
       ]).paddingVertical(8),
       simpleTile('Simple Loading Snackbar',
-          onPressed: () =>
-              showJSnackBar(context, config: JSnackbarConfig.loading()),
+          onPressed: () => showJSnackBar(context, config: JSnackbarConfig.loading()),
           onDismissed: () => removeJSnackBar()),
       simpleTile('Design Loading Snackbar',
           onPressed: () => showJSnackBar(context,
@@ -70,10 +64,7 @@ class JToastandJSnakBarDemo extends StatelessWidget {
               ))),
       Row(children: [
         Text('RToast Sample',
-            style: TextStyle(
-                fontSize: 18.dp,
-                fontWeight: FontWeight.w600,
-                color: context.theme.primaryColor)),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: context.theme.primaryColor)),
         const Spacer()
       ]).paddingVertical(8),
       const TostView(),
@@ -95,8 +86,7 @@ class TostData {
 
   TostData(this.title, this.isExpanded, this.widgets);
   copyWith({String? title, bool? isExpanded, List<Widget>? widgets}) =>
-      TostData(title ?? this.title, isExpanded ?? this.isExpanded,
-          widgets ?? this.widgets);
+      TostData(title ?? this.title, isExpanded ?? this.isExpanded, widgets ?? this.widgets);
 }
 
 class TostView extends StatefulWidget {
@@ -119,60 +109,51 @@ class _TostViewState extends State<TostView> {
       TostData('Toast form top', false, [
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form top center.',
-              config: JToastConfig(alignment: Alignment.topCenter)),
+              msg: '👋 Hi i am form top center.', config: JToastConfig(alignment: Alignment.topCenter)),
           child: const Text('TOP CENTER'),
         ),
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form top left.',
-              config: JToastConfig(alignment: Alignment.topLeft)),
+              msg: '👋 Hi i am form top left.', config: JToastConfig(alignment: Alignment.topLeft)),
           child: const Text('TOP LEFT'),
         ),
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form top right.',
-              config: JToastConfig(alignment: Alignment.topRight)),
+              msg: '👋 Hi i am form top right.', config: JToastConfig(alignment: Alignment.topRight)),
           child: const Text('TOP RIGHT'),
         ),
       ]),
       TostData('Toast form bottom', false, [
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form bottom center.',
-              config: JToastConfig(alignment: Alignment.bottomCenter)),
+              msg: '👋 Hi i am form bottom center.', config: JToastConfig(alignment: Alignment.bottomCenter)),
           child: const Text('BOTTOM CENTER'),
         ),
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form bottom left.',
-              config: JToastConfig(alignment: Alignment.bottomLeft)),
+              msg: '👋 Hi i am form bottom left.', config: JToastConfig(alignment: Alignment.bottomLeft)),
           child: const Text('BOTTOM LEFT'),
         ),
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form bottom right.',
-              config: JToastConfig(alignment: Alignment.bottomRight)),
+              msg: '👋 Hi i am form bottom right.', config: JToastConfig(alignment: Alignment.bottomRight)),
           child: const Text('BOTTOM RIGHT'),
         )
       ]),
       TostData('Toast form center', false, [
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form center.',
-              config: JToastConfig(alignment: Alignment.center)),
+              msg: '👋 Hi i am form center.', config: JToastConfig(alignment: Alignment.center)),
           child: const Text('CENTER'),
         ),
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form center left.',
-              config: JToastConfig(alignment: Alignment.centerLeft)),
+              msg: '👋 Hi i am form center left.', config: JToastConfig(alignment: Alignment.centerLeft)),
           child: const Text('CENTER LEFT'),
         ),
         OutlinedButton(
           onPressed: () => showJTost(context,
-              msg: '👋 Hi i am form center right.',
-              config: JToastConfig(alignment: Alignment.centerRight)),
+              msg: '👋 Hi i am form center right.', config: JToastConfig(alignment: Alignment.centerRight)),
           child: const Text('CENTER RIGHT'),
         )
       ])
@@ -186,10 +167,8 @@ class _TostViewState extends State<TostView> {
           .map((e) => ExpansionPanel(
               isExpanded: true,
               body: Column(
-                  children: List.generate(e.widgets.length,
-                      (index) => ListTile(title: e.widgets[index]))),
-              headerBuilder: (BuildContext context, bool isExpanded) =>
-                  ListTile(title: Text(e.title))))
+                  children: List.generate(e.widgets.length, (index) => ListTile(title: e.widgets[index]))),
+              headerBuilder: (BuildContext context, bool isExpanded) => ListTile(title: Text(e.title))))
           .toList(),
     );
   }
