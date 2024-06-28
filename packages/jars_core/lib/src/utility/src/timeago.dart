@@ -1,6 +1,6 @@
-import 'package:jars_core/src/extensions/duration_extensions.dart';
-import 'package:jars_core/src/utility/datetime_format.dart';
-import 'package:jars_core/src/utility/datetimelang/datetimelang.dart';
+import 'package:jars_core/src/extensions/src/duration_extensions.dart';
+import 'package:jars_core/src/utility/src/datetime_format.dart';
+import 'package:jars_core/src/utility/src/datetimelang/datetimelang.dart';
 
 class Timeago {
   final Duration duration;

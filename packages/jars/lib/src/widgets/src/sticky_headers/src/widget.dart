@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './render.dart';
+import 'render.dart';
 
 /// Builder called during layout to allow the header's content to be animated or styled based
 /// on the amount of stickiness the header has.

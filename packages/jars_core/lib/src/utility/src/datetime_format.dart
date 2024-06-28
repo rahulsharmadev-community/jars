@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
-import 'package:jars_core/src/extensions/datetime_extensions.dart';
-import 'package:jars_core/src/utility/datetimelang/datetimelang.dart';
+import 'package:jars_core/src/extensions/src/datetime_extensions.dart';
+import 'package:jars_core/src/utility/src/datetimelang/datetimelang.dart';
 
 class DateTimeFormat {
   final DateTime _dt;

@@ -1,6 +1,6 @@
 import 'package:jars_core/jars_core.dart';
 import 'package:test/test.dart';
-import 'package:jars_core/src/utility/number_format/number_format.dart';
+import 'package:jars_core/src/utility/src/number_format/number_format.dart';
 
 void main() {
   test('Rounding/truncating fractions/Currency Symbol', () {

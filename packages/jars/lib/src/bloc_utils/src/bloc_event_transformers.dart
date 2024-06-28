@@ -1,10 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'dart:async';
+import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
-
-typedef _EventMapper<Event> = Stream<Event> Function(Event event);
-
-typedef _EventTransformer<Event> = Stream<Event> Function(Stream<Event> events, _EventMapper<Event> mapper);
 
 /// The delay() transformer is pausing adding events for a particular
 /// increment of time (that you specify) before emitting each of the events.
@@ -19,7 +16,7 @@ typedef _EventTransformer<Event> = Stream<Event> Function(Stream<Event> events, 
 ///       _handleEvent,
 ///       transformer: delay(const Duration(seconds: 1)),
 ///     );
-_EventTransformer<Event> delay<Event>(Duration duration) =>
+EventTransformer<Event> delay<Event>(Duration duration) =>
     (events, mapper) => events.delay(duration).switchMap(mapper);
 
 /// Event transformer that will only emit items from the source
@@ -39,7 +36,7 @@ _EventTransformer<Event> delay<Event>(Duration duration) =>
 ///       _handleEvent,
 ///       transformer: debounce(const Duration(seconds: 1)),
 ///     );
-_EventTransformer<Event> debounce<Event>(Duration duration) =>
+EventTransformer<Event> debounce<Event>(Duration duration) =>
     (events, mapper) => events.debounceTime(duration).switchMap(mapper);
 
 /// Skips the first [count] events.
@@ -52,7 +49,7 @@ _EventTransformer<Event> debounce<Event>(Duration duration) =>
 ///     )
 ///
 ///
-_EventTransformer<Event> skip<Event>(int count) => (events, mapper) => events.skip(count).flatMap(mapper);
+EventTransformer<Event> skip<Event>(int count) => (events, mapper) => events.skip(count).flatMap(mapper);
 
 /// Skips the first [count] events.
 ///
@@ -62,7 +59,7 @@ _EventTransformer<Event> skip<Event>(int count) => (events, mapper) => events.sk
 ///       _handleEvent,
 ///       transformer: skip(10),
 ///     )
-_EventTransformer<Event> throttle<Event>(Duration duration, {bool trailing = false, bool leading = true}) =>
+EventTransformer<Event> throttle<Event>(Duration duration, {bool trailing = false, bool leading = true}) =>
     (events, mapper) => events.throttleTime(duration, trailing: trailing, leading: leading).switchMap(mapper);
 
 /// Process only one event by cancelling any pending events and
@@ -73,7 +70,7 @@ _EventTransformer<Event> throttle<Event>(Duration duration, {bool trailing = fal
 ///
 /// **Note**: there is no event handler overlap and any currently running tasks
 /// will be aborted if a new event is added before a prior one completes.
-_EventTransformer<Event> restartable<Event>() {
+EventTransformer<Event> restartable<Event>() {
   return (events, mapper) => events.switchMap(mapper);
 }
 
@@ -82,7 +79,7 @@ _EventTransformer<Event> restartable<Event>() {
 ///
 /// **Note**: there is no event handler overlap and every event is guaranteed
 /// to be handled in the order it was received.
-_EventTransformer<Event> sequential<Event>() {
+EventTransformer<Event> sequential<Event>() {
   return (events, mapper) => events.asyncExpand(mapper);
 }
 
@@ -90,7 +87,7 @@ _EventTransformer<Event> sequential<Event>() {
 /// until the current event is done.
 ///
 /// **Note**: dropped events never trigger the event handler.
-_EventTransformer<Event> droppable<Event>() {
+EventTransformer<Event> droppable<Event>() {
   return (events, mapper) {
     return events.transform(_ExhaustMapStreamTransformer(mapper));
   };
@@ -99,7 +96,7 @@ _EventTransformer<Event> droppable<Event>() {
 class _ExhaustMapStreamTransformer<T> extends StreamTransformerBase<T, T> {
   _ExhaustMapStreamTransformer(this.mapper);
 
-  final _EventMapper<T> mapper;
+  final EventMapper<T> mapper;
 
   @override
   Stream<T> bind(Stream<T> stream) {

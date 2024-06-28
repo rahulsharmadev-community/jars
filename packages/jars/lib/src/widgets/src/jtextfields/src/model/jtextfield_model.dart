@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jars/jars.dart';
-import 'package:jars/src/extensions/utility_extenstion.dart';
+import 'package:jars/src/extensions/src/utility_extenstion.dart';
 import 'dart:ui' as ui;
 
 // ignore: must_be_immutable

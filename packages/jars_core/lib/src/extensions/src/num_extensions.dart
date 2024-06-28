@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import '../utility/number_format/number_format.dart';
+import '../../utility/src/number_format/number_format.dart';
 
 extension NnmExtensions on num {
   ///  ```
