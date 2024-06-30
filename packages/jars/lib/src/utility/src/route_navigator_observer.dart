@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:jars/jars.dart';
+import 'package:jars/jars.dart' hide  Route; 
 
 /// An observer for monitoring route changes in the navigator.
 class RouteNavigatorObserver extends NavigatorObserver {

@@ -10,6 +10,10 @@ export 'src/utility/utility.dart';
 
 export 'src/widgets/widgets.dart';
 
+export 'src/material/go_material_app.dart';
+export 'src/material/route.dart';
+
 export 'package:jars_core/jars_core.dart';
+
 
 final log = Logger();
