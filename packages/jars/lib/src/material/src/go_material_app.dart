@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Route;
+import 'package:jars_core/jars_core.dart';
+import 'route.dart';
 import 'package:go_router/go_router.dart';
-part 'jrouter_config.dart';
+part 'go_router_config.dart';
 
 class GoMaterialApp extends MaterialApp {
   const GoMaterialApp._internal(

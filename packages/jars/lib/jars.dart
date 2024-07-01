@@ -16,5 +16,7 @@ export 'src/material/material.dart';
 export 'package:logger/logger.dart';
 export 'package:jars_core/jars_core.dart';
 export 'package:go_router/go_router.dart';
+export 'package:equatable/equatable.dart';
+export 'package:rxdart/rxdart.dart';
 
 final log = Logger();
