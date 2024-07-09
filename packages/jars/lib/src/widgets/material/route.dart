@@ -15,10 +15,22 @@ class Route<T> {
     this.fid = '',
     this.redirect,
     this.onExit,
-  })  : assert(builder != null || redirect != null, 'builder, or redirect must be provided'),
-        assert(builder is GoRouterPageBuilder || redirect is GoRouterWidgetBuilder,
-            'Builder method should only return Widget or Page<void>.'),
-        path = (path ?? '/$name') + fid;
+  }) : path = (path ?? '/$name') + fid;
+
+  Route<T> copyWith({
+    String? name,
+    String? path,
+    T Function(BuildContext, GoRouterState)? builder,
+    FutureOr<String?> Function(BuildContext, GoRouterState)? redirect,
+    FutureOr<bool> Function(BuildContext, GoRouterState)? onExit,
+  }) =>
+      Route<T>(
+        name: name ?? this.name,
+        path: path ?? this.path,
+        builder: builder ?? this.builder,
+        redirect: redirect ?? this.redirect,
+        onExit: onExit ?? this.onExit,
+      );
 }
 
 class FadeTransitionPage extends CustomTransitionPage {
@@ -29,15 +41,23 @@ class FadeTransitionPage extends CustomTransitionPage {
 }
 
 class JRoute extends GoRoute {
+  final Route route;
+  final List<JRoute> jroutes;
+
   JRoute(
-    Route route, {
-    super.routes,
+    this.route, {
+    this.jroutes = const [],
     super.parentNavigatorKey,
   }) : super(
           name: route.name,
           path: route.path,
           onExit: route.onExit,
           redirect: route.redirect,
+          routes: jroutes.map((e) {
+            var substring = e.route.path.substring(1);
+            return JRoute(e.route.copyWith(path: substring),
+                jroutes: e.jroutes, parentNavigatorKey: parentNavigatorKey);
+          }).toList(),
           pageBuilder: _paser<GoRouterPageBuilder>(route.builder),
           builder: _paser<GoRouterWidgetBuilder>(route.builder),
         );
