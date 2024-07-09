@@ -47,8 +47,7 @@ class AlertJDialog extends JDialogModel {
             style: contentStyle,
           ).opacity(opacity),
           28.gap,
-          if (actions.isNotEmpty)
-            Row(mainAxisAlignment: actionsAlignment, children: actions),
+          if (actions.isNotEmpty) Row(mainAxisAlignment: actionsAlignment, children: actions),
         ],
       ),
     );
@@ -139,16 +138,13 @@ class SelectJDialog<T> extends JDialogModel {
   @override
   Widget build(BuildContext context) {
     List<String> onChange(List<String> ls) {
-      if (ls.length == maxSelect &&
-          actionOnMaxExceed == JDialogAction.autoClose) {
+      if (ls.length == maxSelect && actionOnMaxExceed == JDialogAction.autoClose) {
         Navigator.pop(context);
       }
-      if (ls.length > maxSelect &&
-          actionOnMaxExceed == JDialogAction.resetOnMaxExceed) {
+      if (ls.length > maxSelect && actionOnMaxExceed == JDialogAction.resetOnMaxExceed) {
         return tileJConfig.selectedKeys;
       }
-      if (ls.length > maxSelect &&
-          actionOnMaxExceed == JDialogAction.unSelectAll) {
+      if (ls.length > maxSelect && actionOnMaxExceed == JDialogAction.unSelectAll) {
         return [];
       }
 
@@ -166,7 +162,7 @@ class SelectJDialog<T> extends JDialogModel {
             style: titleStyle ?? context.textTheme.titleLarge,
           ),
           4.gap,
-          if (subtitle!=null)
+          if (subtitle != null)
             Text(
               subtitle!,
               style: subtitleStyle,
@@ -176,8 +172,7 @@ class SelectJDialog<T> extends JDialogModel {
               constraints: BoxConstraints(maxHeight: context.heightOf(60)),
               child: tileJConfig.build(context, onChange)),
           16.gap,
-          if (actions.isNotEmpty)
-            Row(mainAxisAlignment: actionsAlignment, children: actions),
+          if (actions.isNotEmpty) Row(mainAxisAlignment: actionsAlignment, children: actions),
         ],
       ),
     );

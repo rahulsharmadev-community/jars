@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
+import 'package:jars/intl.dart';
 
 // ignore: must_be_immutable
 class DateTimeJTextField extends JTextFieldModel {
@@ -47,7 +48,7 @@ class DateTimeJTextField extends JTextFieldModel {
 
   static String _defaultSetValue(DateTime? dateTime, TimeOfDay? time) {
     return [
-      if (dateTime != null) dateTime.format().yMMd(),
+      if (dateTime != null) DateFormat.yMMMd().format(dateTime),
       if (time != null) const DefaultMaterialLocalizations().formatTimeOfDay(time)
     ].join(' | ');
   }

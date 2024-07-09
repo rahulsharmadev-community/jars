@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import '../../utility/src/number_format/number_format.dart';
+import 'package:intl/intl.dart' as intl;
 
 extension NnmExtensions on num {
   ///  ```
@@ -22,21 +22,20 @@ extension NnmExtensions on num {
     return temp.isNaN || temp.isInfinite;
   }
 
-  /// Sample:
-  /// ```
-  /// void main(){
-  ///   print(45125136.numberSimpleFormat);
-  /// }
-  /// ```
-  /// ----------
-  /// 451,251,365
-  /// ----------
-  String get numberSimpleFormat => NumberFormat.en().simple(this, trimZero: true);
+  /// Use Intl.defaultLocale to format the number\
+  ///e.g. 2000000 => "2,000,000"
+  String readableFormat([int max = 2]) =>
+      (intl.NumberFormat.decimalPattern()..maximumFractionDigits = max).format(this);
 
-  String get numberCompactFormat => NumberFormat.en().compact(this, trimZero: true, shortfrom: true);
+  /// Use Intl.defaultLocale to format the number\
+  ///e.g. 1200000 => "1.2M"
+  String compactFormat([int max = 2]) =>
+      (intl.NumberFormat.compact()..maximumFractionDigits = max).format(this);
 
-  String get currencyCompactFormat =>
-      NumberFormat.en().compact(this, trimZero: true, shortfrom: true, currencySymbol: true);
+  /// Use Intl.defaultLocale to format the number\
+  ///e.g. 1200000 => "$1.2M"
+  String currencyCompactFormat([int max = 2]) =>
+      (intl.NumberFormat.compactCurrency()..maximumFractionDigits = 2).format(this);
 
   /// Returns an iterable from [this] inclusive to [end] exclusive.
   ///

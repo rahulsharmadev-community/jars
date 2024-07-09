@@ -1,5 +1,3 @@
-import 'package:jars_core/jars_core.dart';
-
 enum Meridiem { am, pm }
 
 extension DateTimeExtensions on DateTime {
@@ -51,36 +49,6 @@ extension DateTimeExtensions on DateTime {
   /// Equal to: (month / 4).round();
   /// eg. (6/4).round() = 2
   int get quarter => (month / 4).round();
-
-  /// Sample
-  /// ```dart
-  ///  DateTime(2015,5,9).format();
-  /// ```
-  DateTimeFormat format({String? seprator, DateTimeLang? lang}) =>
-      DateTimeFormat(this, seprator: seprator, lang: lang);
-
-  /// Sample
-  /// ```dart
-  /// DateTime(2015,5,9).timeagoSince();
-  /// ```
-  Timeago timeagoSince(
-          {DateTimeLang? lang,
-          bool showSeconds = true,
-          bool showMinutes = true,
-          bool showHours = true,
-          bool showDays = true,
-          bool showWeeks = false,
-          bool showMonths = true,
-          bool showYears = true}) =>
-      Timeago.since(this,
-          lang: lang,
-          showSeconds: showSeconds,
-          showMinutes: showMinutes,
-          showHours: showHours,
-          showDays: showDays,
-          showWeeks: showWeeks,
-          showMonths: showMonths,
-          showYears: showYears);
 
   /// Returns true if [this] occurs strictly before [other], accounting for time
   /// zones.

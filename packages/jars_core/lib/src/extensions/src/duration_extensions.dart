@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:jars_core/jars_core.dart';
 
 extension DurationExtensions on Duration {
   /// Utility to delay some callback (or code execution).
@@ -26,23 +25,4 @@ extension DurationExtensions on Duration {
           '${inMinutes > 0 ? '${(inMinutes % 60).round()}:' : ''}'
           '${(inSeconds % 60).round()}'
       .trim();
-
-  Timeago timeagoSince(
-          {DateTimeLang? lang,
-          bool showSeconds = true,
-          bool showMinutes = true,
-          bool showHours = true,
-          bool showDays = true,
-          bool showWeeks = false,
-          bool showMonths = true,
-          bool showYears = true}) =>
-      Timeago.fromDuration(this,
-          lang: lang,
-          showSeconds: showSeconds,
-          showMinutes: showMinutes,
-          showHours: showHours,
-          showDays: showDays,
-          showWeeks: showWeeks,
-          showMonths: showMonths,
-          showYears: showYears);
 }

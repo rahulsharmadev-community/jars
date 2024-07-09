@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:jars/jars.dart';
+import 'package:jars/utility.dart';
 
 extension ContextExtensions on BuildContext {
   WindowSize get activeWindowSize =>

@@ -1,3 +1,5 @@
+library;
+
 export 'src/all_datatype.dart';
 export 'src/datetime_extensions.dart';
 export 'src/double_extensions.dart';

@@ -1,5 +1,4 @@
 import 'package:jars/jars.dart';
-
 import 'demos/export.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +63,8 @@ class HomePage extends StatelessWidget {
             12.gap,
             const DropdownMenuExample(),
             Container(
-                constraints: BoxConstraints(maxHeight: 300, maxWidth: 200), child: JTextField(expands: true)),
+                constraints: const BoxConstraints(maxHeight: 300, maxWidth: 200),
+                child: JTextField(expands: true)),
             // JTextField(expands: true),
           ],
         ),

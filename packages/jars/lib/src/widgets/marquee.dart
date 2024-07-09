@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:jars/jars.dart';
+import 'package:jars/jars.dart' hide TextDirection;
 
 /// A widget that repeats text and automatically scrolls it infinitely.
 ///
@@ -419,7 +419,8 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
   void _initialize(BuildContext context) {
     // Calculate lengths (amount of pixels that each phase needs).
 
-    final totalLength = (widget.widget != null ? context.widthOf(100) : _getTextWidth(context)) + widget.blankSpace;
+    final totalLength =
+        (widget.widget != null ? context.widthOf(100) : _getTextWidth(context)) + widget.blankSpace;
 
     final accelerationLength =
         widget.accelerationCurve.integral * widget.velocity * _accelerationDuration.inMilliseconds / 1000.0;
