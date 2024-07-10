@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
+import 'package:jars_core/jars_core.dart';
 part 'designs/jsnackbar_design.dart';
 
 _JSnackBar? _snackBar;

@@ -28,8 +28,11 @@ dependencies:
   rxdart: ^0.27.7
   meta: ^1.12.0
   logger: ^2.3.0
+  
   jars_core:
     path: ../jars_core
+  regpatterns:
+     path: ../regpatterns
 
 dev_dependencies:
   flutter_test:
