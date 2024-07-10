@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
+import 'package:jars/jars_core.dart';
 
 class JMarqueeDemo extends StatelessWidget {
   const JMarqueeDemo({

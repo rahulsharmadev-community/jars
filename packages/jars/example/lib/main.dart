@@ -1,4 +1,5 @@
 import 'package:jars/jars.dart';
+import 'package:jars/jars_core.dart';
 import 'demos/export.dart';
 import 'package:flutter/material.dart';
 
