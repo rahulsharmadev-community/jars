@@ -32,6 +32,9 @@ extension DateTimeExtensions on DateTime {
     return day == now.day && month == now.month && year == now.year;
   }
 
+  /// Converts a DateTime object to Unix time (seconds since epoch).
+  int toUnixTime() => millisecondsSinceEpoch ~/ 1000;
+
   /// Whether this time of day is before or after noon.
   Meridiem get period => hour < _hoursPerPeriod ? Meridiem.am : Meridiem.pm;
 
