@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jars/jars.dart';
-import 'package:jars/intl.dart';
+import 'package:jars/jars_core.dart';
 
 // ignore: must_be_immutable
 class DateTimeJTextField extends JTextFieldModel {
