@@ -22,17 +22,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  bloc: ^8.1.4
-  go_router: ^14.2.0
-  equatable: ^2.0.5
-  rxdart: ^0.27.7
+  bloc: ">=8.1.4"
+  go_router: ">=14.2.0"
+  equatable: ">=2.0.5"
+  rxdart: ">=0.27.7"
+  logger: ">=2.3.0"
   meta: ^1.12.0
-  logger: ^2.3.0
-  
+
   jars_core:
     path: ../jars_core
   regpatterns:
-     path: ../regpatterns
+    path: ../regpatterns
 
 dev_dependencies:
   flutter_test:
