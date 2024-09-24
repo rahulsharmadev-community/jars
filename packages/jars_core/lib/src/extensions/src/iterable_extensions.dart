@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:math' as math;
-
+import 'package:crypto/crypto.dart' as crypto;
 import 'package:collection/collection.dart';
 
 extension NullableIterableGettersExtensions<T> on Iterable<T?> {
@@ -252,4 +252,13 @@ extension IntBasics<E extends int> on Iterable<E> {
   String get base64Encode => base64.encode(toList());
 
   String get utf8Decode => utf8.decode(toList());
+
+  crypto.Digest get sha1 => crypto.sha1.convert(toList());
+  crypto.Digest get sha224 => crypto.sha224.convert(toList());
+  crypto.Digest get sha256 => crypto.sha256.convert(toList());
+  crypto.Digest get sha512 => crypto.sha512.convert(toList());
+  crypto.Digest get sha512224 => crypto.sha512224.convert(toList());
+  crypto.Digest get sha512256 => crypto.sha512256.convert(toList());
+
+  crypto.Digest get md5 => crypto.md5.convert(toList());
 }
