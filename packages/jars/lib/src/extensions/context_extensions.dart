@@ -1,12 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:jars/utility.dart';
 
 extension ContextExtensions on BuildContext {
-  WindowSize get activeWindowSize =>
-      WindowSize.evaluate(orientation: mediaQuery.orientation, width: width, height: height);
-
   /// The same of `MediaQuery.of(context).size.width * percentage * 0.01`
   /// Note: updates when you rezise your screen (like on a browser or
   /// desktop window)

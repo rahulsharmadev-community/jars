@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'package:jars_core/jars_core.dart';
 
 extension StringExtensions on String {
-  ReCase get reCase => ReCase(this);
-
   bool get isNotBlank => trim().isNotEmpty;
   bool get isBlank => trim().isEmpty;
 

@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 part 'go_router_config.dart';
 
 class GoMaterialApp extends MaterialApp {
-  const GoMaterialApp._internal(
-      {required super.routerConfig,
-      super.scaffoldMessengerKey,
+  GoMaterialApp(
+      {super.key,
+      required GoRouterConfig config,
       super.backButtonDispatcher,
       super.builder,
       super.title,
@@ -35,69 +35,10 @@ class GoMaterialApp extends MaterialApp {
       super.shortcuts,
       super.actions,
       super.restorationScopeId,
-      super.scrollBehavior})
-      : super.router();
-
-  factory GoMaterialApp(
-          {required GoRouterConfig config,
-          BackButtonDispatcher? backButtonDispatcher,
-          Widget Function(BuildContext, Widget?)? builder,
-          String title = '',
-          GenerateAppTitle? onGenerateTitle,
-          NotificationListenerCallback<NavigationNotification>? onNavigationNotification,
-          Color? color,
-          ThemeData? theme,
-          ThemeData? darkTheme,
-          ThemeData? highContrastTheme,
-          ThemeData? highContrastDarkTheme,
-          ThemeMode? themeMode,
-          Duration themeAnimationDuration = kThemeAnimationDuration,
-          Curve themeAnimationCurve = Curves.linear,
-          Locale? locale,
-          Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
-          LocaleListResolutionCallback? localeListResolutionCallback,
-          LocaleResolutionCallback? localeResolutionCallback,
-          Iterable<Locale> supportedLocales = const <Locale>[Locale('en', 'US')],
-          bool debugShowMaterialGrid = false,
-          bool showPerformanceOverlay = false,
-          bool checkerboardRasterCacheImages = false,
-          bool checkerboardOffscreenLayers = false,
-          bool showSemanticsDebugger = false,
-          bool debugShowCheckedModeBanner = true,
-          Map<LogicalKeySet, Intent>? shortcuts,
-          Map<Type, Action<Intent>>? actions,
-          String? restorationScopeId,
-          ScrollBehavior? scrollBehavior}) =>
-      GoMaterialApp._internal(
-        routerConfig: config.goRouter,
-        scaffoldMessengerKey: config.messengerKey,
-        backButtonDispatcher: backButtonDispatcher,
-        builder: builder,
-        title: title,
-        onGenerateTitle: onGenerateTitle,
-        onNavigationNotification: onNavigationNotification,
-        color: color,
-        theme: theme,
-        darkTheme: darkTheme,
-        highContrastTheme: highContrastTheme,
-        highContrastDarkTheme: highContrastDarkTheme,
-        themeMode: themeMode,
-        themeAnimationDuration: themeAnimationDuration,
-        themeAnimationCurve: themeAnimationCurve,
-        locale: locale,
-        localizationsDelegates: localizationsDelegates,
-        localeListResolutionCallback: localeListResolutionCallback,
-        localeResolutionCallback: localeResolutionCallback,
-        supportedLocales: supportedLocales,
-        debugShowMaterialGrid: debugShowMaterialGrid,
-        showPerformanceOverlay: showPerformanceOverlay,
-        checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-        checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-        showSemanticsDebugger: showSemanticsDebugger,
-        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-        shortcuts: shortcuts,
-        actions: actions,
-        restorationScopeId: restorationScopeId,
-        scrollBehavior: scrollBehavior,
-      );
+      super.scrollBehavior,
+      super.themeAnimationStyle})
+      : super.router(
+          routerConfig: config.goRouter,
+          scaffoldMessengerKey: config.messengerKey,
+        );
 }

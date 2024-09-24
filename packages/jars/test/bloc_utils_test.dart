@@ -12,7 +12,7 @@ Future<({T output, int ms})> asyncDelayCount<T>(Future<T> Function() fun) async 
 void main() {
   group('Event Transformers', () {
     test('delay transformer', () async {
-      final transformer = delay<int>(const Duration(milliseconds: 100));
+      final transformer = BlocEventTransformer.delay<int>(const Duration(milliseconds: 100));
       final input = Stream.periodic(const Duration(milliseconds: 50), (i) => i).take(5);
       final output = transformer(input, (event) => Stream.value(event));
 
@@ -23,7 +23,7 @@ void main() {
     });
 
     test('debounce transformer', () async {
-      final transformer = debounce<int>(const Duration(milliseconds: 500));
+      final transformer = BlocEventTransformer.debounce<int>(const Duration(milliseconds: 500));
       var tests = [
         (count: 10, result: [9], time: 2500),
         (count: 5, result: [4], time: 1250),
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('skip transformer', () async {
-      final transformer = skip<int>(50);
+      final transformer = BlocEventTransformer.skip<int>(50);
       var list = List.generate(100, (i) => i);
       final input = Stream.fromIterable(list);
       final output = transformer(input, (event) => Stream.value(event));
@@ -50,7 +50,7 @@ void main() {
     });
 
     test('throttle transformer', () async {
-      final transformer = throttle<int>(const Duration(milliseconds: 100));
+      final transformer = BlocEventTransformer.throttle<int>(const Duration(milliseconds: 100));
       var tests = [
         (count: 10, result: [0, 2, 4, 6, 8], time: 1000),
         (count: 5, result: [0, 2, 4], time: 600),

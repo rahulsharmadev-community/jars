@@ -2,10 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-extension BoolExtension on bool {
-  bool get toggle => !this;
-}
-
 extension StringToHex on String {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   Color get toColor {

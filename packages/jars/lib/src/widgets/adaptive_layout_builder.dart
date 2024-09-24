@@ -18,24 +18,26 @@ class AdaptiveLayoutBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var active = context.activeWindowSize;
-    Widget result;
-    if (extraLarge != null) {
-      result = extraLarge!(context);
-      if (active == WindowSize.EXTRA_LARGE) return result;
-    } else if (large != null) {
-      result = large!(context);
-      if (active == WindowSize.LARGE) return result;
-    } else if (expanded != null) {
-      result = expanded!(context);
-      if (active == WindowSize.EXPANDED) return result;
-    } else if (medium != null) {
-      result = medium!(context);
-      if (active == WindowSize.MEDIUM) return result;
-    } else if (compact != null) {
-      result = compact!(context);
-      if (active == WindowSize.COMPACT) return result;
-    }
-    return const Material(child: Text('No Layout Found'));
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        var active = WindowSize.evaluate(
+          orientation: context.mediaQuery.orientation,
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+        );
+        if (extraLarge != null && active == WindowSize.EXTRA_LARGE) {
+          return extraLarge!(context);
+        } else if (large != null && active == WindowSize.LARGE) {
+          return large!(context);
+        } else if (expanded != null && active == WindowSize.EXPANDED) {
+          return expanded!(context);
+        } else if (medium != null && active == WindowSize.MEDIUM) {
+          return medium!(context);
+        } else if (compact != null && active == WindowSize.COMPACT) {
+          return compact!(context);
+        }
+        return const Material(child: Text('No Layout Found'));
+      },
+    );
   }
 }

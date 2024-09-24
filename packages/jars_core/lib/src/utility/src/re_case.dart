@@ -6,7 +6,7 @@ class ReCase {
   late String originalText;
   late List<String> _words;
 
-  ReCase(String text) {
+  ReCase._(String text) {
     originalText = text;
     _words = getWords(text);
   }
@@ -106,4 +106,10 @@ class ReCase {
   String upperCaseFirstLetter(String word) {
     return '${word.substring(0, 1).toUpperCase()}${word.substring(1).toLowerCase()}';
   }
+}
+
+ReCase reCase(String str) => ReCase._(str);
+
+extension ReCaseExtension on String {
+  ReCase get reCase => ReCase._(this);
 }

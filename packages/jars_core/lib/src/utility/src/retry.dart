@@ -1,10 +1,3 @@
-/// Retry asynchronous functions with exponential backoff.
-///
-/// For a simple solution see [retry], to modify and persist retry options see
-/// [RetryController]. Note, in many cases the added configurability is
-/// unnecessary and using [retry] is perfectly fine.
-library retry;
-
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -24,8 +17,7 @@ final _rand = math.Random();
 ///
 /// **Example**
 /// ```dart
-/// final r = RetryOptions();
-/// final response = await r.retry(
+/// final response = await backOff(
 ///   // Make a GET request
 ///   () => http.get('https://google.com').timeout(Duration(seconds: 5)),
 ///   // Retry on SocketException or TimeoutException
@@ -33,7 +25,24 @@ final _rand = math.Random();
 /// );
 /// print(response.body);
 /// ```
-final class RetryController {
+class Retry<T> {
+  const Retry._(
+    this.func, {
+    this.delayFactor = const Duration(milliseconds: 200),
+    this.randomizationFactor = 0.25,
+    this.maxDelay = const Duration(seconds: 30),
+    this.maxAttempts = 8,
+    this.retryIf,
+  }) : assert(maxAttempts >= 1, 'maxAttempts must be greater than 0');
+
+  /// The [Function] to execute. If the function throws an error, it will be
+  /// retried [maxAttempts] times with an increasing delay between each attempt
+  /// up to [maxDelay].
+  ///
+  /// If [retryIf] is provided, the function will only be retried if the error
+  /// matches the predicate.
+  final FutureOr<T> Function() func;
+
   /// Delay factor to double after every attempt.
   ///
   /// Defaults to 200 ms, which results in the following delays:
@@ -62,112 +71,71 @@ final class RetryController {
   /// Maximum number of attempts before giving up, defaults to 8.
   final int maxAttempts;
 
-  /// Create a set of [RetryController].
+  /// Function to determine if a retry should be attempted.
   ///
-  /// Defaults to 8 attempts, sleeping as following after 1st, 2nd, 3rd, ...,
-  /// 7th attempt:
-  ///  1. 400 ms +/- 25%
-  ///  2. 800 ms +/- 25%
-  ///  3. 1600 ms +/- 25%
-  ///  4. 3200 ms +/- 25%
-  ///  5. 6400 ms +/- 25%
-  ///  6. 12800 ms +/- 25%
-  ///  7. 25600 ms +/- 25%
-  const RetryController({
-    this.delayFactor = const Duration(milliseconds: 200),
-    this.randomizationFactor = 0.25,
-    this.maxDelay = const Duration(seconds: 30),
-    this.maxAttempts = 8,
-  });
+  /// If `null` (default) all errors will be retried.
+  final FutureOr<bool> Function(Object error, int attempt)? retryIf;
 
-  /// Delay after [attempt] number of attempts.
-  ///
-  /// This is computed as `pow(2, attempt) * delayFactor`, then is multiplied by
-  /// between `-randomizationFactor` and `randomizationFactor` at random.
-  Duration delay(int attempt) {
-    assert(attempt >= 0, 'attempt cannot be negative');
-    if (attempt <= 0) {
-      return Duration.zero;
-    }
+  // returns the sleep duration based on `attempt`.
+  Duration _getSleepDuration(int attempt) {
     final rf = (randomizationFactor * (_rand.nextDouble() * 2 - 1) + 1);
     final exp = math.min(attempt, 31); // prevent overflows.
     final delay = (delayFactor * math.pow(2.0, exp) * rf);
     return delay < maxDelay ? delay : maxDelay;
   }
 
-  /// Call [fn] retrying so long as [retryIf] return `true` for the exception
-  /// thrown.
-  ///
-  /// At every retry the [onRetry] function will be called (if given). The
-  /// function [fn] will be invoked at-most [this.attempts] times.
-  ///
-  /// If no [retryIf] function is given this will retry any for any [Exception]
-  /// thrown. To retry on an [Error], the error must be caught and _rethrown_
-  /// as an [Exception].
-  Future<T> retry<T>(
-    FutureOr<T> Function() fn, {
-    FutureOr<bool> Function(Exception)? retryIf,
-    FutureOr<void> Function(Exception)? onRetry,
-  }) async {
+  Future<T> call() async {
     var attempt = 0;
-    // ignore: literal_only_boolean_expressions
     while (true) {
-      attempt++; // first invocation is the first attempt
+      attempt++; // first invocation is the first attempt.
       try {
-        return await fn();
-      } on Exception catch (e) {
-        if (attempt >= maxAttempts || (retryIf != null && !(await retryIf(e)))) {
-          rethrow;
-        }
-        if (onRetry != null) {
-          await onRetry(e);
-        }
+        return await func();
+      } catch (error) {
+        final attemptLimitReached = attempt >= maxAttempts;
+        if (attemptLimitReached) rethrow;
+
+        final shouldRetry = await retryIf?.call(error, attempt);
+        if (shouldRetry == false) rethrow;
       }
 
-      // Sleep for a delay
-      await Future.delayed(delay(attempt));
+      // sleep for a delay.
+      await Future.delayed(_getSleepDuration(attempt));
     }
   }
 }
 
-/// Call [fn] retrying so long as [retryIf] return `true` for the exception
-/// thrown, up-to [maxAttempts] times.
-///
-/// Defaults to 8 attempts, sleeping as following after 1st, 2nd, 3rd, ...,
-/// 7th attempt:
-///  1. 400 ms +/- 25%
-///  2. 800 ms +/- 25%
-///  3. 1600 ms +/- 25%
-///  4. 3200 ms +/- 25%
-///  5. 6400 ms +/- 25%
-///  6. 12800 ms +/- 25%
-///  7. 25600 ms +/- 25%
-///
-/// ```dart
-/// final response = await retry(
-///   // Make a GET request
-///   () => http.get('https://google.com').timeout(Duration(seconds: 5)),
-///   // Retry on SocketException or TimeoutException
-///   retryIf: (e) => e is SocketException || e is TimeoutException,
-/// );
-/// print(response.body);
-/// ```
-///
-/// If no [retryIf] function is given this will retry any for any [Exception]
-/// thrown. To retry on an [Error], the error must be caught and _rethrown_
-/// as an [Exception].
 Future<T> retry<T>(
   FutureOr<T> Function() fn, {
   Duration delayFactor = const Duration(milliseconds: 200),
   double randomizationFactor = 0.25,
   Duration maxDelay = const Duration(seconds: 30),
   int maxAttempts = 8,
-  FutureOr<bool> Function(Exception)? retryIf,
-  FutureOr<void> Function(Exception)? onRetry,
+  FutureOr<bool> Function(Object error, int attempt)? retryIf,
 }) =>
-    RetryController(
+    Retry._(
+      fn,
       delayFactor: delayFactor,
       randomizationFactor: randomizationFactor,
       maxDelay: maxDelay,
       maxAttempts: maxAttempts,
-    ).retry(fn, retryIf: retryIf, onRetry: onRetry);
+      retryIf: retryIf,
+    ).call();
+
+extension RetryExtension<T> on FutureOr<T> Function() {
+  /// Converts this into a [Retry] function.
+  Future<T> retry({
+    Duration delayFactor = const Duration(milliseconds: 200),
+    double randomizationFactor = 0.25,
+    Duration maxDelay = const Duration(seconds: 30),
+    int maxAttempts = 8,
+    FutureOr<bool> Function(Object error, int attempt)? retryIf,
+  }) =>
+      Retry._(
+        this,
+        delayFactor: delayFactor,
+        randomizationFactor: randomizationFactor,
+        maxDelay: maxDelay,
+        maxAttempts: maxAttempts,
+        retryIf: retryIf,
+      ).call();
+}

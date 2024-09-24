@@ -32,6 +32,4 @@ class AlignJar {
 
   Align bottomRight({double? widthFactor, double? heightFactor}) => Align(
       alignment: Alignment.bottomRight, widthFactor: widthFactor, heightFactor: heightFactor, child: widget);
-
-  round() => RoundedRectangleBorder(borderRadius: BorderRadius.circular(12));
 }

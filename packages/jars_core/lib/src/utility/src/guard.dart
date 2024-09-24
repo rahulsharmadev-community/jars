@@ -1,13 +1,13 @@
 import 'dart:async';
 
-T? guard<T>(T Function() callback, {T? def, bool reThrow = false, void Function(dynamic error)? onError}) =>
+T? guard<T>(T Function() callback, {T? def, bool reThrow = false, void Function(dynamic error)? onError,}) =>
     callback.guard(def: def, reThrow: reThrow, onError: onError);
 
 Future<T?> asyncGuard<T>(Future<T> Function() callback,
-        {T? def, bool reThrow = false, void Function(dynamic error)? onError}) =>
+        {T? def, bool reThrow = false, void Function(dynamic error)? onError,}) =>
     callback.asyncGuard(def: def, reThrow: reThrow, onError: onError);
 
-bool guardSafe(void Function() callback, {bool reThrow = false, void Function(dynamic error)? onError}) =>
+bool guardSafe(void Function() callback, {bool reThrow = false, void Function(dynamic error)? onError,}) =>
     callback.guardSafe(reThrow: reThrow, onError: onError);
 
 Future<bool> asyncGuardSafe(Future Function() callback,

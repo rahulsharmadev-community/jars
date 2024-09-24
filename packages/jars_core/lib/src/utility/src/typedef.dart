@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 /// GeoCoordinate is a typedef for a record type that represents geographical coordinates.\
 /// lat (latitude), lng (longitude)
 typedef GeoCoordinate = ({double lat, double lng});

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:collection/collection.dart';
 
 extension MapExtensions<K, V> on Map<K, V> {
