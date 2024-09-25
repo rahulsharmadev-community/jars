@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jars/jars.dart';
-import 'package:jars/regpatterns.dart';
 import 'package:jars_core/jars_core.dart';
+import 'package:regpatterns/regpatterns.dart';
 
 // ignore: must_be_immutable
 class JTextField extends JTextFieldModel {

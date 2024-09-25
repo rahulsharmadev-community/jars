@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:jars/logger.dart';
+import 'package:jars/jars_core.dart';
 
 /// An observer for monitoring route changes in the navigator.
 class RouteNavigatorObserver extends NavigatorObserver {

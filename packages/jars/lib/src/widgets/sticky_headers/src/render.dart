@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 /// Called every layout to provide the amount of stickyness a header is in.
 /// This lets the widgets animate their content and provide feedback.
 ///
-typedef RenderStickyHeaderCallback = void Function(double stuckAmount);
+typedef JRenderStickyHeaderCallback = void Function(double stuckAmount);
 
 /// RenderObject for StickyHeader widget.
 ///
@@ -16,17 +16,17 @@ typedef RenderStickyHeaderCallback = void Function(double stuckAmount);
 /// unless overlapHeaders is set to true. The supplied callback will be used
 /// to report the
 ///
-class RenderStickyHeader extends RenderBox
+class JRenderStickyHeader extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData> {
-  RenderStickyHeaderCallback? _callback;
+  JRenderStickyHeaderCallback? _callback;
   ScrollPosition _scrollPosition;
   bool _overlapHeaders;
 
-  RenderStickyHeader({
+  JRenderStickyHeader({
     required ScrollPosition scrollPosition,
-    RenderStickyHeaderCallback? callback,
+    JRenderStickyHeaderCallback? callback,
     bool overlapHeaders = false,
     RenderBox? header,
     RenderBox? content,
@@ -50,7 +50,7 @@ class RenderStickyHeader extends RenderBox
     }
   }
 
-  set callback(RenderStickyHeaderCallback? newValue) {
+  set callback(JRenderStickyHeaderCallback? newValue) {
     if (_callback == newValue) {
       return;
     }
@@ -83,7 +83,7 @@ class RenderStickyHeader extends RenderBox
 
   RenderBox get _contentBox => firstChild!;
 
-  double get devicePixelRatio => ui.window.devicePixelRatio;
+  double get devicePixelRatio => ui.PlatformDispatcher.instance.implicitView?.devicePixelRatio ?? 1.5;
 
   double roundToNearestPixel(double offset) {
     return (offset * devicePixelRatio).roundToDouble() / devicePixelRatio;

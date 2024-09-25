@@ -1,4 +1,4 @@
-library;
+library extensions;
 
 export 'src/extensions/align_jar.dart';
 export 'src/extensions/color_extensions.dart';

@@ -23,14 +23,11 @@ class SlideMenuButton<T extends Widget> extends StatelessWidget {
             barrierDismissible: barrierDismissible,
             builder: (context) {
               var offset =
-                  (globalKey.currentContext!.findRenderObject() as RenderBox)
-                      .localToGlobal(Offset.zero);
+                  (globalKey.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero);
               return Stack(
                 children: [
                   Positioned(
-                      left: offset.dx,
-                      top: offset.dy - (overlap ? slideMenu.size : 0),
-                      child: slideMenu),
+                      left: offset.dx, top: offset.dy - (overlap ? slideMenu.size : 0), child: slideMenu),
                 ],
               );
             }),
@@ -68,8 +65,7 @@ class SlideMenu<T extends Widget> extends StatefulWidget {
   State<SlideMenu> createState() => _SlideMenuState();
 }
 
-class _SlideMenuState extends State<SlideMenu>
-    with SingleTickerProviderStateMixin {
+class _SlideMenuState extends State<SlideMenu> with SingleTickerProviderStateMixin {
   late int initalIndex;
   late AnimationController controller;
   double get value => controller.value;
@@ -77,14 +73,12 @@ class _SlideMenuState extends State<SlideMenu>
   void initState() {
     super.initState();
     initalIndex = widget.initalIndex;
-    controller = AnimationController(duration: widget.duration, vsync: this)
-      ..forward();
+    controller = AnimationController(duration: widget.duration, vsync: this)..forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    final background =
-        widget.background ?? Theme.of(context).dialogBackgroundColor;
+    final background = widget.background ?? Theme.of(context).dialogBackgroundColor;
     return MediaQuery.removeViewInsets(
       context: context,
       removeLeft: true,
@@ -109,9 +103,7 @@ class _SlideMenuState extends State<SlideMenu>
                       onTap: () {
                         initalIndex = i;
                         widget.onSelected(initalIndex);
-                        controller
-                            .reverse()
-                            .whenComplete(() => Navigator.pop(context));
+                        controller.reverse().whenComplete(() => Navigator.pop(context));
                       },
                     )
                 ]),
@@ -127,10 +119,8 @@ class _SlideMenuState extends State<SlideMenu>
     double? height,
     required VoidCallback? onTap,
   }) {
-    final selectedTileColor =
-        widget.selectedTileColor ?? Theme.of(context).primaryColor;
-    final unSelectedTileColor =
-        widget.unSelectedTileColor ?? Theme.of(context).disabledColor;
+    final selectedTileColor = widget.selectedTileColor ?? Theme.of(context).primaryColor;
+    final unSelectedTileColor = widget.unSelectedTileColor ?? Theme.of(context).disabledColor;
     return InkResponse(
       onTap: onTap,
       child: Container(
@@ -139,8 +129,7 @@ class _SlideMenuState extends State<SlideMenu>
         alignment: Alignment.center,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-            color:
-                index == initalIndex ? selectedTileColor : unSelectedTileColor,
+            color: index == initalIndex ? selectedTileColor : unSelectedTileColor,
             borderRadius: widget.borderRadius),
         child: Center(child: widget.items[index]),
       ),

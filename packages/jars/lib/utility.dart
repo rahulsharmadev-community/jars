@@ -1,4 +1,4 @@
-library;
+library utility;
 
 export 'src/utility/after_layout.dart';
 export 'src/utility/platform.dart';
