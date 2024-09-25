@@ -14,7 +14,7 @@ import 'render.dart';
 ///  -1.0 >= value >= 0.0: past stuck
 /// ```
 ///
-typedef JStickyHeaderWidgetBuilder = Widget Function(BuildContext context, double stuckAmount);
+typedef StickyHeaderWidgetBuilder = Widget Function(BuildContext context, double stuckAmount);
 
 /// Stick Header Widget
 ///
@@ -23,9 +23,9 @@ typedef JStickyHeaderWidgetBuilder = Widget Function(BuildContext context, doubl
 ///
 /// Place this widget inside a [ListView], [GridView], [CustomScrollView], [SingleChildScrollView] or similar.
 ///
-class JStickyHeader extends MultiChildRenderObjectWidget {
-  /// Constructs a new [JStickyHeader] widget.
-  JStickyHeader({
+class StickyHeader extends MultiChildRenderObjectWidget {
+  /// Constructs a new [StickyHeader] widget.
+  StickyHeader({
     super.key,
     required this.header,
     required this.content,
@@ -49,13 +49,13 @@ class JStickyHeader extends MultiChildRenderObjectWidget {
   final ScrollController? controller;
 
   /// Optional callback with stickiness value. If you think you need this, then you might want to
-  /// consider using [JStickyHeaderBuilder] instead.
-  final JRenderStickyHeaderCallback? callback;
+  /// consider using [StickyHeaderBuilder] instead.
+  final RenderStickyHeaderCallback? callback;
 
   @override
-  JRenderStickyHeader createRenderObject(BuildContext context) {
+  RenderStickyHeader createRenderObject(BuildContext context) {
     final scrollPosition = controller?.position ?? Scrollable.of(context).position;
-    return JRenderStickyHeader(
+    return RenderStickyHeader(
       scrollPosition: scrollPosition,
       callback: callback,
       overlapHeaders: overlapHeaders,
@@ -63,7 +63,7 @@ class JStickyHeader extends MultiChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, JRenderStickyHeader renderObject) {
+  void updateRenderObject(BuildContext context, RenderStickyHeader renderObject) {
     final scrollPosition = controller?.position ?? Scrollable.of(context).position;
     renderObject
       ..scrollPosition = scrollPosition
@@ -74,14 +74,14 @@ class JStickyHeader extends MultiChildRenderObjectWidget {
 
 /// Sticky Header Builder Widget.
 ///
-/// The same as [JStickyHeader] but instead of supplying a Header view, you supply a [builder] that
+/// The same as [StickyHeader] but instead of supplying a Header view, you supply a [builder] that
 /// constructs the header with the appropriate stickyness.
 ///
 /// Place this widget inside a [ListView], [GridView], [CustomScrollView], [SingleChildScrollView] or similar.
 ///
-class JStickyHeaderBuilder extends StatefulWidget {
-  /// Constructs a new [JStickyHeaderBuilder] widget.
-  const JStickyHeaderBuilder({
+class StickyHeaderBuilder extends StatefulWidget {
+  /// Constructs a new [StickyHeaderBuilder] widget.
+  const StickyHeaderBuilder({
     super.key,
     required this.builder,
     required this.content,
@@ -91,7 +91,7 @@ class JStickyHeaderBuilder extends StatefulWidget {
 
   /// Called when the sticky amount changes for the header.
   /// This builder must not return null.
-  final JStickyHeaderWidgetBuilder builder;
+  final StickyHeaderWidgetBuilder builder;
 
   /// Content to be shown below the header.
   final Widget content;
@@ -103,15 +103,15 @@ class JStickyHeaderBuilder extends StatefulWidget {
   final ScrollController? controller;
 
   @override
-  State<JStickyHeaderBuilder> createState() => _JStickyHeaderBuilderState();
+  State<StickyHeaderBuilder> createState() => _StickyHeaderBuilderState();
 }
 
-class _JStickyHeaderBuilderState extends State<JStickyHeaderBuilder> {
+class _StickyHeaderBuilderState extends State<StickyHeaderBuilder> {
   double? _stuckAmount;
 
   @override
   Widget build(BuildContext context) {
-    return JStickyHeader(
+    return StickyHeader(
       overlapHeaders: widget.overlapHeaders,
       header: LayoutBuilder(
         builder: (context, _) => widget.builder(context, _stuckAmount ?? 0.0),

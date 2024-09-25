@@ -1,3 +1,40 @@
+## 0.1.5
+✅ Add new widgets add Features
+  - JDivider widget
+  - AnimatedJSwitcher 
+
+## 0.1.4
+### BREAKING-CHANGE
+✅ This release includes following stable new widgets add Features
+  - StickyHeader
+  - FadeTransitionPage
+  
+✅ Non-Stable new widgets add Features
+  -  GoMaterialApp, GoRouterConfig, JRoute
+
+## 0.1.4
+✅ Add new widgets add Features
+  - bloc_utilis: 
+    - BlocState
+    - FlutterBlocObserver
+    - BlocEventTransformer
+
+## 0.1.2
+✅ Add new usfull features in `jars_core`
+  - Throttle
+  - Debounce
+
+## 0.1.1
+✅ Add new usfull features in `jars_core`
+  - Retry
+
+## 0.1.0
+### BREAKING-CHANGE
+✅ This release includes following stable new widgets add Features
+  - RouteNavigatorObserver
+  - ValidatorMixin
+
+
 ## 0.0.7
 
 ### 🎉 Upgrade to [`jars ^0.0.7`](https://pub.dev/packages/jars)

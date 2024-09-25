@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 /// Called every layout to provide the amount of stickyness a header is in.
 /// This lets the widgets animate their content and provide feedback.
 ///
-typedef JRenderStickyHeaderCallback = void Function(double stuckAmount);
+typedef RenderStickyHeaderCallback = void Function(double stuckAmount);
 
 /// RenderObject for StickyHeader widget.
 ///
@@ -16,17 +16,17 @@ typedef JRenderStickyHeaderCallback = void Function(double stuckAmount);
 /// unless overlapHeaders is set to true. The supplied callback will be used
 /// to report the
 ///
-class JRenderStickyHeader extends RenderBox
+class RenderStickyHeader extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData> {
-  JRenderStickyHeaderCallback? _callback;
+  RenderStickyHeaderCallback? _callback;
   ScrollPosition _scrollPosition;
   bool _overlapHeaders;
 
-  JRenderStickyHeader({
+  RenderStickyHeader({
     required ScrollPosition scrollPosition,
-    JRenderStickyHeaderCallback? callback,
+    RenderStickyHeaderCallback? callback,
     bool overlapHeaders = false,
     RenderBox? header,
     RenderBox? content,
@@ -50,7 +50,7 @@ class JRenderStickyHeader extends RenderBox
     }
   }
 
-  set callback(JRenderStickyHeaderCallback? newValue) {
+  set callback(RenderStickyHeaderCallback? newValue) {
     if (_callback == newValue) {
       return;
     }
