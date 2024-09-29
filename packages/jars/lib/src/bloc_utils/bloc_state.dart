@@ -71,41 +71,50 @@ abstract class BlocState<T> extends _BaseBlocState<T> {
 /// Represents the initial state of a BLoC.
 final class BlocStateInitial<T> extends BlocState<T> {}
 
-/// Represents the loading state of a BLoC.
+/// {@template .bloc_state_loading}
+/// Represents the **loading state** of a BLoC.
 ///
 /// This state indicates that the BLoC is currently in a loading state,
 /// typically while fetching data or performing an asynchronous operation.
+/// {@endtemplate}
 final class BlocStateLoading<T> extends BlocState<T> {
   final String? message;
 
+  /// {@macro .bloc_state_loading}
   const BlocStateLoading([this.message]);
 
   @override
   List<Object?> get props => [message];
 }
 
-/// Represents the success state of a BLoC.
+/// {@template .bloc_state_success}
+/// Represents the **success state** of a BLoC.
 ///
 /// This state indicates that the BLoC operation was successful,
 /// and contains the resulting data of type [T].
+/// {@endtemplate}
 final class BlocStateSuccess<T> extends BlocState<T> {
   final T data;
   final String? message;
 
+  /// {@macro .bloc_state_success}
   const BlocStateSuccess(this.data, {this.message});
 
   @override
   List<Object?> get props => [data, message];
 }
 
-/// Represents the failure state of a BLoC.
+/// {@template .bloc_state_failure}
+/// Represents the **failure state** of a BLoC.
 ///
 /// This state indicates that the BLoC operation encountered an error,
 /// and contains an error message describing the failure.
+/// {@endtemplate}
 final class BlocStateFailure<T> extends BlocState<T> {
   final String message;
   final Object? extra;
 
+  /// {@macro .bloc_state_failure}
   const BlocStateFailure(this.message, {this.extra});
 
   @override

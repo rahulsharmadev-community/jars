@@ -1,3 +1,11 @@
+## 0.1.6
+### BREAKING-CHANGE
+✅ This release includes following stable Features
+
+- `ReplayCubit`: A new Cubit extension that provides state history management, allowing you to revert to previous states.
+- `BlocSelectiveConsumer`: A consumer widget that listens to state changes and builds widgets based on specific state markers such as `ListenOnlyState`, `BuildOnlyState`, `NeverListenState`, and `DroppableState`.
+- `DroppableMixin`: A mixin that filters out specific states (marked as `DroppableState`) from being saved as the previous state. It also adds functionality to retrieve the last non-droppable state.
+
 ## 0.1.5
 ✅ Add new widgets add Features
   - JDivider widget

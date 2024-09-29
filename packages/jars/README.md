@@ -10,32 +10,149 @@
   </p>
 </div>
 
-JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like. **[DateTimeApis](#datetime-apis), [DateTimeFormat](#datetimeformat), [DateTimeLang](#datetimelang), [Timeago](#timeago), [PlatformQuery](#platformquery-apis), [showJTost](#JToast--JSnackBar), [removeJTost](#JToast--JSnackBar), [showJSnackBar](#JToast--JSnackBar), [removeJSnackBar](#JToast--JSnackBar), [Marquee](#Marquee), [FormBuilder](), [SmartJTextField](), [DateTimeJTextField](), [JTextField](), [guard](), [asyncGuard](), [RegPatterns]()**
+JARS is a super-effective and lightweight solution for Flutter. It combines front-end flutter widgets, intelligent dependency injection, and provider solutions like. **[Timeago](#timeago), [showJTost](#JToast--JSnackBar), [removeJTost](#JToast--JSnackBar), [showJSnackBar](#JToast--JSnackBar), [removeJSnackBar](#JToast--JSnackBar), [Marquee](#Marquee), [FormBuilder](), [SmartJTextField](), [DateTimeJTextField](), [JTextField](), [guard](), [asyncGuard](), [RegPatterns]()**
 
 - ### [How to install](https://pub.dev/packages/jars/install)
 - ### [See how to use](https://github.com/rahulsharmadev-community/jars/tree/master/example)
 
 - ### Supported platforms: Android | iOS | Web | MacOs | Windows | Linux
 
-# JTextPlus
+# BlocSelectiveConsumer
+A specialized [BlocConsumer] that listens to and builds widgets based on state, with customizable filters to ignore certain states.
 
-As we all know, text is a key component of any mobile app's user interface. and it is fustrating to use Text or RichText Widget to create attractive text. Now you no longer need to define multiple TextStyle for attractive text thanks to JTextPlus' simple solution for text decoration. You'll save time and get fantastic results with JTextPlus.
+This class provides default filtering behavior using marker interfaces such as `ListenOnlyState`, `BuildOnlyState`, `NeverListenState`, and `DroppableState`.
 
-![](https://raw.githubusercontent.com/rahulsharmadev-community/jars/beta/_readme_assets/jtextplus.png)
+# DroppableMixin
+A mixin to manage state visibility in a `Bloc` or `Cubit`.
 
-**How to Use**
+This mixin is used to filter out states that should not be stored as the previous state. Itprovides a mechanism to retrieve the last visible state. States marked with `DroppableState` willnot be retained.
+
+
+#  BlocEventTransformer
+Skip implementing transformers on your own and configure timings in which events in your BLoC's are processed.
+
+Available transformers:
+
+- [throttle](https://pub.dev/documentation/bloc_event_transformers/latest/bloc_event_transformers/throttle.html) (see [visualization](https://rxmarbles.com/#throttleTime))
+- [debounce](https://pub.dev/documentation/bloc_event_transformers/latest/bloc_event_transformers/debounce.html) (see [visualization](https://rxmarbles.com/#debounceTime))
+- [skip](https://pub.dev/documentation/bloc_event_transformers/latest/bloc_event_transformers/skip.html) (see [visualization](https://rxmarbles.com/#skip))
+- [delay](https://pub.dev/documentation/bloc_event_transformers/latest/bloc_event_transformers/delay.html) (see [visualization](https://rxmarbles.com/#delay))
+
+# Replay
+
+## Creating a ReplayCubit
 
 ```dart
- JTextPlus(
-            text,
-            style: const TextStyle(
-                fontSize: 25, color: Colors.white, letterSpacing: 1.5),
-            jTextStyles: rules2,
-          );
+class CounterCubit extends ReplayCubit<int> {
+  CounterCubit() : super(0);
+
+  void increment() => emit(state + 1);
+}
+```
+
+## Using a ReplayCubit
+
+```dart
+void main() {
+  final cubit = CounterCubit();
+
+  // trigger a state change
+  cubit.increment();
+  print(cubit.state); // 1
+
+  // undo the change
+  cubit.undo();
+  print(cubit.state); // 0
+
+  // redo the change
+  cubit.redo();
+  print(cubit.state); // 1
+}
+```
+
+## ReplayCubitMixin
+
+If you wish to be able to use a `ReplayCubit` in conjuction with a different type of cubit like `HydratedCubit`, you can use the `ReplayCubitMixin`.
+
+```dart
+class CounterCubit extends HydratedCubit<int> with ReplayCubitMixin {
+  CounterCubit() : super(0);
+
+  void increment() => emit(state + 1);
+  void decrement() => emit(state - 1);
+
+  @override
+  int fromJson(Map<String, dynamic> json) => json['value'] as int;
+
+  @override
+  Map<String, int> toJson(int state) => {'value': state};
+}
+```
+
+## Creating a ReplayBloc
+
+```dart
+class CounterEvent extends ReplayEvent {}
+
+class CounterIncrementPressed extends CounterEvent {}
+
+class CounterDecrementPressed extends CounterEvent {}
+
+class CounterBloc extends ReplayBloc<CounterEvent, int> {
+  CounterBloc() : super(0) {
+    on<CounterIncrementPressed>((event, emit) => emit(state + 1));
+    on<CounterDecrementPressed>((event, emit) => emit(state - 1));
+  }
+}
+```
+
+## Using a ReplayBloc
+
+```dart
+void main() {
+  // trigger a state change
+  final bloc = CounterBloc()..add(CounterIncrementPressed());
+
+  // wait for state to update
+  await bloc.stream.first;
+  print(bloc.state); // 1
+
+  // undo the change
+  bloc.undo();
+  print(bloc.state); // 0
+
+  // redo the change
+  bloc.redo();
+  print(bloc.state); // 1
+}
+```
+
+## ReplayBlocMixin
+
+If you wish to be able to use a `ReplayBloc` in conjuction with a different type of cubit like `HydratedBloc`, you can use the `ReplayBlocMixin`.
+
+```dart
+sealed class CounterEvent with ReplayEvent {}
+
+final class CounterIncrementPressed extends CounterEvent {}
+
+final class CounterDecrementPressed extends CounterEvent {}
+
+class CounterBloc extends HydratedBloc<CounterEvent, int> with ReplayBlocMixin {
+  CounterBloc() : super(0) {
+    on<CounterIncrementPressed>((event, emit) => emit(state + 1));
+    on<CounterDecrementPressed>((event, emit) => emit(state - 1));
+  }
+
+  @override
+  int fromJson(Map<String, dynamic> json) => json['value'] as int;
+
+  @override
+  Map<String, int> toJson(int state) => {'value': state};
+}
 ```
 
 # Marquee
-
 A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
 
 <p align="center">
@@ -93,114 +210,7 @@ With JSnackBar and JToast it is now easier than ever to show a little notificati
 
 ```
 
-# DateTime APIs
-
-Most popular under datetime apis are:
-
-- **[DateTimeFormat](#datetimeformat)**
-- **[DateTimeLang](#datetimelang)**
-- **[Timeago](#timeago)**
-
-## DateTimeFormat
-
-The user can choose from a variety of standard date and time formats as well as a particular customised pattern. Additionally, by using Datetimelang, the user can specify a local language, such as Hindi, Punjabi, Chines, etc.
-
-Example
-
-```dart
-
- var now = DateTime.now();
-
- // default code = 'en'(English)
- var datedef = DateTimeFormat(now);
-
- // code = 'hi'(Hindi)
- var datehi = DateTimeFormat(now, lang: DateTimeLang.hi);
-
-// 1st
- print(datedef.yMMMEd());
- print(datedef.yMMMEd(isFull: true));
-
-// 2st
- print(datehi.yMMMd());
- print(datehi.yMMMd(isFull: true));
-
-
- Output _________________________
- |
- |  Oct 30, 2022
- |  Saturday, June 10, 2012
- |
- |  शनि, जून 10, 2012
- |  शनिवार, जून 10, 2012
- |_______________________________
-```
-
-| Pattern              |     | Result                   |
-| -------------------- | --- | ------------------------ |
-| yM()                 | ->  | 10/2022                  |
-| yMd()                | ->  | 10/30/2022               |
-| yMEd()               | ->  | Sun, 10/30/2022          |
-| yMEd(isFull: true)   | ->  | Sunday, 10/30/2022       |
-| yMMM()               | ->  | Oct 2022                 |
-| yMMM(isFull: true)   | ->  | October 2022             |
-| yMMd()               | ->  | 30 Oct 2022              |
-| yMMd(isFull: true)   | ->  | 30 October 2022          |
-| yMMMd()              | ->  | Oct 30, 2022             |
-| yMMMd(isFull: true)  | ->  | October 30, 2022         |
-| yMMMEd()             | ->  | Sun, Oct 30, 2022        |
-| yMMMEd(isFull: true) | ->  | Sunday, October 30, 2022 |
-| yQQQ()               | ->  | Q4 2022                  |
-| yQQQ(isFull: true)   | ->  | 4th quarter 2022         |
-| hm()                 | ->  | 02:37                    |
-| hm()                 | ->  | 2:37 AM                  |
-| hms()                | ->  | 02:37:31                 |
-| hms(isFull: true)    | ->  | 2:37:31 AM               |
-
-## DateTimeLang
-
-For more control over datetime language you may can create your own JSON file, load it into the datetimelang api, and then set it as a default language.
-
-```dart
-
-   /// **Load file locally **
-   await DateTimeLang.loadFromFile(CODE: 'fr', path: 'lib/assets/fr.json');
-
-   /// **Load file form Url**
-   //
-   /// Under the hood, **English & Hindi** are already available.
-   ///
-   /// Chinese (zh-CN): https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/zh-CH.json
-   ///
-   /// French (fr): https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/fr.json
-   ///
-   /// Afrikaans (af): https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/af.json
-
-   await DateTimeLang.loadFromUrl(
-        CODE: 'zh-CH',
-        url:'https://datetimelangs-default-rtdb.asia-southeast1.firebasedatabase.app/zh-CH.json');
-
-
-   // Now that you have both languages, choose a default language.
-   DateTimeLang.setDefaultLang('zh-CH');
-
-   var now = DateTimeFormat(DateTime.now());
-   print(now.yMMMd(isFull: true));
-
-   // To make it straightforward and appealing, you can,
-   // however, directly access the format() function.
-   print(DateTime.now().format().yMMM());
-
-
- Output _________________________
- |
- |  十一月 10, 2022
- |  十一月 2022
- |_______________________________
-
-```
-
-## Timeago
+# Timeago
 
 Timeago is a dart library that converts a date into a humanized text. Instead of showing a date 2020-12-12 18:30 with timeago you can display something like "now", "an hour ago", "~1y", etc. By default Timeago ONLY support 'en' and 'hi' code(language code).To add more of the supported languages use [DateTimeLang class](#datetimelang)
 
@@ -235,7 +245,7 @@ Timeago is a dart library that converts a date into a humanized text. Instead of
  |_______________________________
 ```
 
-## DateTime APIs Extension
+## DateTime Extension
 
 ```dart
 
@@ -284,102 +294,6 @@ Timeago is a dart library that converts a date into a humanized text. Instead of
 
   // Equal to: Future.delayed(duration);
   duration.delay();
-
-```
-
-# PlatformQuery APIs
-
-```dart
-  /// Device's Orientation
-  /// Similar to MediaQuery.of(context).orientation;
-  PlatformQuery.orientation;
-
-  // Platform display/screen Height
-  // Equivalent to : MediaQuery.of(context).size.height,
-  // but immutable.
-  PlatformQuery.height;
-
-
-  // Platform display/screen Width
-  // Equivalent to : MediaQuery.of(context).size.height,
-  // but immutable.
-  PlatformQuery.width
-
-  // The aspect ratio of platform display/screen size.
-  // Equivalent to : MediaQuery.of(context).aspectRatio,
-  // but immutable.
-  PlatformQuery.aspectRatio
-
-  // Platform display/screen Pixel Ratio
-  // Equivalent to : MediaQuery.of(context).pixelRatio,
-  // but immutable.
-  PlatformQuery.pixelRatio
-
-  /// Respective percentage of the viewport's smaller dimension.
-  20.vmin;
-
-  /// Respective percentage of the viewport's larger dimension.
-  20.vmax;
-
-  /// Calculates the height depending on the device's screen size
-  20.h; // -> will return 20% of the screen's height
-
-  /// Calculates the width depending on the device's screen size
-  20.w // -> will return 20% of the screen's width
-
-  /// Calculates the sp (Scalable Pixel) depending on the device's pixel
-  /// density and aspect ratio
-  14.sp // general use for fontsize
-
-  /// Calculates the material dp (Pixel Density)
-  /// (https://material.io/design/layout/pixel-density.html#pixel-density-on-android))
-  16.dp // generally use for font, image and icons size.
-
-  //Check in what platform the app is running
-  PlatformQuery.isAndroid
-  PlatformQuery.isIOS
-  PlatformQuery.isMacOS
-  PlatformQuery.isWindows
-  PlatformQuery.isLinux
-  PlatformQuery.isFuchsia
-
-  //Check the device type
-  PlatformQuery.isMobileorTablet
-  PlatformQuery.isDesktop
-
-  // Return an current platform, any one of them
-  // web,
-  // android,
-  // fuchsia,
-  // iOS,
-  // linux,
-  // macOS,
-  // windows
-  PlatformQuery.activePlatform
-
-  /* [Window size](https://medium.com/@rahulsharmadev/responsive-design-theory-b8f18b257295)
-Window size classes categorize the display area available to your app as compact,medium, or expanded. Available width and height are classified separately,so at any point in time, your app has two window size classes — one for width, one for /height. */
-  //
-  // Retun any one of them { compact, medium, expanded }
-  PlatformQuery.activeWindowSize
-
-  /// How to use?
-  /// -------------------------------
-  /// PlatformQueryBuilder(
-  ///     builder: (ctx) {
-  ///       String string =
-  ///           'Hello <${TextStyle(color: Colors.red, fontSize: 20.sp,
-  ///            backgroundColor: Colors.orange).toTextPlusStyle} = "World 😂"> I am hear.';
-  ///       return TextPlus(string);
-  ///     },
-  ///   ),
-  /// );
-  ///--------------------------------
-  /// **Recommendation to use it LESS**
-  PlatformQueryBuilder(builder: (context) {
-          return Widget;
-        });
-
 ```
 
 # How to contribute
