@@ -1,3 +1,7 @@
+## 0.1.7
+✅ Add new widgets add Features
+  - Page Transition
+
 ## 0.1.6
 ### BREAKING-CHANGE
 ✅ This release includes following stable Features
