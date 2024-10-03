@@ -1,22 +1,161 @@
+import 'package:flutter/material.dart';
 import 'dart:math' show min, max;
 import 'dart:ui' as ui;
-
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+
+
+
+
+
+/// Builder called during layout to allow the header's content to be animated or styled based
+/// on the amount of stickiness the header has.
+///
+/// [context] for your build operation.
+///
+/// [stuckAmount] will have the value of:
+/// ```
+///   0.0 <= value <= 1.0: about to be stuck
+///          0.0 == value: at top
+///  -1.0 >= value >= 0.0: past stuck
+/// ```
+///
+typedef StickyHeaderWidgetBuilder = Widget Function(BuildContext context, double stuckAmount);
+
 
 /// Called every layout to provide the amount of stickyness a header is in.
 /// This lets the widgets animate their content and provide feedback.
 ///
 typedef RenderStickyHeaderCallback = void Function(double stuckAmount);
 
-/// RenderObject for StickyHeader widget.
+
+/// Stick Header Widget
 ///
-/// Monitors given [Scrollable] and adjusts its layout based on its offset to
-/// the scrollables' [RenderObject]. The header will be placed above content
-/// unless overlapHeaders is set to true. The supplied callback will be used
-/// to report the
+/// Will layout the [header] above the [content] unless the [overlapHeaders] boolean is set to true.
+/// The [header] will remain stuck to the top of its parent [Scrollable] content.
 ///
-class RenderStickyHeader extends RenderBox
+/// Place this widget inside a [ListView], [GridView], [CustomScrollView], [SingleChildScrollView] or similar.
+///
+class StickyHeader extends MultiChildRenderObjectWidget {
+  /// Constructs a new [StickyHeader] widget.
+  StickyHeader({
+    super.key,
+    required this.header,
+    required this.content,
+    this.overlapHeaders = false,
+    this.controller,
+    this.callback,
+  }) : super(
+          children: [content, header],
+        );
+
+  /// Header to be shown at the top of the parent [Scrollable] content.
+  final Widget header;
+
+  /// Content to be shown below the header.
+  final Widget content;
+
+  /// If true, the header will overlap the Content.
+  final bool overlapHeaders;
+
+  /// Optional [ScrollController] that will be used by the widget instead of the default inherited one.
+  final ScrollController? controller;
+
+  /// Optional callback with stickiness value. If you think you need this, then you might want to
+  /// consider using [StickyHeaderBuilder] instead.
+  final RenderStickyHeaderCallback? callback;
+
+  @override
+  _RenderStickyHeader createRenderObject(BuildContext context) {
+    final scrollPosition = controller?.position ?? Scrollable.of(context).position;
+    return _RenderStickyHeader(
+      scrollPosition: scrollPosition,
+      callback: callback,
+      overlapHeaders: overlapHeaders,
+    );
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, _RenderStickyHeader renderObject) {
+    final scrollPosition = controller?.position ?? Scrollable.of(context).position;
+    renderObject
+      ..scrollPosition = scrollPosition
+      ..callback = callback
+      ..overlapHeaders = overlapHeaders;
+  }
+}
+
+/// Sticky Header Builder Widget.
+///
+/// The same as [StickyHeader] but instead of supplying a Header view, you supply a [builder] that
+/// constructs the header with the appropriate stickyness.
+///
+/// Place this widget inside a [ListView], [GridView], [CustomScrollView], [SingleChildScrollView] or similar.
+///
+class StickyHeaderBuilder extends StatefulWidget {
+  /// Constructs a new [StickyHeaderBuilder] widget.
+  const StickyHeaderBuilder({
+    super.key,
+    required this.builder,
+    required this.content,
+    this.overlapHeaders = false,
+    this.controller,
+  });
+
+  /// Called when the sticky amount changes for the header.
+  /// This builder must not return null.
+  final StickyHeaderWidgetBuilder builder;
+
+  /// Content to be shown below the header.
+  final Widget content;
+
+  /// If true, the header will overlap the Content.
+  final bool overlapHeaders;
+
+  /// Optional [ScrollController] that will be used by the widget instead of the default inherited one.
+  final ScrollController? controller;
+
+  @override
+  State<StickyHeaderBuilder> createState() => _StickyHeaderBuilderState();
+}
+
+class _StickyHeaderBuilderState extends State<StickyHeaderBuilder> {
+  double? _stuckAmount;
+
+  @override
+  Widget build(BuildContext context) {
+    return StickyHeader(
+      overlapHeaders: widget.overlapHeaders,
+      header: LayoutBuilder(
+        builder: (context, _) => widget.builder(context, _stuckAmount ?? 0.0),
+      ),
+      content: widget.content,
+      controller: widget.controller,
+      callback: (double stuckAmount) {
+        if (_stuckAmount != stuckAmount) {
+          _stuckAmount = stuckAmount;
+          WidgetsBinding.instance.endOfFrame.then((_) {
+            if (mounted) {
+              setState(() {});
+            }
+          });
+        }
+      },
+    );
+  }
+}
+
+
+
+
+//------------------------------------------RenderObject for StickyHeader widget------------------------------------------------
+//
+// Monitors given [Scrollable] and adjusts its layout based on its offset to
+// the scrollables' [RenderObject]. The header will be placed above content
+// unless overlapHeaders is set to true. The supplied callback will be used
+// to report  the amount of stickiness the header has.
+//
+//------------------------------------------------------------------------------------------------------------------------------
+class _RenderStickyHeader extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData> {
@@ -24,7 +163,7 @@ class RenderStickyHeader extends RenderBox
   ScrollPosition _scrollPosition;
   bool _overlapHeaders;
 
-  RenderStickyHeader({
+  _RenderStickyHeader({
     required ScrollPosition scrollPosition,
     RenderStickyHeaderCallback? callback,
     bool overlapHeaders = false,

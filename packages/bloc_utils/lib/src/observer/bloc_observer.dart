@@ -1,34 +1,36 @@
 import 'package:bloc/bloc.dart';
-import 'package:jars/jars_core.dart';
+import 'package:logger/logger.dart';
+
+final Logger _log = Logger();
 
 class FlutterBlocObserver extends BlocObserver {
   @override
   void onCreate(BlocBase bloc) {
-    _log('onCreate', bloc);
+    _logInfo('onCreate', bloc);
     super.onCreate(bloc);
   }
 
   @override
   void onClose(BlocBase bloc) {
-    _log('onClose', bloc);
+    _logInfo('onClose', bloc);
     super.onClose(bloc);
   }
 
   @override
   void onEvent(Bloc bloc, Object? event) {
-    _log('onEvent', bloc);
+    _logInfo('onEvent', bloc);
     super.onEvent(bloc, event);
   }
 
   @override
   void onChange(BlocBase bloc, Change change) {
-    _log('onChange', bloc, change.nextState);
+    _logInfo('onChange', bloc, change.nextState);
     super.onChange(bloc, change);
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    _log('onTransition', bloc, transition.nextState);
+    _logInfo('onTransition', bloc, transition.nextState);
     super.onTransition(bloc, transition);
   }
 
@@ -38,14 +40,14 @@ class FlutterBlocObserver extends BlocObserver {
     super.onError(bloc, error, stackTrace);
   }
 
-  void _log(String action, BlocBase bloc, [dynamic nextState]) {
+  void _logInfo(String action, BlocBase bloc, [dynamic nextState]) {
     final logData = {
       'BLOC': bloc.runtimeType.toString(),
       'ACTION': action,
       'CURRENT STATE': bloc.state.toString(),
       'NEXT STATE': nextState?.toString()
     };
-    log.i(logData);
+    _log.i(logData);
   }
 
   void _logError(BlocBase bloc, Object error, StackTrace stackTrace) {
@@ -54,6 +56,6 @@ class FlutterBlocObserver extends BlocObserver {
       'ERROR': error.toString(),
       'STACK TRACE': stackTrace.toString()
     };
-    log.e(logData);
+    _log.e(logData);
   }
 }

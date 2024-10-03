@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum JDividerAlignment {
@@ -6,11 +7,18 @@ enum JDividerAlignment {
   end,
 }
 
+/// {@template j_divider}
+/// Creates a Material Design divider.
+///
+/// The [thickness], [indent], and [endIndent] must be null or non-negative.
+///
+//-----------------------------------------------------------------------------------------------------------------------
+/// **JDivider**: A render widget that draws a horizontal line, with an optional text in the middle.\
+/// **JDivider.vertical**: A render widget that draws a vertical line, with an optional text in the middle.
+//-----------------------------------------------------------------------------------------------------------------------
+/// {@endtemplate}
 class JDivider extends StatelessWidget {
-  /// Creates a Material Design divider.
-  ///
-  /// The [height], [thickness], [indent], and [endIndent] must be null or
-  /// non-negative.
+  /// {@macro j_divider}
   const JDivider({
     super.key,
     this.text,
@@ -22,9 +30,29 @@ class JDivider extends StatelessWidget {
     this.dividerRadius,
     this.textAlign,
     this.textPadding,
-  })  : assert(thickness == null || thickness >= 0.0),
+  })  : isVertical = false,
+        assert(thickness == null || thickness >= 0.0),
         assert(indent == null || indent >= 0.0),
         assert(endIndent == null || endIndent >= 0.0);
+
+  /// {@macro j_divider}
+  const JDivider.vertical({
+    super.key,
+    this.text,
+    this.thickness,
+    this.indent,
+    this.endIndent,
+    this.color,
+    this.textWidget,
+    this.dividerRadius,
+    this.textAlign,
+    this.textPadding,
+  })  : isVertical = true,
+        assert(thickness == null || thickness >= 0.0),
+        assert(indent == null || indent >= 0.0),
+        assert(endIndent == null || endIndent >= 0.0);
+
+  final bool isVertical;
 
   final Widget? textWidget;
 
@@ -73,33 +101,58 @@ class JDivider extends StatelessWidget {
   final Color? color;
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<bool>('isVertical', isVertical));
+    properties.add(DiagnosticsProperty<String?>('text', text));
+    properties.add(DiagnosticsProperty<double?>('thickness', thickness));
+    properties.add(DiagnosticsProperty<double?>('indent', indent));
+    properties.add(DiagnosticsProperty<double?>('endIndent', endIndent));
+    properties.add(DiagnosticsProperty<Color?>('color', color));
+    properties.add(DiagnosticsProperty<Widget?>('textWidget', textWidget));
+    properties.add(DiagnosticsProperty<double?>('dividerRadius', dividerRadius));
+    properties.add(DiagnosticsProperty<JDividerAlignment?>('textAlign', textAlign));
+    properties.add(DiagnosticsProperty<EdgeInsetsGeometry?>('textPadding', textPadding));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final divider = buildDividerLine(context);
+    Widget? text = buildText();
+
+    return text != null ? layoutBuilder(divider, text) : divider;
+  }
+
+  Widget layoutBuilder(Widget divider, [Widget? child]) {
+    final textAlign = this.textAlign ?? JDividerAlignment.center;
+    final children = List.generate(3, (i) => textAlign.index == i ? child! : Expanded(child: divider));
+    return isVertical
+        ? Column(mainAxisAlignment: MainAxisAlignment.center, children: children)
+        : Row(mainAxisAlignment: MainAxisAlignment.center, children: children);
+  }
+
+  Widget buildDividerLine(BuildContext context) {
     final DividerThemeData dividerTheme = DividerTheme.of(context);
     final double thickness = this.thickness ?? dividerTheme.thickness ?? dividerTheme.thickness ?? 1;
     final double indent = this.indent ?? dividerTheme.indent ?? dividerTheme.indent ?? 0;
     final double endIndent = this.endIndent ?? dividerTheme.endIndent ?? dividerTheme.endIndent ?? 0;
+    final margin = EdgeInsetsDirectional.only(start: indent, end: endIndent);
+    final borderSide = Divider.createBorderSide(context, color: color, width: thickness);
 
-    final divider = Container(
-      height: thickness,
-      margin: EdgeInsetsDirectional.only(start: indent, end: endIndent),
-      decoration: BoxDecoration(
-          border: Border(bottom: Divider.createBorderSide(context, color: color, width: thickness)),
-          borderRadius: BorderRadius.circular(dividerRadius ?? 16)),
-    );
+    return Container(
+        height: isVertical ? null : thickness,
+        width: isVertical ? thickness : null,
+        margin: margin,
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: !isVertical ? borderSide : BorderSide.none,
+                right: isVertical ? borderSide : BorderSide.none),
+            borderRadius: BorderRadius.circular(dividerRadius ?? 16)));
+  }
 
-    Widget? child = text != null
+  Widget? buildText() {
+    return text != null
         ? Padding(padding: textPadding ?? const EdgeInsets.symmetric(horizontal: 4), child: Text(text!))
         : textWidget;
-
-    if (child != null) {
-      final textAlign = this.textAlign ?? JDividerAlignment.center;
-      child = Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(3, (i) => textAlign.index == i ? child! : Expanded(child: divider)));
-    } else {
-      child = divider;
-    }
-
-    return child;
   }
 }

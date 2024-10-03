@@ -20,13 +20,6 @@ dependencies:
   meta: ^1.12.0
   intl: ">=0.19.0"
 
-
-  # regpatterns:
-  #   git:
-  #     url: https://github.com/rahulsharmadev-community/jars.git
-  #     ref: main
-  #     path: packages/regpatterns
-
 dev_dependencies:
   lints: ^4.0.0
   test: ^1.24.0

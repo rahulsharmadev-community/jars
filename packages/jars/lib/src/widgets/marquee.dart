@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:jars/jars.dart' hide TextDirection;
+import 'package:jars/jars.dart';
 
 /// A widget that repeats text and automatically scrolls it infinitely.
 ///

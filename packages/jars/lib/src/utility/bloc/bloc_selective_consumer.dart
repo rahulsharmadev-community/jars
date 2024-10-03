@@ -1,20 +1,18 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' show BlocConsumer, StateStreamable;
 
 sealed class SelectiveState {}
 
 /// BlocStates that should trigger listening only.
-abstract interface class ListenOnlyState extends SelectiveState{}
+abstract interface class ListenOnlyState extends SelectiveState {}
 
 /// BlocStates that should trigger building only.
-abstract interface class BuildOnlyState extends SelectiveState{}
+abstract interface class BuildOnlyState extends SelectiveState {}
 
 /// BlocStates that should never trigger listeners.
-abstract interface class NeverListenState extends SelectiveState{}
+abstract interface class NeverListenState extends SelectiveState {}
 
 /// BlocStates that should not be saved & build.
-abstract interface class DroppableState extends SelectiveState{}
-
-
+abstract interface class DroppableState extends SelectiveState {}
 
 /// {@template bloc_selective_consumer}
 /// A specialized [BlocConsumer] that listens to and builds widgets based on state,

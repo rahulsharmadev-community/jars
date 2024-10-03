@@ -1,4 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' show BlocBase, Change;
 import 'bloc_selective_consumer.dart';
 
 /// A mixin to manage state visibility in a [Bloc] or [Cubit].

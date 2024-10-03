@@ -1,9 +1,6 @@
 library bloc_utils;
 
-export 'src/bloc_utils/event_transformer/bloc_event_transformers.dart';
-export 'src/bloc_utils/observer/bloc_observer.dart';
-export 'src/bloc_utils/replay/replay_cubit.dart';
-export 'src/bloc_utils/bloc_state.dart';
-
-export 'src/bloc_utils/bloc_selective_consumer/bloc_selective_consumer.dart';
-export 'src/bloc_utils/bloc_selective_consumer/droppable_mixin.dart';
+export 'package:bloc_utils/bloc_utils.dart';
+export 'src/utility/bloc/bloc_selective_consumer.dart';
+export 'src/utility/bloc/droppable_mixin.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';
