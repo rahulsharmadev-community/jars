@@ -1,6 +1,6 @@
 library flutter_suite;
 
-export 'src/widgets/formbuilder.dart';
+export 'src/widgets/std_formview.dart';
 export 'src/widgets/gap.dart';
 export 'src/widgets/sticky_headers.dart';
 export 'src/widgets/dialogs/dialogs.dart';

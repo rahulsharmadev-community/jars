@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_suite/flutter_suite.dart';
 
-class FormBuilder extends StatelessWidget {
+class StdFormView extends StatelessWidget {
   final String? title, subtitle, caption;
   final List<Widget> children;
   final List<Widget> actions;
@@ -19,34 +19,27 @@ class FormBuilder extends StatelessWidget {
   final double verticalGap;
   final double horizontalGap;
   final EdgeInsetsGeometry padding;
-
-  final VoidCallback? onChanged;
-  final GlobalKey<FormState>? formKey;
-  final PopInvokedWithResultCallback? onPopInvokedWithResult;
-  const FormBuilder(
-      {super.key,
-      required this.children,
-      this.actions = const [],
-      this.title,
-      this.subtitle,
-      this.subtitleOpacity = 0.7,
-      this.alignment = CrossAxisAlignment.start,
-      this.verticalGap = 16,
-      this.horizontalGap = 16,
-      this.actionsAlignment = MainAxisAlignment.spaceEvenly,
-      this.caption,
-      this.titleStyle,
-      this.subtitleStyle,
-      this.captionStyle,
-      this.padding = const EdgeInsets.fromLTRB(16, 0, 16, 24),
-      this.onChanged,
-      this.formKey,
-      this.onPopInvokedWithResult})
-      : assert(formKey != null || (onChanged == null && onPopInvokedWithResult == null));
+  const StdFormView({
+    super.key,
+    required this.children,
+    this.actions = const [],
+    this.title,
+    this.subtitle,
+    this.subtitleOpacity = 0.7,
+    this.alignment = CrossAxisAlignment.start,
+    this.verticalGap = 16,
+    this.horizontalGap = 16,
+    this.actionsAlignment = MainAxisAlignment.spaceEvenly,
+    this.caption,
+    this.titleStyle,
+    this.subtitleStyle,
+    this.captionStyle,
+    this.padding = const EdgeInsets.fromLTRB(16, 0, 16, 24),
+  });
 
   @override
   Widget build(BuildContext context) {
-    Widget returnChild = Padding(
+    Widget child = Padding(
       padding: EdgeInsets.only(bottom: context.mQ.viewInsets.bottom),
       child: SingleChildScrollView(
         padding: padding,
@@ -61,10 +54,8 @@ class FormBuilder extends StatelessWidget {
               return child is Flex && child.direction == Axis.horizontal
                   ? child
                       .copyWith(
-                          children: List<Widget>.generate(
-                        child.children.length * 2 - 1,
-                        (i) => i % 2 == 0 ? child.children[i ~/ 2] : verticalGap.gap,
-                      ).toList())
+                          children: List.generate(child.children.length * 2 - 1,
+                              (i) => i % 2 == 0 ? child.children[i ~/ 2] : verticalGap.gap).toList())
                       .paddingOnly(bottom: horizontalGap)
                   : child.paddingOnly(bottom: horizontalGap);
             }),
@@ -78,14 +69,6 @@ class FormBuilder extends StatelessWidget {
         ),
       ),
     );
-
-    return formKey != null
-        ? Form(
-            key: formKey,
-            onChanged: onChanged,
-            onPopInvokedWithResult : onPopInvokedWithResult,
-            child: returnChild,
-          )
-        : returnChild;
+    return child;
   }
 }
